@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORGE Agent - Data Product Readiness Assessment</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f1117;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #1a1d27;
+            border-bottom: 2px solid #c9a84c;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            color: #c9a84c;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: #1a1d27;
+            border: 1px solid #2a2d3a;
+            border-radius: 8px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .card h2 {
+            font-size: 1.1rem;
+            color: #c9a84c;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .upload-area {
+            border: 2px dashed #2a2d3a;
+            border-radius: 8px;
+            padding: 48px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .upload-area:hover { border-color: #c9a84c; }
+        .upload-area.active { border-color: #c9a84c; background: #1e2130; }
+
+        .upload-area p { color: #888; margin-top: 8px; font-size: 0.9rem; }
+        .upload-area .icon { font-size: 2.5rem; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full { grid-column: 1 / -1; }
+
+        label {
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, select {
+            background: #0f1117;
+            border: 1px solid #2a2d3a;
+            border-radius: 4px;
+            padding: 10px 12px;
+            color: #e0e0e0;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #c9a84c;
+        }
+
+        select option { background: #1a1d27; }
+
+        .btn {
+            background: #c9a84c;
+            color: #0f1117;
+            border: none;
+            border-radius: 4px;
+            padding: 12px 32px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: background 0.2s;
+        }
+
+        .btn:hover { background: #e0c068; }
+        .btn:disabled { background: #444; cursor: not-allowed; }
+
+        .btn-full { width: 100%; margin-top: 8px; }
+
+        .status {
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .status.info { background: #1e2d3d; border-left: 3px solid #4a9eda; color: #4a9eda; display: block; }
+        .status.error { background: #2d1e1e; border-left: 3px solid #e05555; color: #e05555; display: block; }
+        .status.success { background: #1e2d1e; border-left: 3px solid #55a055; color: #55a055; display: block; }
+
+        .metal-badge {
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .metal-Diamond  { background: #b9f2ff; color: #000; }
+        .metal-Platinum { background: #e5e4e2; color: #000; }
+        .metal-Gold     { background: #ffd700; color: #000; }
+        .metal-Silver   { background: #c0c0c0; color: #000; }
+        .metal-Bronze   { background: #cd7f32; color: #fff; }
+        .metal-Iron     { background: #434343; color: #fff; }
+        .metal-Coal     { background: #1a1a1a; color: #fff; border: 1px solid #444; }
+
+        .score-display {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #c9a84c;
+            line-height: 1;
+        }
+
+        .score-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .score-item {
+            background: #0f1117;
+            border: 1px solid #2a2d3a;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .score-item .label {
+            font-size: 0.7rem;
+            color: #888;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .score-item .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #c9a84c;
+        }
+
+        .score-bar {
+            height: 4px;
+            background: #2a2d3a;
+            border-radius: 2px;
+            margin-top: 6px;
+        }
+
+        .score-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            background: #c9a84c;
+        }
+
+        .reasoning-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #2a2d3a;
+            font-size: 0.85rem;
+            color: #aaa;
+            line-height: 1.5;
+        }
+
+        .reasoning-item:last-child { border-bottom: none; }
+        .reasoning-item strong { color: #c9a84c; display: block; margin-bottom: 2px; }
+
+        .action-item {
+            padding: 10px 14px;
+            background: #0f1117;
+            border-left: 3px solid #c9a84c;
+            border-radius: 0 4px 4px 0;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: #ccc;
+            line-height: 1.5;
+        }
+
+        .monetization-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .mono-item {
+            background: #0f1117;
+            border: 1px solid #2a2d3a;
+            border-radius: 6px;
+            padding: 10px 8px;
+            text-align: center;
+        }
+
+        .mono-item .label { font-size: 0.65rem; color: #888; text-transform: uppercase; margin-bottom: 4px; }
+        .mono-item .value { font-size: 0.85rem; font-weight: 700; }
+        .mono-item .High   { color: #55a055; }
+        .mono-item .Medium { color: #c9a84c; }
+        .mono-item .Low    { color: #888; }
+
+        #report { display: none; }
+
+        .step-indicator {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        .step {
+            flex: 1;
+            height: 3px;
+            background: #2a2d3a;
+            border-radius: 2px;
+            transition: background 0.3s;
+        }
+
+        .step.active { background: #c9a84c; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>⚒ FORGE AGENT</h1>
+        <p>Data Product Discovery & Monetization Platform</p>
+    </div>
+</header>
+
+<div class="container">
+
+    <div class="step-indicator">
+        <div class="step active" id="step1"></div>
+        <div class="step" id="step2"></div>
+        <div class="step" id="step3"></div>
+    </div>
+
+    <div id="statusMsg" class="status"></div>
+
+    <!-- Step 1: Upload -->
+    <div id="uploadSection" class="card">
+        <h2>Step 1 — Upload Data Asset</h2>
+        <div class="upload-area" id="uploadArea">
+            <div class="icon">📁</div>
+            <p>Click to upload or drag and drop</p>
+            <p>CSV, Excel (.xlsx, .xls) supported</p>
+        </div>
+        <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" style="display:none">
+    </div>
+
+    <!-- Step 2: Intake Questionnaire -->
+    <div id="intakeSection" class="card" style="display:none">
+        <h2>Step 2 — Dataset Information</h2>
+        <div class="form-grid">
+            <div class="form-group full">
+                <label>Dataset Name *</label>
+                <input type="text" id="dataset_name" placeholder="e.g. Regional Retail Transactions Q1 2024">
+            </div>
+            <div class="form-group">
+                <label>Data Owner</label>
+                <input type="text" id="data_owner" placeholder="e.g. Jane Smith">
+            </div>
+            <div class="form-group">
+                <label>Business Steward</label>
+                <input type="text" id="business_steward" placeholder="e.g. Marketing Dept">
+            </div>
+            <div class="form-group">
+                <label>Source System</label>
+                <input type="text" id="source_system" placeholder="e.g. Salesforce, POS System">
+            </div>
+            <div class="form-group">
+                <label>Industry Segment</label>
+                <input type="text" id="industry_segment" placeholder="e.g. Retail, Healthcare">
+            </div>
+            <div class="form-group">
+                <label>Who owns this dataset?</label>
+                <select id="ownership_level">
+                    <option value="Single person">Single person</option>
+                    <option value="Small team">Small team</option>
+                    <option value="Department" selected>Department</option>
+                    <option value="Enterprise system">Enterprise system</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Is the data source documented?</label>
+                <select id="documentation_level">
+                    <option value="No">No</option>
+                    <option value="Informally">Informally</option>
+                    <option value="Partially" selected>Partially</option>
+                    <option value="Fully">Fully</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>How often is this dataset refreshed?</label>
+                <select id="refresh_frequency">
+                    <option value="Unknown">Unknown</option>
+                    <option value="Annually">Annually</option>
+                    <option value="Quarterly">Quarterly</option>
+                    <option value="Monthly" selected>Monthly</option>
+                    <option value="Weekly or Daily">Weekly or Daily</option>
+                    <option value="Near real-time">Near real-time</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>How reliable are those refreshes?</label>
+                <select id="refresh_reliability">
+                    <option value="Often fails">Often fails</option>
+                    <option value="Sometimes fails">Sometimes fails</option>
+                    <option value="Usually succeeds" selected>Usually succeeds</option>
+                    <option value="Always succeeds">Always succeeds</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Does this data contain any of the following?</label>
+                <select id="sensitive_data_types">
+                    <option value="None">None</option>
+                    <option value="PII" selected>PII</option>
+                    <option value="Health records">Health records</option>
+                    <option value="Financial data">Financial data</option>
+                    <option value="Unsure">Unsure</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Compliance controls in place?</label>
+                <select id="compliance_controls">
+                    <option value="Unknown">Unknown</option>
+                    <option value="No">No</option>
+                    <option value="Partial" selected>Partial</option>
+                    <option value="Yes">Yes</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>If key person left, could operations continue?</label>
+                <select id="continuity_risk">
+                    <option value="No">No</option>
+                    <option value="With difficulty" selected>With difficulty</option>
+                    <option value="Yes">Yes</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Backup or recovery process?</label>
+                <select id="backup_process">
+                    <option value="No">No</option>
+                    <option value="Informal" selected>Informal</option>
+                    <option value="Documented">Documented</option>
+                    <option value="Automated">Automated</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Primary use of this data today?</label>
+                <select id="primary_use">
+                    <option value="Unknown">Unknown</option>
+                    <option value="Historical reference">Historical reference</option>
+                    <option value="Internal reporting" selected>Internal reporting</option>
+                    <option value="Operational decisions">Operational decisions</option>
+                    <option value="Strategic planning">Strategic planning</option>
+                    <option value="Active monetization">Active monetization</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Does it support revenue, cost reduction, or risk?</label>
+                <select id="business_value_driver">
+                    <option value="No">No</option>
+                    <option value="Indirectly" selected>Indirectly</option>
+                    <option value="Yes">Yes</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Can competitors obtain similar data?</label>
+                <select id="competitor_availability">
+                    <option value="Yes">Yes</option>
+                    <option value="Possibly" selected>Possibly</option>
+                    <option value="Unlikely">Unlikely</option>
+                    <option value="No, it's proprietary">No, it's proprietary</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>How many years of historical data exist?</label>
+                <select id="historical_depth">
+                    <option value="Less than 1 year">Less than 1 year</option>
+                    <option value="1-3 years" selected>1-3 years</option>
+                    <option value="3-5 years">3-5 years</option>
+                    <option value="5+ years">5+ years</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Enrichment potential with other datasets?</label>
+                <select id="enrichment_potential">
+                    <option value="No">No</option>
+                    <option value="Possibly" selected>Possibly</option>
+                    <option value="Yes, clear opportunities exist">Yes, clear opportunities exist</option>
+                </select>
+            </div>
+        </div>
+        <button class="btn btn-full" id="assessBtn" onclick="runAssessment()">Run FORGE Assessment</button>
+    </div>
+
+    <!-- Step 3: Report -->
+    <div id="report" class="card">
+        <h2>FORGE Data Assay Report</h2>
+
+        <div style="display:flex; align-items:flex-end; gap:24px; margin-bottom:24px;">
+            <div>
+                <div class="score-display" id="reportScore">--</div>
+                <div style="color:#888; font-size:0.8rem; margin-top:4px;">FORGE Score</div>
+            </div>
+            <div>
+                <div class="metal-badge" id="reportBadge">--</div>
+                <div style="color:#888; font-size:0.8rem; margin-top:4px;" id="reportDataset">--</div>
+            </div>
+        </div>
+
+        <h3 style="color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">Dimension Scores</h3>
+        <div class="score-grid" id="scoreGrid"></div>
+
+        <h3 style="color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin:24px 0 12px;">Score Reasoning</h3>
+        <div id="reasoningList"></div>
+
+        <h3 style="color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin:24px 0 12px;">Recommended Actions</h3>
+        <div id="actionsList"></div>
+
+        <h3 style="color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin:24px 0 12px;">Monetization Potential</h3>
+        <div class="monetization-grid" id="monetizationGrid"></div>
+
+        <button class="btn" style="margin-top:24px;" onclick="resetForm()">Assess Another Dataset</button>
+    </div>
+
+</div>
+
+<script>
+    const API = 'http://127.0.0.1:8000';
+    let fileProfile = null;
+
+    // Wire up file input and upload area after DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('fileInput');
+        const uploadArea = document.getElementById('uploadArea');
+
+        uploadArea.addEventListener('click', function() {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', function() {
+            handleFileUpload(this);
+        });
+
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadArea.classList.add('active');
+        });
+
+        uploadArea.addEventListener('dragleave', function() {
+            uploadArea.classList.remove('active');
+        });
+
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                const dt = new DataTransfer();
+                dt.items.add(file);
+                fileInput.files = dt.files;
+                handleFileUpload(fileInput);
+            }
+        });
+    });
+
+    function showStatus(msg, type) {
+        const el = document.getElementById('statusMsg');
+        el.className = 'status ' + type;
+        el.textContent = msg;
+    }
+
+    function setStep(n) {
+        for (let i = 1; i <= 3; i++) {
+            document.getElementById('step' + i).classList.toggle('active', i <= n);
+        }
+    }
+
+    async function handleFileUpload(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        document.getElementById('uploadArea').classList.add('active');
+        showStatus('Profiling ' + file.name + '...', 'info');
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const res = await fetch(API + '/upload', { method: 'POST', body: formData });
+            const data = await res.json();
+
+            if (!res.ok) throw new Error(data.detail || 'Upload failed');
+
+            fileProfile = data.profile;
+            showStatus('File profiled: ' + data.profile.row_count + ' rows, ' + data.profile.column_count + ' columns detected.', 'success');
+            document.getElementById('intakeSection').style.display = 'block';
+            setStep(2);
+
+            const nameField = document.getElementById('dataset_name');
+            if (!nameField.value) {
+                nameField.value = file.name.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' ');
+            }
+
+        } catch (err) {
+            showStatus('Upload failed: ' + err.message, 'error');
+        }
+    }
+
+    async function runAssessment() {
+        const datasetName = document.getElementById('dataset_name').value.trim();
+        if (!datasetName) { showStatus('Please enter a dataset name.', 'error'); return; }
+        if (!fileProfile) { showStatus('Please upload a file first.', 'error'); return; }
+
+        showStatus('Running FORGE assessment... this may take a moment.', 'info');
+        document.getElementById('assessBtn').disabled = true;
+
+        const intake = {
+            dataset_name:            datasetName,
+            data_owner:              document.getElementById('data_owner').value,
+            business_steward:        document.getElementById('business_steward').value,
+            source_system:           document.getElementById('source_system').value,
+            industry_segment:        document.getElementById('industry_segment').value,
+            ownership_level:         document.getElementById('ownership_level').value,
+            documentation_level:     document.getElementById('documentation_level').value,
+            refresh_frequency:       document.getElementById('refresh_frequency').value,
+            refresh_reliability:     document.getElementById('refresh_reliability').value,
+            sensitive_data_types:    document.getElementById('sensitive_data_types').value,
+            compliance_controls:     document.getElementById('compliance_controls').value,
+            continuity_risk:         document.getElementById('continuity_risk').value,
+            backup_process:          document.getElementById('backup_process').value,
+            primary_use:             document.getElementById('primary_use').value,
+            business_value_driver:   document.getElementById('business_value_driver').value,
+            competitor_availability: document.getElementById('competitor_availability').value,
+            historical_depth:        document.getElementById('historical_depth').value,
+            enrichment_potential:    document.getElementById('enrichment_potential').value
+        };
+
+        try {
+            const res = await fetch(API + '/assess', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ file_profile: fileProfile, intake_answers: intake })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.detail || 'Assessment failed');
+
+            renderReport(data);
+            showStatus('Assessment complete. Assessment ID: ' + data.assessment_id, 'success');
+
+        } catch (err) {
+            showStatus('Assessment failed: ' + err.message, 'error');
+            document.getElementById('assessBtn').disabled = false;
+        }
+    }
+
+    function renderReport(data) {
+        document.getElementById('report').style.display = 'block';
+        document.getElementById('uploadSection').style.display = 'none';
+        document.getElementById('intakeSection').style.display = 'none';
+        setStep(3);
+
+        document.getElementById('reportScore').textContent = data.weighted_score.toFixed(1);
+        document.getElementById('reportDataset').textContent = data.dataset_name;
+
+        const badge = document.getElementById('reportBadge');
+        badge.textContent = data.metal_rating;
+        badge.className = 'metal-badge metal-' + data.metal_rating;
+
+        const dims = [
+            { key: 'data_quality',       label: 'Data Quality' },
+            { key: 'reliability',        label: 'Reliability' },
+            { key: 'refresh',            label: 'Refresh' },
+            { key: 'compliance',         label: 'Compliance' },
+            { key: 'governance',         label: 'Governance' },
+            { key: 'accessibility',      label: 'Accessibility' },
+            { key: 'business_relevance', label: 'Biz Relevance' },
+            { key: 'sustainability',     label: 'Sustainability' },
+        ];
+
+        document.getElementById('scoreGrid').innerHTML = dims.map(d => `
+            <div class="score-item">
+                <div class="label">${d.label}</div>
+                <div class="value">${data.scores[d.key]}/5</div>
+                <div class="score-bar"><div class="score-bar-fill" style="width:${data.scores[d.key]/5*100}%"></div></div>
+            </div>
+        `).join('');
+
+        document.getElementById('reasoningList').innerHTML = dims.map(d => `
+            <div class="reasoning-item">
+                <strong>${d.label}</strong>
+                ${data.score_reasoning[d.key] || ''}
+            </div>
+        `).join('');
+
+        document.getElementById('actionsList').innerHTML = data.recommended_actions.map(a => `
+            <div class="action-item">${a}</div>
+        `).join('');
+
+        const monoLabels = {
+            internal_reporting:  'Internal',
+            analytics_product:   'Analytics',
+            api_product:         'API',
+            marketplace_product: 'Marketplace',
+            licensing_product:   'Licensing'
+        };
+
+        document.getElementById('monetizationGrid').innerHTML = Object.entries(data.monetization_potential).map(([k, v]) => `
+            <div class="mono-item">
+                <div class="label">${monoLabels[k]}</div>
+                <div class="value ${v}">${v}</div>
+            </div>
+        `).join('');
+    }
+
+    function resetForm() {
+        fileProfile = null;
+        document.getElementById('report').style.display = 'none';
+        document.getElementById('uploadSection').style.display = 'block';
+        document.getElementById('intakeSection').style.display = 'none';
+        document.getElementById('fileInput').value = '';
+        document.getElementById('uploadArea').classList.remove('active');
+        document.getElementById('statusMsg').className = 'status';
+        document.getElementById('assessBtn').disabled = false;
+        setStep(1);
+    }
+</script>
+</body>
+</html>
