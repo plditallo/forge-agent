@@ -249,6 +249,34 @@
         .mono-item .Medium { color: #c9a84c; }
         .mono-item .Low    { color: #888; }
 
+        .chain-record {
+            background: #0f1117;
+            border: 1px solid #2a2d3a;
+            border-radius: 6px;
+            padding: 16px;
+        }
+
+        .chain-record .chain-label {
+            font-size: 0.75rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .chain-record .chain-hash {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #c9a84c;
+            word-break: break-all;
+        }
+
+        .chain-record .chain-name {
+            font-size: 0.75rem;
+            color: #555;
+            margin-top: 6px;
+        }
+
         #report { display: none; }
 
         .step-indicator {
@@ -472,6 +500,13 @@
         <h3 style="color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin:24px 0 12px;">Monetization Potential</h3>
         <div class="monetization-grid" id="monetizationGrid"></div>
 
+        <h3 style="color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin:24px 0 12px;">Blockchain Provenance</h3>
+        <div class="chain-record" id="casperRecord">
+            <div class="chain-label">Assessment Hash — Casper Testnet</div>
+            <div class="chain-hash" id="casperHash"></div>
+            <div class="chain-name" id="casperChain"></div>
+        </div>
+
         <button class="btn" style="margin-top:24px;" onclick="resetForm()">Assess Another Dataset</button>
     </div>
 
@@ -481,7 +516,6 @@
     const API = 'http://127.0.0.1:8000';
     let fileProfile = null;
 
-    // Wire up file input and upload area after DOM is ready
     document.addEventListener('DOMContentLoaded', function() {
         const fileInput = document.getElementById('fileInput');
         const uploadArea = document.getElementById('uploadArea');
@@ -662,6 +696,14 @@
                 <div class="value ${v}">${v}</div>
             </div>
         `).join('');
+
+        // Casper blockchain provenance
+        if (data.casper_hash) {
+            document.getElementById('casperHash').textContent = data.casper_hash;
+            document.getElementById('casperChain').textContent = 'Chain: ' + data.casper_chain;
+        } else {
+            document.getElementById('casperRecord').style.display = 'none';
+        }
     }
 
     function resetForm() {
@@ -673,6 +715,7 @@
         document.getElementById('uploadArea').classList.remove('active');
         document.getElementById('statusMsg').className = 'status';
         document.getElementById('assessBtn').disabled = false;
+        document.getElementById('casperRecord').style.display = 'block';
         setStep(1);
     }
 </script>
