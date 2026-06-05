@@ -139,6 +139,13 @@ def run_scoring(file_profile: dict, intake_answers: dict) -> dict:
 
     raw = response.content[0].text.strip()
 
+    # Strip markdown fences if present
+    if raw.startswith("```"):
+        raw = raw.split("\n", 1)[1]  # remove opening fence line
+    if raw.endswith("```"):
+        raw = raw.rsplit("```", 1)[0]  # remove closing fence
+    raw = raw.strip()
+
     try:
         result = json.loads(raw)
     except json.JSONDecodeError as e:

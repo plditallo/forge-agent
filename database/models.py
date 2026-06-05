@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import Column, Int, String, DateTime, Numeric, ForeignKey, Text
+from sqlalchemy import Column, Integer, String, DateTime, Numeric, ForeignKey, Text
 from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
@@ -8,7 +8,7 @@ Base = declarative_base()
 class Assessment(Base):
     __tablename__ = "assessments"
 
-    id                      = Column(Int, primary_key=True, index=True)
+    id                      = Column(Integer, primary_key=True, index=True)
     created_at              = Column(DateTime, default=datetime.utcnow)
     dataset_name            = Column(String(255), nullable=False)
     data_owner              = Column(String(255))
@@ -66,12 +66,12 @@ class Assessment(Base):
 class AssessmentFile(Base):
     __tablename__ = "assessment_files"
 
-    id              = Column(Int, primary_key=True, index=True)
-    assessment_id   = Column(Int, ForeignKey("assessments.id"))
+    id              = Column(Integer, primary_key=True, index=True)
+    assessment_id   = Column(Integer, ForeignKey("assessments.id"))
     file_name       = Column(String(255))
     file_type       = Column(String(50))
-    row_count       = Column(Int)
-    column_count    = Column(Int)
+    row_count       = Column(Integer)
+    column_count    = Column(Integer)
     file_metadata   = Column(Text)
     uploaded_at     = Column(DateTime, default=datetime.utcnow)
 
