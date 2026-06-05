@@ -13,7 +13,9 @@ CONNECTION_STRING = (
     f"DRIVER={{{DRIVER}}};"
     f"SERVER={SERVER};"
     f"DATABASE={DATABASE};"
-    "Trusted_Connection=yes;"
+    #"Trusted_Connection=yes;"
+    f"UID={os.getenv('DB_USER', 'forge_user')};"
+    f"PWD={os.getenv('DB_PASSWORD', 'ForgeAgent2026!')};"
 )
 
 SQLALCHEMY_URL = (

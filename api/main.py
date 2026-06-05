@@ -2,7 +2,7 @@ import os
 import sys
 import json
 import shutil
-import tempfile
+from datetime import datetime
 from pathlib import Path
 from fastapi import FastAPI, UploadFile, File, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,6 +10,9 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from typing import Optional
+from dotenv import load_dotenv
+
+load_dotenv()
 
 sys.path.append(str(Path(__file__).parent.parent))
 
@@ -17,6 +20,7 @@ from database.connection import get_db, engine
 from database.models import Base, Assessment, AssessmentFile
 from ai.profiler import profile_file
 from ai.scorer import run_scoring
+from casper.recorder import record_assessment_on_chain
 
 # Create tables if they don't exist
 Base.metadata.create_all(bind=engine)
@@ -36,7 +40,9 @@ app.add_middleware(
 
 UPLOAD_DIR = Path("uploads")
 UPLOAD_DIR.mkdir(exist_ok=True)
+
 app.mount("/static", StaticFiles(directory="frontend"), name="static")
+
 
 # --- Request Models ---
 
@@ -103,58 +109,74 @@ async def assess(request: AssessRequest, db: Session = Depends(get_db)):
     scores = result["scores"]
 
     assessment = Assessment(
-        dataset_name            = intake.dataset_name,
-        data_owner              = intake.data_owner,
-        business_steward        = intake.business_steward,
-        source_system           = intake.source_system,
-        industry_segment        = intake.industry_segment,
-        file_name               = request.file_profile.get("file_name"),
-        file_type               = request.file_profile.get("file_type"),
-        ownership_level         = intake.ownership_level,
-        documentation_level     = intake.documentation_level,
-        refresh_frequency       = intake.refresh_frequency,
-        refresh_reliability     = intake.refresh_reliability,
-        sensitive_data_types    = intake.sensitive_data_types,
-        compliance_controls     = intake.compliance_controls,
-        continuity_risk         = intake.continuity_risk,
-        backup_process          = intake.backup_process,
-        primary_use             = intake.primary_use,
-        business_value_driver   = intake.business_value_driver,
-        competitor_availability = intake.competitor_availability,
-        historical_depth        = intake.historical_depth,
-        enrichment_potential    = intake.enrichment_potential,
-        score_data_quality      = scores["data_quality"],
-        score_reliability       = scores["reliability"],
-        score_refresh           = scores["refresh"],
-        score_compliance        = scores["compliance"],
-        score_governance        = scores["governance"],
-        score_accessibility     = scores["accessibility"],
+        dataset_name             = intake.dataset_name,
+        data_owner               = intake.data_owner,
+        business_steward         = intake.business_steward,
+        source_system            = intake.source_system,
+        industry_segment         = intake.industry_segment,
+        file_name                = request.file_profile.get("file_name"),
+        file_type                = request.file_profile.get("file_type"),
+        ownership_level          = intake.ownership_level,
+        documentation_level      = intake.documentation_level,
+        refresh_frequency        = intake.refresh_frequency,
+        refresh_reliability      = intake.refresh_reliability,
+        sensitive_data_types     = intake.sensitive_data_types,
+        compliance_controls      = intake.compliance_controls,
+        continuity_risk          = intake.continuity_risk,
+        backup_process           = intake.backup_process,
+        primary_use              = intake.primary_use,
+        business_value_driver    = intake.business_value_driver,
+        competitor_availability  = intake.competitor_availability,
+        historical_depth         = intake.historical_depth,
+        enrichment_potential     = intake.enrichment_potential,
+        score_data_quality       = scores["data_quality"],
+        score_reliability        = scores["reliability"],
+        score_refresh            = scores["refresh"],
+        score_compliance         = scores["compliance"],
+        score_governance         = scores["governance"],
+        score_accessibility      = scores["accessibility"],
         score_business_relevance = scores["business_relevance"],
-        score_sustainability    = scores["sustainability"],
-        score_uniqueness        = scores["uniqueness"],
-        score_coverage          = scores["coverage"],
-        score_historical_depth  = scores["historical_depth"],
-        score_enrichment        = scores["enrichment"],
-        weighted_score          = result["weighted_score"],
-        metal_rating            = result["metal_rating"],
-        monetization_potential  = json.dumps(result["monetization_potential"]),
-        recommended_actions     = json.dumps(result["recommended_actions"]),
-        full_report             = json.dumps(result)
+        score_sustainability     = scores["sustainability"],
+        score_uniqueness         = scores["uniqueness"],
+        score_coverage           = scores["coverage"],
+        score_historical_depth   = scores["historical_depth"],
+        score_enrichment         = scores["enrichment"],
+        weighted_score           = result["weighted_score"],
+        metal_rating             = result["metal_rating"],
+        monetization_potential   = json.dumps(result["monetization_potential"]),
+        recommended_actions      = json.dumps(result["recommended_actions"]),
+        full_report              = json.dumps(result)
     )
 
     db.add(assessment)
     db.commit()
     db.refresh(assessment)
 
+    # Record assessment hash on Casper testnet
+    casper_result = record_assessment_on_chain(
+        assessment_id=assessment.id,
+        dataset_name=assessment.dataset_name,
+        weighted_score=float(assessment.weighted_score),
+        metal_rating=assessment.metal_rating,
+        scores=scores
+    )
+
+    if casper_result["success"]:
+        assessment.casper_tx_hash = casper_result["assessment_hash"]
+        assessment.casper_recorded_at = datetime.utcnow()
+        db.commit()
+
     return {
-        "assessment_id": assessment.id,
-        "dataset_name": assessment.dataset_name,
-        "weighted_score": float(assessment.weighted_score),
-        "metal_rating": assessment.metal_rating,
-        "scores": scores,
-        "score_reasoning": result["score_reasoning"],
-        "recommended_actions": result["recommended_actions"],
-        "monetization_potential": result["monetization_potential"]
+        "assessment_id":        assessment.id,
+        "dataset_name":         assessment.dataset_name,
+        "weighted_score":       float(assessment.weighted_score),
+        "metal_rating":         assessment.metal_rating,
+        "scores":               scores,
+        "score_reasoning":      result["score_reasoning"],
+        "recommended_actions":  result["recommended_actions"],
+        "monetization_potential": result["monetization_potential"],
+        "casper_hash":          casper_result.get("assessment_hash"),
+        "casper_chain":         casper_result.get("chain")
     }
 
 
@@ -165,13 +187,15 @@ def get_assessment(assessment_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Assessment not found")
 
     return {
-        "assessment_id": assessment.id,
-        "created_at": assessment.created_at,
-        "dataset_name": assessment.dataset_name,
-        "weighted_score": float(assessment.weighted_score) if assessment.weighted_score else None,
-        "metal_rating": assessment.metal_rating,
+        "assessment_id":        assessment.id,
+        "created_at":           assessment.created_at,
+        "dataset_name":         assessment.dataset_name,
+        "weighted_score":       float(assessment.weighted_score) if assessment.weighted_score else None,
+        "metal_rating":         assessment.metal_rating,
+        "casper_tx_hash":       assessment.casper_tx_hash,
+        "casper_recorded_at":   assessment.casper_recorded_at,
         "monetization_potential": json.loads(assessment.monetization_potential) if assessment.monetization_potential else None,
-        "recommended_actions": json.loads(assessment.recommended_actions) if assessment.recommended_actions else None
+        "recommended_actions":  json.loads(assessment.recommended_actions) if assessment.recommended_actions else None
     }
 
 
@@ -180,11 +204,12 @@ def list_assessments(db: Session = Depends(get_db)):
     assessments = db.query(Assessment).order_by(Assessment.created_at.desc()).limit(20).all()
     return [
         {
-            "assessment_id": a.id,
-            "created_at": a.created_at,
-            "dataset_name": a.dataset_name,
+            "assessment_id":  a.id,
+            "created_at":     a.created_at,
+            "dataset_name":   a.dataset_name,
             "weighted_score": float(a.weighted_score) if a.weighted_score else None,
-            "metal_rating": a.metal_rating
+            "metal_rating":   a.metal_rating,
+            "casper_tx_hash": a.casper_tx_hash
         }
         for a in assessments
     ]
