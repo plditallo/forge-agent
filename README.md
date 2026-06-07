@@ -8,17 +8,15 @@ Founder & Innovator, Bauhaus Technology and Graphic Holdings LLC
 
 ## The Problem
 
-Most organizations are sitting on data they cannot describe, cannot govern, and cannot sell. They know it exists. They suspect it has value. But without a framework to assess it, classify it, and prepare it for commercial use, it stays buried — generating cost instead of revenue.
-
-This is not a technology problem. It is a methodology problem.
+Most small to mid-size organizations are sitting on data they cannot describe, cannot govern, and cannot sell. They know it exists. They suspect it has value. But without a framework to assess it, classify it, and prepare it for commercial use, it stays buried generating cost instead of revenue.
 
 ---
 
 ## The FORGE Framework
 
-FORGE is a data readiness methodology — a structured, repeatable process for transforming raw organizational data into certified, commercially viable data products.
+FORGE is a data readiness methodology. The methodology is a structured, repeatable process for transforming raw organizational data into certified, commercially viable data products.
 
-Think of it as Six Sigma for data monetization. Like Six Sigma, FORGE defines quality levels, certification tiers, and a progression path. Like TOEFL, it provides a recognized, verifiable credential that signals readiness to external parties. An organization does not simply "have good data." Under FORGE, they can prove it.
+Think of FORGE as Six Sigma for data monetization. Like Six Sigma, FORGE defines quality levels, certification tiers, and a progression path. Like TOEFL, the intent of FORGE is to provide a recognized, verifiable credential that signals readiness to external parties. An organization does not simply "have good data." Under FORGE, they can prove it.
 
 The framework is built around a mining metaphor that maps directly to data maturity:
 
@@ -38,7 +36,7 @@ The metaphor is not decorative. It defines the journey. A Bronze-rated dataset n
 
 ## The FORGE Assay: Eight Dimensions of Readiness
 
-Every dataset entering the FORGE process receives a Data Assay — a structured evaluation across eight weighted dimensions:
+Every dataset entering the FORGE process receives a Data Assay. The assay a structured evaluation across eight weighted dimensions:
 
 | Dimension | Weight | What It Measures |
 |-----------|--------|-----------------|
@@ -51,7 +49,7 @@ Every dataset entering the FORGE process receives a Data Assay — a structured 
 | Business Relevance | 10% | Revenue potential, strategic alignment |
 | Sustainability & Risk | 10% | Key-person dependency, backup processes |
 
-Four additional monetization metrics — Uniqueness, Coverage, Historical Depth, and Enrichment Potential — assess market value independent of quality.
+Four additional monetization metrics: Uniqueness, Coverage, Historical Depth, and Enrichment Potential assess market value independent of quality.
 
 ---
 
@@ -61,9 +59,9 @@ FORGE Agent is the operational implementation of the FORGE framework. It is the 
 
 Where the FORGE framework defines the standard, FORGE Agent applies it. An organization uploads a data asset, answers a structured intake questionnaire, and receives a FORGE Data Assay Report: a scored, reasoned, actionable assessment of that asset's readiness and monetization potential.
 
-Like Six Sigma belt certifications, FORGE levels are not binary. A dataset does not pass or fail. It receives a rating — Coal through Diamond — along with a specific roadmap for advancing to the next level. An organization can track their entire data portfolio across the certification spectrum, prioritize remediation efforts, and ultimately register certified assets for commercial availability.
+Like Six Sigma belt certifications, FORGE levels are not binary. A dataset does not pass or fail. It receives a rating, Coal through Diamond, along with a specific roadmap for advancing to the next level. An organization can track their entire data portfolio across the certification spectrum, prioritize remediation efforts, and ultimately register certified assets for commercial availability.
 
-The blockchain layer makes this verifiable. Every assessment generates a cryptographic hash anchored to the Casper Network testnet. That hash is an immutable, timestamped proof that the assessment occurred — the foundation of a trustworthy certification registry.
+The blockchain layer makes this verifiable. Every assessment generates a cryptographic hash anchored to the Casper Network testnet. That hash is an immutable, timestamped proof that the assessment occurred. FORGE agent acts as the foundation of a trustworthy certification registry.
 
 ---
 
@@ -78,7 +76,7 @@ Upload a CSV or Excel file, complete a 13-question intake form covering governan
 The scoring engine uses Claude (Anthropic) to evaluate each dimension against the FORGE rubric and return not just scores but the reasoning behind each one. The assessment is defensible, not opaque.
 
 **On-chain provenance via Casper Network**
-Every completed assessment is hashed and anchored to the Casper testnet. The hash is stored alongside the assessment record and displayed in the report. This is the seed of the FORGE certification registry — a verifiable, decentralized ledger of data asset assessments.
+Every completed assessment is hashed and anchored to the Casper testnet. The hash is stored alongside the assessment record and displayed in the report. This is the seed of the FORGE certification registry. The registry provides a verifiable, decentralized ledger of data asset assessments.
 
 **Monetization potential analysis**
 Beyond readiness scoring, the agent evaluates each asset across five monetization vectors: internal reporting, analytics products, API products, marketplace listings, and licensing. This directly supports the commercial intent of the FORGE framework.
@@ -182,7 +180,7 @@ The hackathon submission is the entry point. The certification engine. The piece
 
 ## About the Builder
 
-**Paula Ditallo** is the Founder and Innovator at Bauhaus Technology and Graphic Holdings LLC, a consulting and product development firm focused on data strategy, monetization, and enterprise data management. Paula is the author of *Developing Data Products* and brings deep expertise in data governance, product design, and enterprise architecture to the FORGE project.
+**Paula Ditallo** is the Founder and Innovator at Bauhaus Technology and Graphic Holdings LLC, a consulting and product development firm focused on data strategy, monetization, and enterprise data management. Paula is the author of *Security Without Accountability: The LAG Framework for Web 3.0 Governance*, *Algorithmic Infrastructures and the Temporal Reconfiguration of Accountability in Digital Governance*, and *Forging Data into Value: The FORGE Model for Data Productization in Mid-Market Firms* . Paula DiTallo brings deep expertise in data governance, product design, and enterprise architecture to the FORGE project.
 
 ---
 
