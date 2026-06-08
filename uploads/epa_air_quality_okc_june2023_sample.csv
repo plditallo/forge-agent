@@ -1,0 +1,181 @@
+measurement_date,station_id,station_name,city,state,county,latitude,longitude,elevation_m,pollutant_code,pollutant_name,measurement_value,unit_of_measure,aqi_value,aqi_category,data_source,method,quality_flag,certified
+2023-06-01,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,8.616,µg/m³,46,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-01,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,33.312,µg/m³,90,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-01,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,41.399,ppb,54,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-01,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,21.913,ppb,77,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-01,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,1.914,ppb,45,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-01,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.408,ppm,48,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-02,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,12.296,µg/m³,66,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-02,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,24.445,µg/m³,66,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-02,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,36.643,ppb,48,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-02,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,0.467,ppb,1,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-02,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,1.9,ppb,45,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-02,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.543,ppm,64,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-03,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,9.296,µg/m³,50,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-03,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,21.785,µg/m³,58,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-03,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,41.246,ppb,54,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-03,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,5.877,ppb,20,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-03,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,3.159,ppb,75,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-03,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.316,ppm,37,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-04,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,7.144,µg/m³,38,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-04,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,22.755,µg/m³,61,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-04,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,29.221,ppb,38,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-04,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,15.718,ppb,55,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-04,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,1.073,ppb,25,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-04,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.386,ppm,45,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-05,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,7.669,µg/m³,41,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-05,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,15.174,µg/m³,41,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-05,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,28.202,ppb,37,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-05,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,13.938,ppb,49,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-05,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,2.246,ppb,53,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-05,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.587,ppm,69,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-06,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,6.847,µg/m³,37,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-06,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,18.879,µg/m³,51,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-06,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,64.488,ppb,84,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-06,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,16.473,ppb,58,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-06,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,2.679,ppb,63,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-06,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.498,ppm,59,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-07,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,2.212,µg/m³,12,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-07,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,16.744,µg/m³,45,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-07,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,12.324,ppb,16,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-07,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,19.196,ppb,67,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-07,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,4.14,ppb,98,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-07,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.325,ppm,38,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-08,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,16.43,µg/m³,89,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-08,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,10.424,µg/m³,28,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-08,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,23.697,ppb,31,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-08,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,17.406,ppb,61,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-08,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,1.121,ppb,26,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-08,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.331,ppm,39,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-09,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,13.654,µg/m³,74,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-09,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,11.482,µg/m³,31,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-09,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,34.614,ppb,45,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-09,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,13.52,ppb,47,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-09,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,2.554,ppb,60,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-09,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.552,ppm,65,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-10,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,8.775,µg/m³,47,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-10,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,9.869,µg/m³,26,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-10,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,50.12,ppb,65,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-10,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,30.877,ppb,108,Unhealthy for Sensitive Groups,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-10,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,3.084,ppb,73,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-10,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.521,ppm,62,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-11,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,7.66,µg/m³,41,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-11,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,16.685,µg/m³,45,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-11,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,21.325,ppb,28,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-11,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,17.781,ppb,62,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-11,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,1.937,ppb,46,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-11,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.652,ppm,77,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-12,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,4.948,µg/m³,26,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-12,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,28.323,µg/m³,76,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-12,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,34.281,ppb,45,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-12,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,10.656,ppb,37,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-12,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,1.52,ppb,36,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-12,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.31,ppm,36,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-13,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,0.638,µg/m³,3,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-13,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,23.103,µg/m³,62,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-13,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,47.292,ppb,62,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-13,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,21.616,ppb,76,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-13,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,2.946,ppb,70,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-13,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.538,ppm,64,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-14,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,2.318,µg/m³,12,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-14,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,19.818,µg/m³,53,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-14,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,24.401,ppb,32,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-14,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,12.581,ppb,44,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-14,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,3.776,ppb,89,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-14,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.426,ppm,50,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-15,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,0.0,µg/m³,0,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-15,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,11.289,µg/m³,30,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-15,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,31.19,ppb,41,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-15,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,12.891,ppb,45,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-15,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,3.226,ppb,76,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-15,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.571,ppm,67,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-16,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,12.53,µg/m³,68,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-16,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,20.173,µg/m³,54,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-16,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,34.459,ppb,45,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-16,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,12.102,ppb,42,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-16,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,2.619,ppb,62,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-16,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.588,ppm,70,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-17,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,15.566,µg/m³,84,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-17,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,19.174,µg/m³,51,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-17,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,41.538,ppb,54,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-17,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,22.815,ppb,80,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-17,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,0.796,ppb,18,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-17,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.568,ppm,67,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-18,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,5.969,µg/m³,32,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-18,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,29.975,µg/m³,81,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-18,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,54.871,ppb,72,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-18,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,23.74,ppb,83,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-18,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,3.95,ppb,94,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-18,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.571,ppm,68,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-19,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,5.005,µg/m³,27,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-19,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,22.062,µg/m³,59,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-19,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,48.749,ppb,64,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-19,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,16.969,ppb,59,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-19,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,1.963,ppb,46,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-19,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.448,ppm,53,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-20,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,10.789,µg/m³,58,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-20,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,11.111,µg/m³,30,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-20,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,46.15,ppb,60,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-20,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,17.418,ppb,61,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-20,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,1.942,ppb,46,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-20,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.54,ppm,64,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-21,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,13.971,µg/m³,75,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-21,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,11.18,µg/m³,30,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-21,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,55.648,ppb,73,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-21,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,20.095,ppb,70,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-21,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,3.307,ppb,78,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-21,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.6,ppm,71,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-22,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,12.129,µg/m³,65,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-22,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,18.505,µg/m³,50,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-22,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,29.2,ppb,38,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-22,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,17.172,ppb,60,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-22,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,2.259,ppb,53,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-22,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.295,ppm,35,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-23,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,16.414,µg/m³,89,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-23,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,24.552,µg/m³,66,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-23,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,34.269,ppb,45,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-23,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,5.068,ppb,17,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-23,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,1.094,ppb,26,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-23,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.508,ppm,60,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-24,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,8.143,µg/m³,44,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-24,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,9.014,µg/m³,24,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-24,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,41.203,ppb,54,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-24,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,13.279,ppb,46,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-24,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,1.617,ppb,38,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-24,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.196,ppm,23,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-25,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,10.572,µg/m³,57,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-25,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,10.778,µg/m³,29,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-25,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,35.448,ppb,46,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-25,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,20.931,ppb,73,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-25,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,3.593,ppb,85,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-25,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.397,ppm,47,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-26,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,0.0,µg/m³,0,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-26,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,23.938,µg/m³,64,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-26,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,26.853,ppb,35,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-26,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,6.118,ppb,21,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-26,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,2.988,ppb,71,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-26,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.087,ppm,10,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-27,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,12.121,µg/m³,65,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-27,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,25.017,µg/m³,67,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-27,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,44.032,ppb,57,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-27,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,15.415,ppb,54,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-27,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,1.965,ppb,46,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-27,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.333,ppm,39,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-28,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,4.764,µg/m³,25,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-28,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,35.554,µg/m³,96,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-28,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,32.665,ppb,42,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-28,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,8.844,ppb,31,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-28,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,1.988,ppb,47,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-28,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.524,ppm,62,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-29,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,13.385,µg/m³,72,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-29,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,16.858,µg/m³,45,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-29,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,35.717,ppb,46,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-29,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,9.553,ppb,33,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-29,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,1.793,ppb,42,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-29,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.576,ppm,68,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-30,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM2.5,Fine Particulate Matter,8.945,µg/m³,48,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-30,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,PM10,Coarse Particulate Matter,15.857,µg/m³,42,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-30,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,O3,Ozone,40.052,ppb,52,Moderate,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-30,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,NO2,Nitrogen Dioxide,9.666,ppb,34,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-30,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,SO2,Sulfur Dioxide,0.0,ppb,0,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
+2023-06-30,40-109-0101,OKC North Monitor,Oklahoma City,OK,Oklahoma County,35.4676,-97.5164,366,CO,Carbon Monoxide,0.332,ppm,39,Good,EPA AQS,FEM/FRM Continuous Monitor,Valid,Yes
