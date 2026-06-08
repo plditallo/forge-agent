@@ -213,3 +213,62 @@ def list_assessments(db: Session = Depends(get_db)):
         }
         for a in assessments
     ]
+
+@app.get("/registry")
+def get_registry(db: Session = Depends(get_db)):
+    assessments = db.query(Assessment).order_by(Assessment.created_at.desc()).all()
+    return [
+        {
+            "assessment_id":    a.id,
+            "created_at":       a.created_at,
+            "dataset_name":     a.dataset_name,
+            "weighted_score":   float(a.weighted_score) if a.weighted_score else None,
+            "metal_rating":     a.metal_rating,
+            "casper_tx_hash":   a.casper_tx_hash,
+            "casper_recorded_at": a.casper_recorded_at,
+            "scores": {
+                "data_quality":       float(a.score_data_quality) if a.score_data_quality else None,
+                "reliability":        float(a.score_reliability) if a.score_reliability else None,
+                "refresh":            float(a.score_refresh) if a.score_refresh else None,
+                "compliance":         float(a.score_compliance) if a.score_compliance else None,
+                "governance":         float(a.score_governance) if a.score_governance else None,
+                "accessibility":      float(a.score_accessibility) if a.score_accessibility else None,
+                "business_relevance": float(a.score_business_relevance) if a.score_business_relevance else None,
+                "sustainability":     float(a.score_sustainability) if a.score_sustainability else None,
+            },
+            "industry_segment": a.industry_segment,
+            "source_system":    a.source_system,
+            "data_owner":       a.data_owner,
+        }
+        for a in assessments
+    ]
+
+
+@app.get("/registry/{dataset_name}")
+def get_dataset_history(dataset_name: str, db: Session = Depends(get_db)):
+    assessments = db.query(Assessment)\
+        .filter(Assessment.dataset_name.ilike(f"%{dataset_name}%"))\
+        .order_by(Assessment.created_at.asc())\
+        .all()
+
+    if not assessments:
+        raise HTTPException(status_code=404, detail="No assessments found for this dataset")
+
+    return {
+        "dataset_name": dataset_name,
+        "assessment_count": len(assessments),
+        "current_rating": assessments[-1].metal_rating,
+        "current_score": float(assessments[-1].weighted_score) if assessments[-1].weighted_score else None,
+        "first_assessed": assessments[0].created_at,
+        "last_assessed": assessments[-1].created_at,
+        "history": [
+            {
+                "assessment_id":  a.id,
+                "created_at":     a.created_at,
+                "weighted_score": float(a.weighted_score) if a.weighted_score else None,
+                "metal_rating":   a.metal_rating,
+                "casper_tx_hash": a.casper_tx_hash,
+            }
+            for a in assessments
+        ]
+    }

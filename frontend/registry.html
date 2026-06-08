@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORGE Registry</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f1117;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #1a1d27;
+            border-bottom: 2px solid #c9a84c;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header h1 { font-size: 1.6rem; color: #c9a84c; letter-spacing: 2px; }
+        header p { font-size: 0.85rem; color: #888; margin-top: 2px; }
+
+        .nav-link {
+            color: #c9a84c;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border: 1px solid #c9a84c;
+            padding: 6px 16px;
+            border-radius: 4px;
+        }
+
+        .nav-link:hover { background: #c9a84c; color: #0f1117; }
+
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+
+        .card {
+            background: #1a1d27;
+            border: 1px solid #2a2d3a;
+            border-radius: 8px;
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+
+        .card h2 {
+            font-size: 1rem;
+            color: #c9a84c;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Summary stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-box {
+            background: #0f1117;
+            border: 1px solid #2a2d3a;
+            border-radius: 6px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-box .val {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #c9a84c;
+            line-height: 1;
+        }
+
+        .stat-box .lbl {
+            font-size: 0.7rem;
+            color: #888;
+            text-transform: uppercase;
+            margin-top: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Registry table */
+        .reg-table { width: 100%; border-collapse: collapse; }
+
+        .reg-table th {
+            text-align: left;
+            font-size: 0.7rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 8px 12px;
+            border-bottom: 1px solid #2a2d3a;
+        }
+
+        .reg-table td {
+            padding: 12px;
+            border-bottom: 1px solid #1a1d27;
+            font-size: 0.85rem;
+            vertical-align: middle;
+        }
+
+        .reg-table tr:hover td { background: #1e2130; cursor: pointer; }
+
+        .metal-pill {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .metal-Diamond  { background: #b9f2ff; color: #000; }
+        .metal-Platinum { background: #e5e4e2; color: #000; }
+        .metal-Gold     { background: #ffd700; color: #000; }
+        .metal-Silver   { background: #c0c0c0; color: #000; }
+        .metal-Bronze   { background: #cd7f32; color: #fff; }
+        .metal-Iron     { background: #434343; color: #fff; }
+        .metal-Coal     { background: #1a1a1a; color: #aaa; border: 1px solid #444; }
+
+        .hash-cell {
+            font-family: monospace;
+            font-size: 0.72rem;
+            color: #c9a84c;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .no-hash { color: #444; font-size: 0.75rem; }
+
+        /* Detail panel */
+        #detailPanel {
+            display: none;
+            position: fixed;
+            top: 0; right: 0;
+            width: 480px;
+            height: 100vh;
+            background: #1a1d27;
+            border-left: 2px solid #c9a84c;
+            overflow-y: auto;
+            z-index: 100;
+            padding: 28px;
+        }
+
+        #detailPanel h2 {
+            color: #c9a84c;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            float: right;
+            background: none;
+            border: 1px solid #444;
+            color: #888;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .close-btn:hover { border-color: #c9a84c; color: #c9a84c; }
+
+        .detail-score {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #c9a84c;
+            line-height: 1;
+        }
+
+        .detail-meta {
+            font-size: 0.8rem;
+            color: #888;
+            margin: 4px 0;
+        }
+
+        .dim-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #2a2d3a;
+        }
+
+        .dim-row:last-child { border-bottom: none; }
+
+        .dim-label {
+            font-size: 0.75rem;
+            color: #aaa;
+            width: 140px;
+            flex-shrink: 0;
+        }
+
+        .dim-bar-bg {
+            flex: 1;
+            height: 4px;
+            background: #2a2d3a;
+            border-radius: 2px;
+        }
+
+        .dim-bar-fill {
+            height: 100%;
+            background: #c9a84c;
+            border-radius: 2px;
+        }
+
+        .dim-val {
+            font-size: 0.8rem;
+            color: #c9a84c;
+            font-weight: 700;
+            width: 28px;
+            text-align: right;
+        }
+
+        .hash-block {
+            background: #0f1117;
+            border: 1px solid #2a2d3a;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 16px;
+        }
+
+        .hash-block .lbl {
+            font-size: 0.7rem;
+            color: #888;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .hash-block .val {
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: #c9a84c;
+            word-break: break-all;
+        }
+
+        /* History timeline */
+        .timeline { margin-top: 20px; }
+
+        .timeline-item {
+            display: flex;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #2a2d3a;
+        }
+
+        .timeline-item:last-child { border-bottom: none; }
+
+        .timeline-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #c9a84c;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .timeline-content { flex: 1; }
+
+        .timeline-score {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #c9a84c;
+        }
+
+        .timeline-date {
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .timeline-hash {
+            font-family: monospace;
+            font-size: 0.68rem;
+            color: #555;
+            margin-top: 4px;
+            word-break: break-all;
+        }
+
+        .loading { text-align: center; color: #888; padding: 40px; }
+        .error { color: #e05555; padding: 16px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>⚒ FORGE REGISTRY</h1>
+        <p>Certified Data Asset Ledger — Casper Network</p>
+    </div>
+    <a href="/static/index.html" class="nav-link">+ New Assessment</a>
+</header>
+
+<div class="container">
+
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-box">
+            <div class="val" id="statTotal">—</div>
+            <div class="lbl">Total Assessments</div>
+        </div>
+        <div class="stat-box">
+            <div class="val" id="statDatasets">—</div>
+            <div class="lbl">Unique Datasets</div>
+        </div>
+        <div class="stat-box">
+            <div class="val" id="statOnChain">—</div>
+            <div class="lbl">On-Chain Records</div>
+        </div>
+        <div class="stat-box">
+            <div class="val" id="statTopRating">—</div>
+            <div class="lbl">Highest Rating</div>
+        </div>
+    </div>
+
+    <!-- Registry table -->
+    <div class="card">
+        <h2>Assessment Registry</h2>
+        <div id="tableContainer">
+            <div class="loading">Loading registry...</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Detail panel -->
+<div id="detailPanel">
+    <button class="close-btn" onclick="closeDetail()">✕ Close</button>
+    <h2>Assessment Detail</h2>
+    <div id="detailContent"></div>
+</div>
+
+<script>
+const API = 'http://127.0.0.1:8000';
+
+const METAL_ORDER = ['Coal','Iron','Bronze','Silver','Gold','Platinum','Diamond'];
+
+async function loadRegistry() {
+    try {
+        const res = await fetch(API + '/registry');
+        const data = await res.json();
+        renderStats(data);
+        renderTable(data);
+    } catch (err) {
+        document.getElementById('tableContainer').innerHTML =
+            `<div class="error">Failed to load registry: ${err.message}</div>`;
+    }
+}
+
+function renderStats(data) {
+    document.getElementById('statTotal').textContent = data.length;
+
+    const unique = new Set(data.map(a => a.dataset_name)).size;
+    document.getElementById('statDatasets').textContent = unique;
+
+    const onChain = data.filter(a => a.casper_tx_hash).length;
+    document.getElementById('statOnChain').textContent = onChain;
+
+    // Highest rating
+    let topIdx = -1;
+    data.forEach(a => {
+        const idx = METAL_ORDER.indexOf(a.metal_rating);
+        if (idx > topIdx) topIdx = idx;
+    });
+    const topEl = document.getElementById('statTopRating');
+    if (topIdx >= 0) {
+        topEl.textContent = METAL_ORDER[topIdx];
+        topEl.className = 'val metal-' + METAL_ORDER[topIdx];
+        topEl.style.fontSize = '1.2rem';
+        topEl.style.marginTop = '4px';
+    }
+}
+
+function renderTable(data) {
+    if (data.length === 0) {
+        document.getElementById('tableContainer').innerHTML =
+            '<div class="loading">No assessments yet. Run your first assessment to begin.</div>';
+        return;
+    }
+
+    const rows = data.map(a => `
+        <tr onclick="showDetail(${a.assessment_id})">
+            <td>${a.assessment_id}</td>
+            <td>${a.dataset_name}</td>
+            <td><span class="metal-pill metal-${a.metal_rating}">${a.metal_rating}</span></td>
+            <td style="color:#c9a84c; font-weight:700;">${a.weighted_score !== null ? a.weighted_score.toFixed(1) : '—'}</td>
+            <td>${a.industry_segment || '—'}</td>
+            <td>${a.data_owner || '—'}</td>
+            <td>${formatDate(a.created_at)}</td>
+            <td class="${a.casper_tx_hash ? 'hash-cell' : 'no-hash'}">
+                ${a.casper_tx_hash ? a.casper_tx_hash.substring(0, 20) + '...' : 'No hash'}
+            </td>
+        </tr>
+    `).join('');
+
+    document.getElementById('tableContainer').innerHTML = `
+        <table class="reg-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Dataset Name</th>
+                    <th>Rating</th>
+                    <th>Score</th>
+                    <th>Industry</th>
+                    <th>Owner</th>
+                    <th>Assessed</th>
+                    <th>Casper Hash</th>
+                </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+        </table>
+    `;
+}
+
+async function showDetail(id) {
+    const res = await fetch(API + '/assessments/' + id);
+    const a = await res.json();
+
+    // Also fetch all assessments to build history for this dataset name
+    const allRes = await fetch(API + '/registry');
+    const all = await allRes.json();
+    const history = all
+        .filter(x => x.dataset_name === a.dataset_name)
+        .sort((x, y) => new Date(x.created_at) - new Date(y.created_at));
+
+    const dims = [
+        { key: 'data_quality',       label: 'Data Quality' },
+        { key: 'reliability',        label: 'Reliability' },
+        { key: 'refresh',            label: 'Refresh' },
+        { key: 'compliance',         label: 'Compliance' },
+        { key: 'governance',         label: 'Governance' },
+        { key: 'accessibility',      label: 'Accessibility' },
+        { key: 'business_relevance', label: 'Biz Relevance' },
+        { key: 'sustainability',     label: 'Sustainability' },
+    ];
+
+    // Get scores from registry data
+    const regEntry = all.find(x => x.assessment_id === id);
+    const scores = regEntry ? regEntry.scores : {};
+
+    const dimRows = dims.map(d => {
+        const val = scores[d.key] || 0;
+        return `
+            <div class="dim-row">
+                <div class="dim-label">${d.label}</div>
+                <div class="dim-bar-bg">
+                    <div class="dim-bar-fill" style="width:${val/5*100}%"></div>
+                </div>
+                <div class="dim-val">${val}/5</div>
+            </div>
+        `;
+    }).join('');
+
+    const historyItems = history.map(h => `
+        <div class="timeline-item">
+            <div class="timeline-dot" style="background:${metalColor(h.metal_rating)}"></div>
+            <div class="timeline-content">
+                <div style="display:flex; gap:10px; align-items:center;">
+                    <span class="timeline-score">${h.weighted_score !== null ? h.weighted_score.toFixed(1) : '—'}</span>
+                    <span class="metal-pill metal-${h.metal_rating}">${h.metal_rating}</span>
+                    ${h.assessment_id === id ? '<span style="color:#888;font-size:0.7rem;">(this assessment)</span>' : ''}
+                </div>
+                <div class="timeline-date">${formatDate(h.created_at)}</div>
+                ${h.casper_tx_hash
+                    ? `<div class="timeline-hash">⛓ ${h.casper_tx_hash}</div>`
+                    : `<div class="timeline-hash" style="color:#333;">No chain record</div>`
+                }
+            </div>
+        </div>
+    `).join('');
+
+    document.getElementById('detailContent').innerHTML = `
+        <div style="display:flex; align-items:flex-end; gap:16px; margin-bottom:16px;">
+            <div>
+                <div class="detail-score">${a.weighted_score !== null ? a.weighted_score.toFixed(1) : '—'}</div>
+                <div class="detail-meta">FORGE Score</div>
+            </div>
+            <div>
+                <span class="metal-pill metal-${a.metal_rating}" style="font-size:0.9rem; padding:5px 14px;">${a.metal_rating}</span>
+                <div class="detail-meta" style="margin-top:6px;">${a.dataset_name}</div>
+            </div>
+        </div>
+
+        <div class="detail-meta">Assessment #${a.assessment_id} &nbsp;·&nbsp; ${formatDate(a.created_at)}</div>
+        ${a.data_owner ? `<div class="detail-meta">Owner: ${a.data_owner}</div>` : ''}
+
+        <div style="margin-top:20px;">
+            <div style="font-size:0.7rem; color:#888; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">Dimension Scores</div>
+            ${dimRows}
+        </div>
+
+        ${a.casper_tx_hash ? `
+        <div class="hash-block">
+            <div class="lbl">⛓ Casper Testnet Hash</div>
+            <div class="val">${a.casper_tx_hash}</div>
+            ${a.casper_recorded_at ? `<div style="font-size:0.7rem;color:#555;margin-top:6px;">Recorded: ${formatDate(a.casper_recorded_at)}</div>` : ''}
+        </div>
+        ` : ''}
+
+        ${history.length > 1 ? `
+        <div style="margin-top:24px;">
+            <div style="font-size:0.7rem; color:#888; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:12px;">
+                Certification History (${history.length} assessments)
+            </div>
+            <div class="timeline">${historyItems}</div>
+        </div>
+        ` : ''}
+    `;
+
+    document.getElementById('detailPanel').style.display = 'block';
+}
+
+function closeDetail() {
+    document.getElementById('detailPanel').style.display = 'none';
+}
+
+function metalColor(rating) {
+    const colors = {
+        Diamond: '#b9f2ff', Platinum: '#e5e4e2', Gold: '#ffd700',
+        Silver: '#c0c0c0', Bronze: '#cd7f32', Iron: '#666', Coal: '#333'
+    };
+    return colors[rating] || '#c9a84c';
+}
+
+function formatDate(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) +
+           ' ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+}
+
+loadRegistry();
+</script>
+</body>
+</html>
