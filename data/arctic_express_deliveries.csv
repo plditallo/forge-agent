@@ -1,0 +1,121 @@
+delivery_id,delivery_date,destination_city,customer_name,customer_id,product_type,quantity_lbs,price_per_lb,revenue,temp_at_delivery_f,required_temp_f,temp_compliance,driver_name,distance_miles,fuel_cost,on_time_delivery
+DEL-1000,2024-11-23,Oklahoma City,Gulf Coast Seafood Dist.,,Cod Fillet,160.2,5.52,,29.4,34.0,PASS,K. Williams,129,54.18,Yes
+DEL-1001,2024-01-17,Oklahoma City,Sooner Seafood Co.,CUST-128,Catfish Fillet,154.7,12.23,1891.98,35.9,34.0,FAIL,K. Williams,299,125.58,Yes
+DEL-1002,2024-05-22,Oklahoma City,Red Plains Fish Market,CUST-111,Tuna Steak,203.1,5.75,1167.83,41.4,34.0,FAIL,R. Thompson,137,57.54,Yes
+DEL-1003,2024-07-02,Tulsa,Heartland Fish Co.,CUST-170,Cod Fillet,413.2,14.08,5817.86,35.5,34.0,FAIL,L. Davis,125,52.5,Yes
+DEL-1004,2024-11-17,Wichita,Prairie Seafood LLC,CUST-129,Catfish Fillet,367.1,4.16,1527.14,31.2,34.0,PASS,R. Thompson,125,52.5,Yes
+DEL-1005,2024-07-13,Tulsa,Midwest Ocean Market,CUST-168,Mahi Mahi,123.2,8.65,1065.68,37.4,34.0,FAIL,J. Hernandez,172,72.24,Yes
+DEL-1006,2024-03-24,Tulsa,Wichita Fresh Catch,CUST-129,Cod Fillet,495.3,12.78,6329.93,35.8,34.0,FAIL,R. Thompson,113,47.46,Yes
+DEL-1007,2024-06-10,Tulsa,Central Fish Supply,CUST-183,Gulf Shrimp,144.9,17.17,2487.93,40.3,34.0,FAIL,R. Thompson,193,81.06,Yes
+DEL-1008,2024-11-25,Tulsa,Red Plains Fish Market,CUST-174,Cod Fillet,112.8,14.3,1613.04,35.5,34.0,FAIL,K. Williams,304,127.68,Yes
+DEL-1009,2024-04-22,Oklahoma City,Route 66 Seafood,CUST-176,Crawfish Tails,90.9,4.18,379.96,29.5,34.0,PASS,M. Patel,301,126.42,No
+DEL-1010,2024-07-14,Wichita,Midwest Ocean Market,CUST-198,Cod Fillet,487.0,15.98,7782.26,28.2,34.0,PASS,J. Hernandez,221,92.82,Yes
+DEL-1011,2024-02-27,Tulsa,Wichita Fresh Catch,CUST-164,Tilapia Fillet,254.2,17.33,4405.29,40.3,34.0,FAIL,R. Thompson,176,73.92,Yes
+DEL-1012,2024-11-16,Tulsa,Route 66 Seafood,CUST-176,Catfish Fillet,118.8,14.56,1729.73,35.6,34.0,FAIL,K. Williams,85,35.7,Yes
+DEL-1013,2024-01-10,Oklahoma City,Prairie Seafood LLC,CUST-193,Cod Fillet,157.8,6.99,1103.02,35.9,34.0,FAIL,J. Hernandez,128,53.76,Yes
+DEL-1014,2024-02-05,Wichita,Red Plains Fish Market,CUST-127,Tilapia Fillet,346.9,17.23,5977.09,30.3,34.0,PASS,K. Williams,301,126.42,Yes
+DEL-1015,2024-12-19,Oklahoma City,Central Fish Supply,CUST-115,Tuna Steak,497.8,12.92,,34.1,34.0,FAIL,K. Williams,316,132.72,Yes
+DEL-1016,2024-02-02,Tulsa,Gulf Coast Seafood Dist.,CUST-108,Catfish Fillet,314.8,3.6,1133.28,37.9,34.0,FAIL,J. Hernandez,202,84.84,Yes
+DEL-1017,2024-06-18,Oklahoma City,Route 66 Seafood,CUST-131,Catfish Fillet,175.3,10.54,1847.66,35.5,34.0,FAIL,K. Williams,327,137.34,Yes
+DEL-1018,2024-07-27,Oklahoma City,Sooner Seafood Co.,CUST-107,Gulf Shrimp,346.5,8.64,2993.76,33.8,34.0,PASS,J. Hernandez,135,56.7,Yes
+DEL-1019,2024-06-22,Oklahoma City,Tulsa Bay Imports,CUST-131,Catfish Fillet,135.6,10.0,1356.0,33.9,34.0,PASS,R. Thompson,321,134.82,Yes
+DEL-1020,2024-02-08,Tulsa,Route 66 Seafood,,Gulf Shrimp,72.8,17.99,1309.67,39.7,34.0,FAIL,J. Hernandez,206,86.52,No
+DEL-1021,2024-09-05,Tulsa,Tulsa Bay Imports,CUST-158,Tuna Steak,456.1,5.89,2686.43,28.0,34.0,PASS,L. Davis,220,92.4,Yes
+DEL-1022,2024-12-22,Wichita,Route 66 Seafood,CUST-195,Crawfish Tails,119.7,7.8,933.66,41.6,34.0,FAIL,K. Williams,116,48.72,Yes
+DEL-1023,2024-01-26,Wichita,Midwest Ocean Market,CUST-186,Tilapia Fillet,75.6,10.86,821.02,39.9,34.0,FAIL,J. Hernandez,119,49.98,Yes
+DEL-1024,2024-07-25,Oklahoma City,Heartland Fish Co.,CUST-133,Catfish Fillet,310.5,4.08,1266.84,29.1,34.0,PASS,K. Williams,246,103.32,Yes
+DEL-1025,2024-06-09,Oklahoma City,Central Fish Supply,CUST-158,Tuna Steak,108.9,12.86,1400.45,34.4,34.0,FAIL,J. Hernandez,89,37.38,Yes
+DEL-1026,2024-10-15,Oklahoma City,Sooner Seafood Co.,CUST-147,Catfish Fillet,277.6,5.42,1504.59,32.9,34.0,PASS,J. Hernandez,210,88.2,Yes
+DEL-1027,2024-08-12,Wichita,Central Fish Supply,CUST-133,Atlantic Salmon,350.5,11.54,4044.77,41.0,34.0,FAIL,J. Hernandez,153,64.26,No
+DEL-1028,2024-02-24,Wichita,Route 66 Seafood,CUST-164,Tilapia Fillet,172.6,12.27,2117.8,38.0,34.0,FAIL,M. Patel,220,92.4,Yes
+DEL-1029,2024-01-27,Oklahoma City,Wichita Fresh Catch,CUST-194,Cod Fillet,69.8,8.34,582.13,29.8,34.0,PASS,R. Thompson,167,70.14,Yes
+DEL-1030,2024-12-27,Tulsa,Route 66 Seafood,CUST-147,Atlantic Salmon,100.3,17.2,,37.7,34.0,FAIL,M. Patel,103,43.26,Yes
+DEL-1031,2024-03-16,Tulsa,Red Plains Fish Market,CUST-126,Atlantic Salmon,188.7,16.54,3121.1,39.1,34.0,FAIL,J. Hernandez,268,112.56,Yes
+DEL-1032,2024-12-07,Oklahoma City,Prairie Seafood LLC,CUST-122,Tuna Steak,488.2,14.37,7015.43,41.0,34.0,FAIL,M. Patel,168,70.56,Yes
+DEL-1033,2024-01-13,Oklahoma City,Prairie Seafood LLC,CUST-189,Tuna Steak,411.0,16.03,6588.33,39.4,34.0,FAIL,R. Thompson,166,69.72,No
+DEL-1034,2024-01-20,Tulsa,Tulsa Bay Imports,CUST-103,Catfish Fillet,417.5,10.17,4245.98,32.3,34.0,PASS,M. Patel,199,83.58,Yes
+DEL-1035,2024-07-23,Tulsa,Central Fish Supply,CUST-103,Gulf Shrimp,485.1,7.55,3662.51,37.0,34.0,FAIL,L. Davis,254,106.68,No
+DEL-1036,2024-05-13,Oklahoma City,Heartland Fish Co.,CUST-177,Cod Fillet,67.2,12.15,816.48,32.8,34.0,PASS,R. Thompson,308,129.36,Yes
+DEL-1037,2024-02-29,Tulsa,Heartland Fish Co.,CUST-146,Catfish Fillet,164.6,13.78,2268.19,28.0,34.0,PASS,K. Williams,185,77.7,Yes
+DEL-1038,2024-12-06,Tulsa,Heartland Fish Co.,CUST-185,Mahi Mahi,348.5,5.31,1850.53,40.6,34.0,FAIL,K. Williams,243,102.06,Yes
+DEL-1039,2024-07-25,Wichita,Central Fish Supply,CUST-151,Tilapia Fillet,136.3,13.14,1790.98,33.3,34.0,PASS,M. Patel,239,100.38,Yes
+DEL-1040,2024-01-01,Tulsa,Central Fish Supply,,Catfish Fillet,243.4,11.91,2898.89,37.2,34.0,FAIL,L. Davis,311,130.62,Yes
+DEL-1041,2024-04-19,Wichita,Midwest Ocean Market,CUST-111,Tilapia Fillet,346.5,7.61,2636.87,37.3,34.0,FAIL,K. Williams,256,107.52,Yes
+DEL-1042,2024-04-30,Wichita,Central Fish Supply,CUST-158,Catfish Fillet,413.0,5.64,2329.32,28.6,34.0,PASS,L. Davis,122,51.24,Yes
+DEL-1043,2024-11-18,Wichita,Tulsa Bay Imports,CUST-199,Tuna Steak,272.5,7.04,1918.4,37.2,34.0,FAIL,J. Hernandez,139,58.38,Yes
+DEL-1044,2024-03-31,Wichita,Route 66 Seafood,CUST-159,Crawfish Tails,72.6,7.11,516.19,39.9,34.0,FAIL,L. Davis,153,64.26,Yes
+DEL-1045,2024-10-13,Wichita,Prairie Seafood LLC,CUST-120,Crawfish Tails,325.7,13.93,,35.1,34.0,FAIL,K. Williams,313,131.46,Yes
+DEL-1046,2024-08-31,Tulsa,Central Fish Supply,CUST-135,Catfish Fillet,427.9,7.52,3217.81,38.9,34.0,FAIL,L. Davis,207,86.94,Yes
+DEL-1047,2024-12-31,Tulsa,Tulsa Bay Imports,CUST-149,Cod Fillet,201.1,16.45,3308.09,29.1,34.0,PASS,M. Patel,203,85.26,Yes
+DEL-1048,2024-12-27,Oklahoma City,Sooner Seafood Co.,CUST-149,Tuna Steak,233.4,11.37,2653.76,33.8,34.0,PASS,M. Patel,300,126.0,Yes
+DEL-1049,2024-10-26,Wichita,Gulf Coast Seafood Dist.,CUST-168,Tuna Steak,264.6,17.17,4543.18,32.2,34.0,PASS,L. Davis,299,125.58,Yes
+DEL-1050,2024-10-06,Wichita,Tulsa Bay Imports,CUST-192,Crawfish Tails,148.7,9.82,1460.23,28.4,34.0,PASS,R. Thompson,292,122.64,No
+DEL-1051,2024-08-27,Oklahoma City,Heartland Fish Co.,CUST-117,Atlantic Salmon,458.1,12.08,5533.85,37.3,34.0,FAIL,J. Hernandez,304,127.68,Yes
+DEL-1052,2024-04-03,Oklahoma City,Central Fish Supply,CUST-196,Tuna Steak,197.3,10.09,1990.76,32.7,34.0,PASS,L. Davis,227,95.34,Yes
+DEL-1053,2024-08-03,Tulsa,Sooner Seafood Co.,CUST-183,Crawfish Tails,58.7,11.32,664.48,42.0,34.0,FAIL,R. Thompson,199,83.58,No
+DEL-1054,2024-11-29,Oklahoma City,Gulf Coast Seafood Dist.,CUST-185,Catfish Fillet,139.7,3.8,530.86,30.1,34.0,PASS,M. Patel,327,137.34,No
+DEL-1055,2024-04-21,Tulsa,Central Fish Supply,CUST-139,Mahi Mahi,125.5,12.31,1544.9,38.5,34.0,FAIL,J. Hernandez,168,70.56,No
+DEL-1056,2024-01-14,Tulsa,Heartland Fish Co.,CUST-189,Tuna Steak,228.5,13.87,3169.29,29.1,34.0,PASS,M. Patel,137,57.54,Yes
+DEL-1057,2024-12-16,Wichita,Sooner Seafood Co.,CUST-101,Atlantic Salmon,206.2,9.71,2002.2,33.2,34.0,PASS,K. Williams,259,108.78,Yes
+DEL-1058,2024-09-07,Oklahoma City,Wichita Fresh Catch,CUST-193,Mahi Mahi,336.0,15.52,5214.72,37.9,34.0,FAIL,L. Davis,175,73.5,Yes
+DEL-1059,2024-11-29,Tulsa,Heartland Fish Co.,CUST-111,Crawfish Tails,259.2,15.47,4009.82,36.3,34.0,FAIL,R. Thompson,210,88.2,Yes
+DEL-1060,2024-08-18,Oklahoma City,Midwest Ocean Market,,Tuna Steak,201.4,10.67,,32.6,34.0,PASS,L. Davis,193,81.06,Yes
+DEL-1061,2024-05-12,Tulsa,Central Fish Supply,CUST-162,Cod Fillet,300.1,10.99,3298.1,30.7,34.0,PASS,M. Patel,293,123.06,Yes
+DEL-1062,2024-05-03,Wichita,Midwest Ocean Market,CUST-139,Crawfish Tails,251.7,3.75,943.88,32.1,34.0,PASS,L. Davis,209,87.78,Yes
+DEL-1063,2024-07-07,Tulsa,Route 66 Seafood,CUST-139,Mahi Mahi,241.5,14.32,3458.28,32.6,34.0,PASS,L. Davis,223,93.66,Yes
+DEL-1064,2024-03-02,Wichita,Tulsa Bay Imports,CUST-127,Mahi Mahi,103.8,11.27,1169.83,38.7,34.0,FAIL,M. Patel,183,76.86,Yes
+DEL-1065,2024-05-21,Wichita,Heartland Fish Co.,CUST-138,Cod Fillet,491.2,15.57,7647.98,32.1,34.0,PASS,R. Thompson,176,73.92,No
+DEL-1066,2024-09-30,Oklahoma City,Central Fish Supply,CUST-113,Atlantic Salmon,488.4,11.52,5626.37,37.8,34.0,FAIL,M. Patel,336,141.12,Yes
+DEL-1067,2024-10-20,Tulsa,Midwest Ocean Market,CUST-108,Crawfish Tails,248.2,6.17,1531.39,28.7,34.0,PASS,L. Davis,143,60.06,Yes
+DEL-1068,2024-02-07,Wichita,Gulf Coast Seafood Dist.,CUST-171,Tilapia Fillet,117.1,11.66,1365.39,32.3,34.0,PASS,M. Patel,145,60.9,Yes
+DEL-1069,2024-11-06,Wichita,Heartland Fish Co.,CUST-139,Catfish Fillet,399.1,9.02,3599.88,40.7,34.0,FAIL,R. Thompson,304,127.68,Yes
+DEL-1070,2024-01-31,Wichita,Sooner Seafood Co.,CUST-170,Catfish Fillet,331.5,7.34,2433.21,29.1,34.0,PASS,M. Patel,173,72.66,No
+DEL-1071,2024-01-02,Tulsa,Midwest Ocean Market,CUST-187,Crawfish Tails,181.1,6.86,1242.35,37.9,34.0,FAIL,L. Davis,121,50.82,Yes
+DEL-1072,2024-05-15,Wichita,Heartland Fish Co.,CUST-109,Catfish Fillet,241.3,11.4,2750.82,37.1,34.0,FAIL,R. Thompson,157,65.94,No
+DEL-1073,2024-06-06,Wichita,Heartland Fish Co.,CUST-164,Cod Fillet,247.6,10.3,2550.28,32.3,34.0,PASS,L. Davis,224,94.08,Yes
+DEL-1074,2024-08-12,Oklahoma City,Heartland Fish Co.,CUST-129,Atlantic Salmon,450.2,14.15,6370.33,36.5,34.0,FAIL,J. Hernandez,131,55.02,Yes
+DEL-1075,2024-10-21,Wichita,Gulf Coast Seafood Dist.,CUST-135,Cod Fillet,309.3,14.57,,30.5,34.0,PASS,K. Williams,311,130.62,No
+DEL-1076,2024-10-26,Tulsa,Midwest Ocean Market,CUST-142,Gulf Shrimp,261.5,9.42,2463.33,32.5,34.0,PASS,J. Hernandez,167,70.14,Yes
+DEL-1077,2024-09-10,Tulsa,Wichita Fresh Catch,CUST-184,Atlantic Salmon,254.7,8.06,2052.88,32.5,34.0,PASS,L. Davis,85,35.7,Yes
+DEL-1078,2024-08-24,Tulsa,Gulf Coast Seafood Dist.,CUST-126,Catfish Fillet,283.3,12.53,3549.75,35.0,34.0,FAIL,L. Davis,111,46.62,Yes
+DEL-1079,2024-03-08,Tulsa,Midwest Ocean Market,CUST-139,Crawfish Tails,104.6,17.61,1842.01,36.5,34.0,FAIL,M. Patel,166,69.72,Yes
+DEL-1080,2024-10-09,Tulsa,Sooner Seafood Co.,,Catfish Fillet,496.5,16.74,8311.41,34.5,34.0,FAIL,J. Hernandez,163,68.46,Yes
+DEL-1081,2024-05-29,Wichita,Central Fish Supply,CUST-149,Tuna Steak,425.6,17.71,7537.38,31.4,34.0,PASS,K. Williams,159,66.78,No
+DEL-1082,2024-11-02,Wichita,Red Plains Fish Market,CUST-100,Gulf Shrimp,174.3,14.96,2607.53,33.8,34.0,PASS,K. Williams,221,92.82,Yes
+DEL-1083,2024-06-01,Wichita,Heartland Fish Co.,CUST-158,Crawfish Tails,439.4,9.97,4380.82,34.8,34.0,FAIL,R. Thompson,278,116.76,Yes
+DEL-1084,2024-04-06,Wichita,Tulsa Bay Imports,CUST-149,Tuna Steak,155.1,14.75,2287.72,28.6,34.0,PASS,L. Davis,280,117.6,Yes
+DEL-1085,2024-11-29,Oklahoma City,Midwest Ocean Market,CUST-112,Atlantic Salmon,106.8,17.5,1869.0,32.6,34.0,PASS,J. Hernandez,310,130.2,Yes
+DEL-1086,2024-08-21,Oklahoma City,Red Plains Fish Market,CUST-179,Tuna Steak,441.9,17.56,7759.76,29.0,34.0,PASS,R. Thompson,258,108.36,Yes
+DEL-1087,2024-11-28,Oklahoma City,Prairie Seafood LLC,CUST-179,Tuna Steak,479.4,12.59,6035.65,40.4,34.0,FAIL,L. Davis,103,43.26,No
+DEL-1088,2024-11-19,Wichita,Central Fish Supply,CUST-121,Catfish Fillet,386.0,9.79,3778.94,29.4,34.0,PASS,J. Hernandez,312,131.04,Yes
+DEL-1089,2024-01-15,Oklahoma City,Prairie Seafood LLC,CUST-172,Atlantic Salmon,182.0,8.94,1627.08,30.0,34.0,PASS,K. Williams,295,123.9,Yes
+DEL-1090,2024-04-02,Oklahoma City,Red Plains Fish Market,CUST-129,Gulf Shrimp,324.3,9.05,,37.6,34.0,FAIL,L. Davis,158,66.36,Yes
+DEL-1091,2024-05-10,Tulsa,Central Fish Supply,CUST-109,Atlantic Salmon,454.5,10.25,4658.62,32.0,34.0,PASS,K. Williams,165,69.3,Yes
+DEL-1092,2024-06-25,Wichita,Central Fish Supply,CUST-113,Tuna Steak,360.6,10.12,3649.27,32.2,34.0,PASS,L. Davis,332,139.44,Yes
+DEL-1093,2024-10-19,Tulsa,Heartland Fish Co.,CUST-101,Cod Fillet,496.7,7.78,3864.33,41.7,34.0,FAIL,L. Davis,225,94.5,Yes
+DEL-1094,2024-12-17,Wichita,Gulf Coast Seafood Dist.,CUST-128,Crawfish Tails,424.8,16.59,7047.43,38.9,34.0,FAIL,M. Patel,265,111.3,Yes
+DEL-1095,2024-11-13,Tulsa,Red Plains Fish Market,CUST-174,Gulf Shrimp,456.5,12.87,5875.15,32.3,34.0,PASS,L. Davis,102,42.84,Yes
+DEL-1096,2024-03-08,Oklahoma City,Central Fish Supply,CUST-167,Mahi Mahi,386.4,6.05,2337.72,29.9,34.0,PASS,K. Williams,272,114.24,Yes
+DEL-1097,2024-05-19,Oklahoma City,Central Fish Supply,CUST-109,Crawfish Tails,485.3,7.78,3775.63,40.2,34.0,FAIL,J. Hernandez,324,136.08,No
+DEL-1098,2024-04-25,Wichita,Wichita Fresh Catch,CUST-147,Mahi Mahi,90.6,9.22,835.33,31.7,34.0,PASS,J. Hernandez,317,133.14,Yes
+DEL-1099,2024-12-10,Tulsa,Heartland Fish Co.,CUST-103,Tuna Steak,420.1,17.13,7196.31,29.5,34.0,PASS,M. Patel,326,136.92,Yes
+DEL-1100,2024-10-14,Tulsa,Heartland Fish Co.,,Catfish Fillet,341.4,12.71,4339.19,34.5,34.0,FAIL,R. Thompson,294,123.48,No
+DEL-1101,2024-01-24,Oklahoma City,Central Fish Supply,CUST-147,Crawfish Tails,102.3,6.9,705.87,35.5,34.0,FAIL,L. Davis,317,133.14,Yes
+DEL-1102,2024-12-22,Wichita,Wichita Fresh Catch,CUST-135,Tilapia Fillet,448.4,13.0,5829.2,39.7,34.0,FAIL,K. Williams,293,123.06,No
+DEL-1103,2024-07-08,Oklahoma City,Midwest Ocean Market,CUST-107,Crawfish Tails,477.7,15.9,7595.43,29.4,34.0,PASS,R. Thompson,268,112.56,Yes
+DEL-1104,2024-04-07,Oklahoma City,Midwest Ocean Market,CUST-142,Gulf Shrimp,348.2,12.8,4456.96,36.4,34.0,FAIL,J. Hernandez,110,46.2,Yes
+DEL-1105,2024-03-05,Wichita,Tulsa Bay Imports,CUST-199,Gulf Shrimp,423.4,11.54,,36.2,34.0,FAIL,M. Patel,253,106.26,No
+DEL-1106,2024-11-01,Oklahoma City,Central Fish Supply,CUST-116,Tilapia Fillet,494.4,11.33,5601.55,39.2,34.0,FAIL,J. Hernandez,98,41.16,No
+DEL-1107,2024-05-01,Wichita,Prairie Seafood LLC,CUST-195,Atlantic Salmon,128.4,4.26,546.98,38.4,34.0,FAIL,K. Williams,143,60.06,No
+DEL-1108,2024-08-17,Tulsa,Route 66 Seafood,CUST-158,Gulf Shrimp,253.4,6.71,1700.31,36.6,34.0,FAIL,K. Williams,239,100.38,Yes
+DEL-1109,2024-01-16,Oklahoma City,Midwest Ocean Market,CUST-110,Tuna Steak,241.8,5.07,1225.93,38.0,34.0,FAIL,L. Davis,122,51.24,Yes
+DEL-1110,2024-03-16,Oklahoma City,Red Plains Fish Market,CUST-158,Cod Fillet,330.9,11.99,3967.49,38.0,34.0,FAIL,L. Davis,235,98.7,Yes
+DEL-1111,2024-08-08,Oklahoma City,Sooner Seafood Co.,CUST-153,Catfish Fillet,243.5,16.38,3988.53,33.8,34.0,PASS,L. Davis,289,121.38,Yes
+DEL-1112,2024-06-09,Tulsa,Prairie Seafood LLC,CUST-110,Cod Fillet,218.4,5.71,1247.06,40.9,34.0,FAIL,J. Hernandez,131,55.02,No
+DEL-1113,2024-02-19,Wichita,Prairie Seafood LLC,CUST-152,Tilapia Fillet,300.4,12.0,3604.8,35.9,34.0,FAIL,R. Thompson,147,61.74,Yes
+DEL-1114,2024-12-06,Tulsa,Gulf Coast Seafood Dist.,CUST-184,Cod Fillet,320.2,8.6,2753.72,36.1,34.0,FAIL,M. Patel,164,68.88,Yes
+DEL-1115,2024-02-25,Tulsa,Route 66 Seafood,CUST-177,Mahi Mahi,101.7,7.54,766.82,31.2,34.0,PASS,L. Davis,98,41.16,Yes
+DEL-1116,2024-12-21,Tulsa,Gulf Coast Seafood Dist.,CUST-123,Tilapia Fillet,173.0,14.55,2517.15,40.9,34.0,FAIL,R. Thompson,88,36.96,Yes
+DEL-1117,2024-10-16,Wichita,Wichita Fresh Catch,CUST-148,Gulf Shrimp,113.8,12.68,1442.98,28.4,34.0,PASS,K. Williams,195,81.9,Yes
+DEL-1118,2024-06-23,Oklahoma City,Prairie Seafood LLC,CUST-119,Cod Fillet,374.7,14.76,5530.57,35.9,34.0,FAIL,J. Hernandez,111,46.62,No
+DEL-1119,2024-11-12,Oklahoma City,Sooner Seafood Co.,CUST-127,Cod Fillet,249.4,9.65,2406.71,36.5,34.0,FAIL,L. Davis,224,94.08,Yes
