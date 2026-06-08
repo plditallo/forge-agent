@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORGE Marketplace</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f1117;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #1a1d27;
+            border-bottom: 2px solid #c9a84c;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header h1 { font-size: 1.6rem; color: #c9a84c; letter-spacing: 2px; }
+        header p { font-size: 0.85rem; color: #888; margin-top: 2px; }
+
+        .nav-links { display: flex; gap: 12px; }
+
+        .nav-link {
+            color: #c9a84c;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border: 1px solid #c9a84c;
+            padding: 6px 16px;
+            border-radius: 4px;
+        }
+
+        .nav-link:hover { background: #c9a84c; color: #0f1117; }
+        .nav-link.active { background: #c9a84c; color: #0f1117; }
+
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+
+        .card {
+            background: #1a1d27;
+            border: 1px solid #2a2d3a;
+            border-radius: 8px;
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+
+        .card h2 {
+            font-size: 1rem;
+            color: #c9a84c;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-box {
+            background: #0f1117;
+            border: 1px solid #2a2d3a;
+            border-radius: 6px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-box .val { font-size: 2rem; font-weight: 700; color: #c9a84c; line-height: 1; }
+        .stat-box .lbl { font-size: 0.7rem; color: #888; text-transform: uppercase; margin-top: 6px; }
+
+        /* Listings */
+        .listings-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .listing-card {
+            background: #0f1117;
+            border: 1px solid #2a2d3a;
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .listing-card:hover { border-color: #c9a84c; }
+
+        .listing-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .listing-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            flex: 1;
+            margin-right: 12px;
+        }
+
+        .metal-pill {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .metal-Diamond  { background: #b9f2ff; color: #000; }
+        .metal-Platinum { background: #e5e4e2; color: #000; }
+        .metal-Gold     { background: #ffd700; color: #000; }
+        .metal-Silver   { background: #c0c0c0; color: #000; }
+        .metal-Bronze   { background: #cd7f32; color: #fff; }
+        .metal-Iron     { background: #434343; color: #fff; }
+        .metal-Coal     { background: #1a1a1a; color: #aaa; border: 1px solid #444; }
+
+        .listing-desc {
+            font-size: 0.82rem;
+            color: #888;
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .listing-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .tag {
+            background: #1a1d27;
+            border: 1px solid #2a2d3a;
+            border-radius: 10px;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            color: #888;
+        }
+
+        .listing-pricing {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 1px solid #2a2d3a;
+        }
+
+        .price-box {
+            background: #1a1d27;
+            border: 1px solid #2a2d3a;
+            border-radius: 4px;
+            padding: 6px 12px;
+            text-align: center;
+        }
+
+        .price-box .amount { font-size: 0.9rem; font-weight: 700; color: #c9a84c; }
+        .price-box .period { font-size: 0.65rem; color: #888; text-transform: uppercase; }
+
+        .listing-stats {
+            margin-left: auto;
+            text-align: right;
+            font-size: 0.75rem;
+            color: #555;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #2a2d3a;
+        }
+
+        .tab {
+            padding: 8px 20px;
+            font-size: 0.85rem;
+            color: #888;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+
+        .tab.active { color: #c9a84c; border-bottom-color: #c9a84c; }
+        .tab:hover { color: #c9a84c; }
+
+        /* Purchase modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.7);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.open { display: flex; }
+
+        .modal {
+            background: #1a1d27;
+            border: 1px solid #c9a84c;
+            border-radius: 8px;
+            padding: 32px;
+            width: 520px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal h2 { color: #c9a84c; font-size: 1rem; text-transform: uppercase; margin-bottom: 20px; }
+
+        .form-group { margin-bottom: 16px; }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            background: #0f1117;
+            border: 1px solid #2a2d3a;
+            border-radius: 4px;
+            padding: 10px 12px;
+            color: #e0e0e0;
+            font-size: 0.9rem;
+        }
+
+        .form-group input:focus { outline: none; border-color: #c9a84c; }
+
+        .btn {
+            background: #c9a84c;
+            color: #0f1117;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 24px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover { background: #e0c068; }
+        .btn:disabled { background: #444; cursor: not-allowed; }
+
+        .btn-outline {
+            background: none;
+            color: #888;
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .btn-outline:hover { border-color: #888; color: #ccc; }
+
+        .btn-row { display: flex; gap: 12px; margin-top: 20px; }
+
+        .status {
+            padding: 10px 14px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .status.info    { background: #1e2d3d; border-left: 3px solid #4a9eda; color: #4a9eda; display: block; }
+        .status.error   { background: #2d1e1e; border-left: 3px solid #e05555; color: #e05555; display: block; }
+        .status.success { background: #1e2d1e; border-left: 3px solid #55a055; color: #55a055; display: block; }
+
+        /* Transaction table */
+        .tx-table { width: 100%; border-collapse: collapse; }
+
+        .tx-table th {
+            text-align: left;
+            font-size: 0.7rem;
+            color: #888;
+            text-transform: uppercase;
+            padding: 8px 12px;
+            border-bottom: 1px solid #2a2d3a;
+        }
+
+        .tx-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #1a1d27;
+            font-size: 0.82rem;
+        }
+
+        .hash-short { font-family: monospace; font-size: 0.72rem; color: #c9a84c; }
+
+        /* x402 flow visualization */
+        .x402-flow {
+            background: #0f1117;
+            border: 1px solid #2a2d3a;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 16px 0;
+            font-family: monospace;
+            font-size: 0.78rem;
+            color: #aaa;
+            line-height: 1.8;
+        }
+
+        .x402-flow .step-num { color: #c9a84c; font-weight: 700; }
+        .x402-flow .http-200 { color: #55a055; }
+        .x402-flow .http-402 { color: #e0a030; }
+        .x402-flow .arrow    { color: #555; }
+
+        .success-hash {
+            background: #0f1117;
+            border: 1px solid #2a2d3a;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 12px;
+        }
+
+        .success-hash .lbl { font-size: 0.7rem; color: #888; margin-bottom: 4px; }
+        .success-hash .val { font-family: monospace; font-size: 0.75rem; color: #c9a84c; word-break: break-all; }
+
+        .empty { text-align: center; color: #555; padding: 40px; font-size: 0.9rem; }
+
+        #buyerPanel { display: none; }
+        #registeredBadge { display: none; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>⚒ FORGE MARKETPLACE</h1>
+        <p>Certified Data Products — Powered by Casper Network</p>
+    </div>
+    <div class="nav-links">
+        <a href="/static/index.html" class="nav-link">+ Assess</a>
+        <a href="/static/registry.html" class="nav-link">Registry</a>
+        <a href="/static/marketplace.html" class="nav-link active">Marketplace</a>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-box">
+            <div class="val" id="statListings">—</div>
+            <div class="lbl">Active Listings</div>
+        </div>
+        <div class="stat-box">
+            <div class="val" id="statTxCount">—</div>
+            <div class="lbl">Transactions</div>
+        </div>
+        <div class="stat-box">
+            <div class="val" id="statRevenue">—</div>
+            <div class="lbl">Total Revenue (CSPR)</div>
+        </div>
+        <div class="stat-box">
+            <div class="val" id="statBuyerStatus">Not Registered</div>
+            <div class="lbl">Buyer Status</div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('listings')">Data Products</div>
+        <div class="tab" onclick="showTab('transactions')">Transaction Ledger</div>
+        <div class="tab" onclick="showTab('buyer')">Buyer Account</div>
+    </div>
+
+    <!-- Listings Tab -->
+    <div id="tab-listings">
+        <div id="listingsGrid" class="listings-grid">
+            <div class="empty">Loading listings...</div>
+        </div>
+    </div>
+
+    <!-- Transactions Tab -->
+    <div id="tab-transactions" style="display:none">
+        <div class="card">
+            <h2>Transaction Ledger</h2>
+            <div id="txContainer"><div class="empty">No transactions yet.</div></div>
+        </div>
+    </div>
+
+    <!-- Buyer Tab -->
+    <div id="tab-buyer" style="display:none">
+        <div class="card" id="registerCard">
+            <h2>Register as a Data Buyer</h2>
+            <p style="color:#888; font-size:0.85rem; margin-bottom:20px;">
+                Register to purchase access to FORGE-certified data products. Your buyer ID is used to authenticate API calls.
+            </p>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="reg_name" placeholder="John Smith">
+            </div>
+            <div class="form-group">
+                <label>Organization</label>
+                <input type="text" id="reg_org" placeholder="Acme Analytics Corp">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" id="reg_email" placeholder="jsmith@example.com">
+            </div>
+            <div class="form-group">
+                <label>CSPR Wallet Address (optional)</label>
+                <input type="text" id="reg_wallet" placeholder="01a3b5...">
+            </div>
+            <div id="regStatus" class="status"></div>
+            <button class="btn" onclick="registerBuyer()">Register</button>
+        </div>
+
+        <div class="card" id="buyerCard" style="display:none">
+            <h2>Your Buyer Account</h2>
+            <div id="buyerInfo"></div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Purchase Modal -->
+<div class="modal-overlay" id="purchaseModal">
+    <div class="modal">
+        <h2>Purchase Data Access</h2>
+        <div id="modalStatus" class="status"></div>
+        <div id="modalContent"></div>
+        <div class="btn-row">
+            <button class="btn" id="confirmPurchaseBtn" onclick="confirmPurchase()">Confirm Purchase</button>
+            <button class="btn-outline" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const API = 'http://127.0.0.1:8000';
+let currentListing = null;
+let buyerId = localStorage.getItem('forge_buyer_id');
+let buyerName = localStorage.getItem('forge_buyer_name');
+
+async function init() {
+    await loadListings();
+    await loadTransactions();
+    updateBuyerStatus();
+}
+
+function updateBuyerStatus() {
+    if (buyerId) {
+        document.getElementById('statBuyerStatus').textContent = buyerName || buyerId;
+        document.getElementById('statBuyerStatus').style.fontSize = '0.85rem';
+        document.getElementById('statBuyerStatus').style.marginTop = '4px';
+        document.getElementById('registerCard').style.display = 'none';
+        document.getElementById('buyerCard').style.display = 'block';
+        document.getElementById('buyerInfo').innerHTML = `
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                <div style="background:#0f1117; border:1px solid #2a2d3a; border-radius:6px; padding:14px;">
+                    <div style="font-size:0.7rem; color:#888; margin-bottom:4px;">BUYER ID</div>
+                    <div style="font-family:monospace; color:#c9a84c; font-size:0.85rem;">${buyerId}</div>
+                </div>
+                <div style="background:#0f1117; border:1px solid #2a2d3a; border-radius:6px; padding:14px;">
+                    <div style="font-size:0.7rem; color:#888; margin-bottom:4px;">NAME</div>
+                    <div style="color:#fff; font-size:0.85rem;">${buyerName || '—'}</div>
+                </div>
+            </div>
+            <div style="margin-top:12px;">
+                <button class="btn-outline" onclick="clearBuyer()" style="font-size:0.8rem; padding:6px 14px;">
+                    Clear Registration
+                </button>
+            </div>
+        `;
+    }
+}
+
+async function loadListings() {
+    try {
+        const res = await fetch(API + '/marketplace/listings');
+        const listings = await res.json();
+
+        document.getElementById('statListings').textContent = listings.length;
+
+        if (listings.length === 0) {
+            document.getElementById('listingsGrid').innerHTML =
+                '<div class="empty">No listings yet. Run a FORGE assessment and list your dataset.</div>';
+            return;
+        }
+
+        // Get assessment details for metal ratings
+        const regRes = await fetch(API + '/registry');
+        const registry = await regRes.json();
+        const ratingMap = {};
+        registry.forEach(a => { ratingMap[a.assessment_id] = a.metal_rating; });
+
+        document.getElementById('listingsGrid').innerHTML = listings.map(l => {
+            const rating = ratingMap[l.assessment_id] || 'Unknown';
+            const tags = l.tags ? l.tags.split(',').map(t =>
+                `<span class="tag">${t.trim()}</span>`).join('') : '';
+            return `
+                <div class="listing-card" onclick="openPurchaseModal(${JSON.stringify(l).replace(/"/g, '&quot;')}, '${rating}')">
+                    <div class="listing-header">
+                        <div class="listing-name">${l.dataset_name}</div>
+                        <span class="metal-pill metal-${rating}">${rating}</span>
+                    </div>
+                    <div class="listing-desc">${l.description || 'No description provided.'}</div>
+                    <div class="listing-tags">${tags}</div>
+                    <div class="listing-pricing">
+                        <div class="price-box">
+                            <div class="amount">${l.price_per_call} ${l.currency}</div>
+                            <div class="period">Per Call</div>
+                        </div>
+                        ${l.price_monthly ? `
+                        <div class="price-box">
+                            <div class="amount">${l.price_monthly} ${l.currency}</div>
+                            <div class="period">Monthly</div>
+                        </div>` : ''}
+                        <div class="listing-stats">
+                            ${l.total_calls} calls made
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+    } catch (err) {
+        document.getElementById('listingsGrid').innerHTML =
+            `<div class="empty">Failed to load listings: ${err.message}</div>`;
+    }
+}
+
+async function loadTransactions() {
+    try {
+        const res = await fetch(API + '/marketplace/transactions');
+        const txs = await res.json();
+
+        document.getElementById('statTxCount').textContent = txs.length;
+
+        const totalRevenue = txs.reduce((sum, t) => sum + (t.amount || 0), 0);
+        document.getElementById('statRevenue').textContent = totalRevenue.toFixed(4);
+
+        if (txs.length === 0) {
+            document.getElementById('txContainer').innerHTML =
+                '<div class="empty">No transactions yet.</div>';
+            return;
+        }
+
+        document.getElementById('txContainer').innerHTML = `
+            <table class="tx-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Buyer</th>
+                        <th>Dataset</th>
+                        <th>Amount</th>
+                        <th>Records</th>
+                        <th>Time</th>
+                        <th>Casper Hash</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${txs.map(t => `
+                        <tr>
+                            <td>${t.id}</td>
+                            <td>${t.buyer_name || t.buyer_id}</td>
+                            <td style="font-size:0.75rem; color:#888;">Listing #${t.listing_id}</td>
+                            <td style="color:#c9a84c; font-weight:700;">${t.amount} ${t.currency}</td>
+                            <td>${t.records_delivered || '—'}</td>
+                            <td style="font-size:0.75rem; color:#888;">${formatDate(t.transacted_at)}</td>
+                            <td class="hash-short">${t.casper_tx_hash ? t.casper_tx_hash.substring(0, 16) + '...' : '—'}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    } catch (err) {
+        console.error('Failed to load transactions:', err);
+    }
+}
+
+function openPurchaseModal(listing, rating) {
+    if (!buyerId) {
+        showTab('buyer');
+        return;
+    }
+
+    currentListing = listing;
+
+    document.getElementById('modalStatus').className = 'status';
+    document.getElementById('confirmPurchaseBtn').disabled = false;
+
+    document.getElementById('modalContent').innerHTML = `
+        <div style="margin-bottom:16px;">
+            <div style="font-size:1.1rem; font-weight:700; color:#fff; margin-bottom:6px;">${listing.dataset_name}</div>
+            <span class="metal-pill metal-${rating}">${rating} Certified</span>
+        </div>
+
+        <div class="x402-flow">
+<span class="step-num">Step 1</span> <span class="arrow">→</span> Your agent calls the data endpoint
+GET /marketplace/data/${listing.listing_id}?buyer_id=${buyerId}
+
+<span class="step-num">Step 2</span> <span class="arrow">→</span> Server responds with payment terms
+<span class="http-402">402 Payment Required</span>
+X-Payment-Price: ${listing.price_per_call} ${listing.currency}
+X-Payment-Network: casper:casper-test
+
+<span class="step-num">Step 3</span> <span class="arrow">→</span> Agent signs CSPR authorization &amp; retries
+X-Payment: casper:signed-authorization...
+
+<span class="step-num">Step 4</span> <span class="arrow">→</span> Casper Facilitator settles on-chain
+<span class="http-200">200 OK</span> — Data delivered + tx hash recorded
+        </div>
+
+        <div style="display:flex; gap:12px; margin-top:8px;">
+            <div class="price-box">
+                <div class="amount">${listing.price_per_call} ${listing.currency}</div>
+                <div class="period">This Call</div>
+            </div>
+            <div style="font-size:0.8rem; color:#888; align-self:center;">
+                Buyer: ${buyerId}<br>
+                Records: up to 100 rows delivered
+            </div>
+        </div>
+    `;
+
+    document.getElementById('purchaseModal').classList.add('open');
+}
+
+async function confirmPurchase() {
+    if (!currentListing || !buyerId) return;
+
+    document.getElementById('confirmPurchaseBtn').disabled = true;
+
+    const status = document.getElementById('modalStatus');
+    status.className = 'status info';
+    status.textContent = 'Submitting payment authorization to Casper testnet...';
+
+    // Simulate x402 payment proof (real x402 would sign with CSPR wallet)
+    const paymentProof = `sim-cspr-${Date.now()}-${buyerId}`;
+
+    try {
+        const res = await fetch(
+            `${API}/marketplace/data/${currentListing.listing_id}?buyer_id=${buyerId}&payment_proof=${paymentProof}`
+        );
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.detail || 'Purchase failed');
+
+        status.className = 'status success';
+        status.textContent = `Success! ${data.records_delivered} records delivered. ${data.amount_charged} ${data.currency} charged.`;
+
+        document.getElementById('modalContent').innerHTML += `
+            <div class="success-hash">
+                <div class="lbl">⛓ Casper Transaction Hash</div>
+                <div class="val">${data.casper_tx_hash}</div>
+            </div>
+            <div style="margin-top:12px; font-size:0.8rem; color:#888;">
+                First record: <span style="color:#c9a84c;">${data.data && data.data[0] ? data.data[0].measurement_date + ' — ' + data.data[0].pollutant_code + ': ' + data.data[0].measurement_value + ' ' + data.data[0].unit_of_measure : '—'}</span>
+            </div>
+        `;
+
+        document.getElementById('confirmPurchaseBtn').textContent = 'Purchase Complete';
+
+        // Refresh stats
+        await loadTransactions();
+        await loadListings();
+
+    } catch (err) {
+        status.className = 'status error';
+        status.textContent = 'Purchase failed: ' + err.message;
+        document.getElementById('confirmPurchaseBtn').disabled = false;
+    }
+}
+
+function closeModal() {
+    document.getElementById('purchaseModal').classList.remove('open');
+    document.getElementById('confirmPurchaseBtn').textContent = 'Confirm Purchase';
+    currentListing = null;
+}
+
+async function registerBuyer() {
+    const name  = document.getElementById('reg_name').value.trim();
+    const org   = document.getElementById('reg_org').value.trim();
+    const email = document.getElementById('reg_email').value.trim();
+    const wallet = document.getElementById('reg_wallet').value.trim();
+
+    if (!name) {
+        const s = document.getElementById('regStatus');
+        s.className = 'status error';
+        s.textContent = 'Please enter your name.';
+        return;
+    }
+
+    const s = document.getElementById('regStatus');
+    s.className = 'status info';
+    s.textContent = 'Registering...';
+
+    try {
+        const res = await fetch(API + '/marketplace/buyers/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ buyer_name: name, organization: org, email, cspr_wallet: wallet })
+        });
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.detail || 'Registration failed');
+
+        buyerId   = data.buyer_id;
+        buyerName = data.buyer_name;
+        localStorage.setItem('forge_buyer_id', buyerId);
+        localStorage.setItem('forge_buyer_name', buyerName);
+
+        s.className = 'status success';
+        s.textContent = `Registered! Your buyer ID is ${buyerId}`;
+
+        setTimeout(() => {
+            updateBuyerStatus();
+        }, 1000);
+
+    } catch (err) {
+        s.className = 'status error';
+        s.textContent = 'Registration failed: ' + err.message;
+    }
+}
+
+function clearBuyer() {
+    localStorage.removeItem('forge_buyer_id');
+    localStorage.removeItem('forge_buyer_name');
+    buyerId = null;
+    buyerName = null;
+    document.getElementById('statBuyerStatus').textContent = 'Not Registered';
+    document.getElementById('registerCard').style.display = 'block';
+    document.getElementById('buyerCard').style.display = 'none';
+}
+
+function showTab(name) {
+    ['listings', 'transactions', 'buyer'].forEach(t => {
+        document.getElementById('tab-' + t).style.display = t === name ? 'block' : 'none';
+    });
+    document.querySelectorAll('.tab').forEach((el, i) => {
+        el.classList.toggle('active', ['listings', 'transactions', 'buyer'][i] === name);
+    });
+}
+
+function formatDate(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) +
+           ' ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+}
+
+init();
+</script>
+</body>
+</html>
