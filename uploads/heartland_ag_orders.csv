@@ -1,0 +1,201 @@
+order_id,order_date,ship_date,customer_name,customer_id,state,product_description,quantity,unit_price,discount_rate,subtotal,discount_amount,order_total,payment_terms,payment_received,sales_rep,order_category
+ORD-5000,2024-02-28,2024-03-02,Missouri Valley Growers,AG-1076,MO,Urea Fertilizer,44,618.32,0.05,27206.08,1360.3,25845.78,Net 60,No,A. Okafor,Spring Planting
+ORD-5001,2024-01-04,2024-01-06,Flint Hills Farms,AG-1022,MO,Winter Wheat Seed,49,260.91,0.0,12784.59,0.0,12784.59,Net 30,No,A. Okafor,Fall Planting
+ORD-5002,2024-07-13,2024-07-18,Flint Hills Farms,AG-1055,IA,Irrigation Equipment,36,749.18,0.0,26970.48,0.0,26970.48,Net 30,Yes,B. Callahan,Spring Planting
+ORD-5003,2024-08-23,2024-08-24,Hawkeye Farm Supply,AG-1041,MO,Herbicide Concentrate,37,386.74,0.05,14309.38,715.47,13593.91,Net 60,Yes,B. Callahan,Fall Planting
+ORD-5004,2024-11-12,2024-11-16,Gateway Agricultural,AG-1050,IA,Soybean Seed (50lb bag),28,758.59,0.0,21240.52,0.0,21240.52,Credit Card,Yes,B. Callahan,Maintenance
+ORD-5005,2024-06-22,2024-06-24,Sunflower Ag Supply,AG-1044,MO,Soybean Seed (50lb bag),33,580.07,0.1,19142.31,1914.23,17228.08,Net 30,Yes,T. Morrison,Fall Planting
+ORD-5006,2024-04-30,2024-05-01,Iowa Crop Solutions,AG-1059,KS,Anhydrous Ammonia,12,554.03,0.0,6648.36,0.0,6648.36,Net 30,Yes,A. Okafor,Emergency
+ORD-5007,2024-12-14,2024-12-19,Border Plains Ag,AG-1056,IA,Grain Auger,21,775.29,0.0,16281.09,0.0,16281.09,Net 30,Yes,A. Okafor,Maintenance
+ORD-5008,2024-05-20,2024-05-25,Gateway Agricultural,AG-1009,KS,Irrigation Equipment,5,307.29,0.05,1536.45,76.82,1459.63,Net 30,No,T. Morrison,Spring Planting
+ORD-5009,2024-11-10,2024-11-15,Prairie Land Co-op,AG-1041,IA,Fungicide Spray,38,513.4,0.0,19509.2,0.0,19509.2,Credit Card,Yes,S. Nguyen,Emergency
+ORD-5010,2024-09-13,2024-09-15,Midwest Grain Partners,AG-1056,KS,Soybean Seed (50lb bag),22,875.12,0.0,19252.64,0.0,19252.64,Net 30,No,A. Okafor,Fall Planting
+ORD-5011,2024-07-05,2024-07-08,Prairie Land Co-op,AG-1008,MO,Herbicide Concentrate,50,330.92,0.1,16546.0,1654.6,14891.4,Net 30,Yes,T. Morrison,Maintenance
+ORD-5012,2024-02-18,2024-02-23,Prairie Land Co-op,AG-1044,IA,Urea Fertilizer,17,656.55,0.1,11161.35,1116.13,10045.22,Net 30,Yes,S. Nguyen,Maintenance
+ORD-5013,2024-12-01,2024-12-07,Prairie Land Co-op,AG-1016,IA,Winter Wheat Seed,39,643.96,0.0,25114.44,0.0,25114.44,Net 60,Yes,T. Morrison,Spring Planting
+ORD-5014,2024-11-26,2024-12-02,Show-Me Ag Dist.,AG-1024,MO,Potash,2,351.4,0.0,702.8,0.0,702.8,Net 30,Yes,A. Okafor,Fall Planting
+ORD-5015,2024-03-11,2024-03-13,Iowa Crop Solutions,AG-1076,KS,Soybean Seed (50lb bag),33,696.39,0.1,22980.87,2298.09,20682.78,Net 30,Yes,S. Nguyen,Emergency
+ORD-5016,2024-03-19,2024-03-21,Tallgrass Farm Group,AG-1056,KS,Grain Auger,11,654.4,0.0,7198.4,0.0,7198.4,Credit Card,Yes,S. Nguyen,Maintenance
+ORD-5017,2024-08-17,2024-08-19,Flint Hills Farms,AG-1059,IA,Urea Fertilizer,31,808.86,0.0,25074.66,0.0,25074.66,Net 60,Yes,A. Okafor,Maintenance
+ORD-5018,2024-07-14,2024-07-19,Prairie Land Co-op,AG-1047,IA,Winter Wheat Seed,13,722.06,0.0,9386.78,0.0,9386.78,Net 60,No,A. Okafor,Spring Planting
+ORD-5019,2024-12-30,2025-01-06,Missouri Valley Growers,AG-1055,IA,Urea Fertilizer,6,689.83,0.0,4138.98,0.0,4138.98,Credit Card,Yes,S. Nguyen,Spring Planting
+ORD-5020,2024-04-23,2024-04-30,Gateway Agricultural,AG-1047,MO,Corn Seed (50lb bag),27,90.0,0.1,2430.0,243.0,2187.0,Net 60,Yes,B. Callahan,Fall Planting
+ORD-5021,2024-01-15,2024-01-18,Tallgrass Farm Group,AG-1097,KS,Potash,10,161.27,0.0,1612.7,0.0,1612.7,Credit Card,Yes,S. Nguyen,Emergency
+ORD-5022,2024-08-17,2024-08-22,Missouri Valley Growers,AG-1030,KS,Corn Seed (50lb bag),17,227.23,0.0,3862.91,0.0,3862.91,Credit Card,Yes,T. Morrison,Maintenance
+ORD-5023,2024-03-03,2024-03-04,Prairie Land Co-op,AG-1091,KS,Grain Auger,30,98.07,0.05,2942.1,147.1,2795.0,Net 30,Yes,S. Nguyen,Fall Planting
+ORD-5024,2024-05-29,2024-06-02,Hawkeye Farm Supply,AG-1008,KS,Potash,16,527.21,0.0,8435.36,0.0,8435.36,Net 30,Yes,T. Morrison,Spring Planting
+ORD-5025,2024-07-18,2024-07-25,KC Farm & Feed,AG-1030,MO,Herbicide Concentrate,24,259.33,0.0,6223.92,0.0,6223.92,Net 60,Yes,T. Morrison,Spring Planting
+ORD-5026,2024-10-24,2024-10-30,Sunflower Ag Supply,AG-1080,MO,Corn Seed (50lb bag),23,506.38,0.0,11646.74,0.0,11646.74,Credit Card,Yes,A. Okafor,Fall Planting
+ORD-5027,2024-03-10,2024-03-11,Midwest Grain Partners,AG-1065,IA,Corn Seed (50lb bag),19,215.34,0.0,4091.46,0.0,4091.46,Net 30,Yes,T. Morrison,Emergency
+ORD-5028,2024-10-05,2024-10-09,KC Farm & Feed,AG-1055,MO,Anhydrous Ammonia,19,346.64,0.0,6586.16,0.0,6586.16,Net 60,Yes,T. Morrison,Emergency
+ORD-5029,2024-08-13,2024-08-17,Sunflower Ag Supply,AG-1010,MO,Fungicide Spray,45,465.41,0.1,20943.45,2094.35,18849.1,Net 60,Yes,A. Okafor,Emergency
+ORD-5030,2024-11-04,2024-11-11,Show-Me Ag Dist.,AG-1021,KS,Urea Fertilizer,21,131.7,0.0,2765.7,0.0,2765.7,Net 60,Yes,A. Okafor,Emergency
+ORD-5031,2024-06-28,2024-07-02,Tallgrass Farm Group,AG-1046,KS,Potash,40,888.44,0.0,35537.6,0.0,35537.6,Net 30,No,A. Okafor,Fall Planting
+ORD-5032,2024-01-16,2024-01-18,Border Plains Ag,AG-1077,IA,Fungicide Spray,3,151.66,0.0,454.98,0.0,454.98,Net 60,Yes,B. Callahan,Fall Planting
+ORD-5033,2024-12-13,2024-12-17,Gateway Agricultural,AG-1031,MO,Fungicide Spray,49,109.97,0.0,5388.53,0.0,5388.53,Net 60,Yes,T. Morrison,Spring Planting
+ORD-5034,2024-01-14,2024-01-20,Midwest Grain Partners,AG-1027,KS,Irrigation Equipment,25,816.94,0.0,20423.5,0.0,20423.5,Net 60,Yes,A. Okafor,Maintenance
+ORD-5035,2024-12-21,2024-12-25,Missouri Valley Growers,AG-1085,KS,Winter Wheat Seed,5,426.98,0.05,2134.9,106.75,2028.15,Net 30,Yes,T. Morrison,Maintenance
+ORD-5036,2024-12-29,2024-12-30,Show-Me Ag Dist.,AG-1025,IA,Urea Fertilizer,20,764.4,0.0,15288.0,0.0,15288.0,Net 60,Yes,B. Callahan,Fall Planting
+ORD-5037,2024-05-01,2024-05-08,KC Farm & Feed,AG-1008,MO,Potash,36,528.57,0.05,19028.52,951.43,18077.09,Net 30,Yes,B. Callahan,Maintenance
+ORD-5038,2024-07-22,2024-07-28,Midwest Grain Partners,AG-1082,IA,Irrigation Equipment,27,694.94,0.1,18763.38,1876.34,16887.04,Net 30,Yes,T. Morrison,Spring Planting
+ORD-5039,2024-08-18,2024-08-22,Show-Me Ag Dist.,AG-1055,IA,Potash,9,786.88,0.1,7081.92,708.19,6373.73,Net 30,Yes,S. Nguyen,Spring Planting
+ORD-5040,2024-03-04,2024-03-09,Iowa Crop Solutions,AG-1010,KS,Winter Wheat Seed,11,317.65,0.0,3494.15,0.0,3494.15,Net 60,Yes,T. Morrison,Maintenance
+ORD-5041,2024-04-10,2024-04-16,Iowa Crop Solutions,AG-1075,IA,Winter Wheat Seed,41,300.89,0.1,12336.49,1233.65,11102.84,Net 30,Yes,S. Nguyen,Fall Planting
+ORD-5042,2024-03-28,2024-04-03,Tallgrass Farm Group,AG-1010,IA,Grain Auger,22,756.94,0.1,16652.68,1665.27,14987.41,Net 30,Yes,B. Callahan,Spring Planting
+ORD-5043,2024-11-24,2024-12-01,Iowa Crop Solutions,AG-1082,IA,Anhydrous Ammonia,50,528.46,0.1,26423.0,2642.3,23780.7,Net 30,Yes,T. Morrison,Maintenance
+ORD-5044,2024-09-04,2024-09-06,Prairie Land Co-op,AG-1059,IA,Urea Fertilizer,30,106.66,0.0,3199.8,0.0,3199.8,Net 30,Yes,A. Okafor,Fall Planting
+ORD-5045,2024-06-23,2024-06-28,Gateway Agricultural,AG-1065,KS,Potash,47,879.88,0.0,41354.36,0.0,41354.36,Credit Card,Yes,T. Morrison,Spring Planting
+ORD-5046,2024-06-12,2024-06-14,Missouri Valley Growers,AG-1078,MO,Urea Fertilizer,29,254.49,0.0,7380.21,0.0,7380.21,Net 30,Yes,A. Okafor,Emergency
+ORD-5047,2024-05-07,2024-05-14,Gateway Agricultural,AG-1063,KS,Grain Auger,47,309.24,0.0,14534.28,0.0,14534.28,Credit Card,Yes,A. Okafor,Maintenance
+ORD-5048,2024-09-11,2024-09-12,Prairie Land Co-op,AG-1063,KS,Irrigation Equipment,30,861.85,0.0,25855.5,0.0,25855.5,Net 60,No,T. Morrison,Emergency
+ORD-5049,2024-05-26,2024-05-31,Missouri Valley Growers,AG-1006,KS,Herbicide Concentrate,9,790.68,0.0,7116.12,0.0,7116.12,Credit Card,Yes,A. Okafor,Fall Planting
+ORD-5050,2024-07-04,2024-07-09,Missouri Valley Growers,AG-1016,MO,Herbicide Concentrate,33,425.55,0.1,14043.15,1404.32,12638.83,Net 60,Yes,B. Callahan,Spring Planting
+ORD-5051,2024-07-20,2024-07-23,Show-Me Ag Dist.,AG-1004,MO,Potash,49,166.91,0.1,8178.59,817.86,7360.73,Credit Card,Yes,B. Callahan,Fall Planting
+ORD-5052,2024-12-31,2025-01-03,Show-Me Ag Dist.,AG-1020,MO,Fungicide Spray,10,557.29,0.1,5572.9,557.29,5015.61,Net 30,Yes,T. Morrison,Emergency
+ORD-5053,2024-11-11,2024-11-17,Hawkeye Farm Supply,AG-1060,MO,Potash,33,744.9,0.1,24581.7,2458.17,22123.53,Credit Card,Yes,T. Morrison,Spring Planting
+ORD-5054,2024-07-07,2024-07-10,Missouri Valley Growers,AG-1092,IA,Herbicide Concentrate,38,304.99,0.0,11589.62,0.0,11589.62,Credit Card,Yes,S. Nguyen,Spring Planting
+ORD-5055,2024-10-25,2024-10-29,Show-Me Ag Dist.,AG-1024,KS,Grain Auger,50,755.79,0.0,37789.5,0.0,37789.5,Net 30,No,B. Callahan,Spring Planting
+ORD-5056,2024-08-13,2024-08-16,Sunflower Ag Supply,AG-1090,MO,Herbicide Concentrate,45,217.29,0.1,9778.05,977.8,8800.25,Credit Card,Yes,B. Callahan,Fall Planting
+ORD-5057,2024-09-22,2024-09-24,Gateway Agricultural,AG-1069,IA,Fungicide Spray,34,363.42,0.0,12356.28,0.0,12356.28,Credit Card,Yes,T. Morrison,Maintenance
+ORD-5058,2024-12-12,2024-12-19,Border Plains Ag,AG-1038,IA,Urea Fertilizer,40,454.13,0.0,18165.2,0.0,18165.2,Net 60,Yes,S. Nguyen,Maintenance
+ORD-5059,2024-12-26,2024-12-28,Tallgrass Farm Group,AG-1050,IA,Fungicide Spray,21,450.43,0.1,9459.03,945.9,8513.13,Net 60,Yes,A. Okafor,Maintenance
+ORD-5060,2024-03-15,2024-03-18,Iowa Crop Solutions,AG-1071,KS,Soybean Seed (50lb bag),23,825.79,0.0,18993.17,0.0,18993.17,Credit Card,Yes,T. Morrison,Maintenance
+ORD-5061,2024-03-11,2024-03-12,Tallgrass Farm Group,AG-1012,IA,Grain Auger,16,249.88,0.1,3998.08,399.81,3598.27,Net 30,Yes,B. Callahan,Emergency
+ORD-5062,2024-06-18,2024-06-24,Missouri Valley Growers,AG-1061,MO,Winter Wheat Seed,1,860.02,0.0,860.02,0.0,860.02,Credit Card,Yes,A. Okafor,Fall Planting
+ORD-5063,2024-05-27,2024-05-30,Border Plains Ag,AG-1022,MO,Corn Seed (50lb bag),50,120.59,0.1,6029.5,602.95,5426.55,Net 30,Yes,B. Callahan,Emergency
+ORD-5064,2024-03-31,2024-04-01,Midwest Grain Partners,AG-1042,MO,Winter Wheat Seed,48,858.0,0.0,41184.0,0.0,41184.0,Net 30,No,B. Callahan,Maintenance
+ORD-5065,2024-08-20,2024-08-26,Show-Me Ag Dist.,AG-1042,IA,Fungicide Spray,9,764.15,0.05,6877.35,343.87,6533.48,Net 60,Yes,B. Callahan,Fall Planting
+ORD-5066,2024-08-22,2024-08-28,Tallgrass Farm Group,AG-1054,MO,Winter Wheat Seed,1,667.44,0.0,667.44,0.0,667.44,Net 30,Yes,A. Okafor,Maintenance
+ORD-5067,2024-02-14,2024-02-18,Missouri Valley Growers,AG-1057,IA,Winter Wheat Seed,9,448.45,0.0,4036.05,0.0,4036.05,Net 30,Yes,S. Nguyen,Maintenance
+ORD-5068,2024-06-17,2024-06-20,Tallgrass Farm Group,AG-1059,IA,Grain Auger,1,266.01,0.0,266.01,0.0,266.01,Net 30,No,B. Callahan,Maintenance
+ORD-5069,2024-03-22,2024-03-26,Show-Me Ag Dist.,AG-1017,IA,Urea Fertilizer,45,144.22,0.0,6489.9,0.0,6489.9,Net 60,Yes,S. Nguyen,Emergency
+ORD-5070,2024-03-19,2024-03-23,Hawkeye Farm Supply,AG-1067,IA,Potash,27,638.14,0.05,17229.78,861.49,16368.29,Net 30,Yes,B. Callahan,Emergency
+ORD-5071,2024-09-27,2024-10-03,Missouri Valley Growers,AG-1021,MO,Grain Auger,8,97.19,0.1,777.52,77.75,699.77,Net 30,Yes,S. Nguyen,Maintenance
+ORD-5072,2024-09-23,2024-09-27,Border Plains Ag,AG-1016,KS,Anhydrous Ammonia,46,537.76,0.0,24736.96,0.0,24736.96,Credit Card,Yes,A. Okafor,Emergency
+ORD-5073,2024-08-21,2024-08-26,Show-Me Ag Dist.,AG-1095,KS,Fungicide Spray,44,726.84,0.0,31980.96,0.0,31980.96,Credit Card,Yes,B. Callahan,Fall Planting
+ORD-5074,2024-10-23,2024-10-24,Prairie Land Co-op,AG-1004,KS,Potash,45,98.88,0.0,4449.6,0.0,4449.6,Net 30,Yes,A. Okafor,Maintenance
+ORD-5075,2024-07-28,2024-07-30,Border Plains Ag,AG-1048,KS,Herbicide Concentrate,24,883.96,0.05,21215.04,1060.75,20154.29,Credit Card,Yes,A. Okafor,Spring Planting
+ORD-5076,2024-12-15,2024-12-21,Sunflower Ag Supply,AG-1000,IA,Potash,8,195.81,0.1,1566.48,156.65,1409.83,Credit Card,Yes,S. Nguyen,Spring Planting
+ORD-5077,2024-06-01,2024-06-05,Tallgrass Farm Group,AG-1035,IA,Irrigation Equipment,28,494.48,0.0,13845.44,0.0,13845.44,Net 30,Yes,S. Nguyen,Fall Planting
+ORD-5078,2024-02-27,2024-02-28,Prairie Land Co-op,AG-1076,IA,Grain Auger,50,836.12,0.0,41806.0,0.0,41806.0,Net 30,Yes,B. Callahan,Spring Planting
+ORD-5079,2024-08-16,2024-08-21,Tallgrass Farm Group,AG-1096,IA,Corn Seed (50lb bag),16,670.76,0.05,10732.16,536.61,10195.55,Credit Card,Yes,S. Nguyen,Spring Planting
+ORD-5080,2024-03-12,2024-03-17,Flint Hills Farms,AG-1084,MO,Grain Auger,21,532.97,0.0,11192.37,0.0,11192.37,Net 30,Yes,S. Nguyen,Fall Planting
+ORD-5081,2024-07-30,2024-08-02,KC Farm & Feed,AG-1044,MO,Irrigation Equipment,38,788.36,0.0,29957.68,0.0,29957.68,Credit Card,Yes,B. Callahan,Emergency
+ORD-5082,2024-09-25,2024-09-28,Prairie Land Co-op,AG-1038,IA,Herbicide Concentrate,10,298.41,0.0,2984.1,0.0,2984.1,Credit Card,Yes,S. Nguyen,Fall Planting
+ORD-5083,2024-08-25,2024-08-26,Prairie Land Co-op,AG-1082,IA,Herbicide Concentrate,36,492.84,0.05,17742.24,887.11,16855.13,Net 30,Yes,T. Morrison,Spring Planting
+ORD-5084,2024-08-18,2024-08-25,Missouri Valley Growers,AG-1009,MO,Irrigation Equipment,47,745.85,0.0,35054.95,0.0,35054.95,Net 60,Yes,B. Callahan,Fall Planting
+ORD-5085,2024-10-27,2024-11-02,Show-Me Ag Dist.,AG-1027,IA,Anhydrous Ammonia,31,221.51,0.0,6866.81,0.0,6866.81,Net 60,Yes,B. Callahan,Fall Planting
+ORD-5086,2024-03-01,2024-03-07,Flint Hills Farms,AG-1059,MO,Grain Auger,46,217.81,0.0,10019.26,0.0,10019.26,Net 60,Yes,A. Okafor,Maintenance
+ORD-5087,2024-06-06,2024-06-09,Show-Me Ag Dist.,AG-1040,MO,Fungicide Spray,30,128.32,0.05,3849.6,192.48,3657.12,Net 60,Yes,T. Morrison,Emergency
+ORD-5088,2024-01-24,2024-01-29,Tallgrass Farm Group,AG-1042,KS,Winter Wheat Seed,2,265.35,0.1,530.7,53.07,477.63,Credit Card,Yes,S. Nguyen,Fall Planting
+ORD-5089,2024-07-13,2024-07-18,Midwest Grain Partners,AG-1092,KS,Irrigation Equipment,42,842.23,0.0,35373.66,0.0,35373.66,Net 60,Yes,A. Okafor,Emergency
+ORD-5090,2024-08-23,2024-08-25,Gateway Agricultural,AG-1067,IA,Winter Wheat Seed,9,653.66,0.05,5882.94,294.15,5588.79,Net 30,Yes,B. Callahan,Spring Planting
+ORD-5091,2024-02-08,2024-02-15,KC Farm & Feed,AG-1027,IA,Corn Seed (50lb bag),27,161.18,0.0,4351.86,0.0,4351.86,Net 30,Yes,B. Callahan,Emergency
+ORD-5092,2024-07-10,2024-07-11,Border Plains Ag,AG-1001,IA,Grain Auger,31,602.1,0.0,18665.1,0.0,18665.1,Net 30,Yes,A. Okafor,Spring Planting
+ORD-5093,2024-09-28,2024-10-04,Show-Me Ag Dist.,AG-1067,MO,Urea Fertilizer,2,469.37,0.05,938.74,46.94,891.8,Net 30,Yes,B. Callahan,Fall Planting
+ORD-5094,2024-05-03,2024-05-05,Show-Me Ag Dist.,AG-1058,IA,Urea Fertilizer,23,270.89,0.05,6230.47,311.52,5918.95,Net 30,Yes,A. Okafor,Fall Planting
+ORD-5095,2024-12-22,2024-12-24,Border Plains Ag,AG-1070,MO,Soybean Seed (50lb bag),42,882.97,0.0,37084.74,0.0,37084.74,Net 30,Yes,A. Okafor,Emergency
+ORD-5096,2024-01-29,2024-02-04,Tallgrass Farm Group,AG-1067,KS,Winter Wheat Seed,6,467.38,0.05,2804.28,140.21,2664.07,Net 60,Yes,B. Callahan,Spring Planting
+ORD-5097,2024-04-27,2024-04-29,Hawkeye Farm Supply,AG-1022,IA,Fungicide Spray,18,84.34,0.0,1518.12,0.0,1518.12,Net 60,Yes,B. Callahan,Maintenance
+ORD-5098,2024-01-09,2024-01-11,Sunflower Ag Supply,AG-1086,IA,Herbicide Concentrate,5,297.89,0.1,1489.45,148.95,1340.5,Net 30,Yes,A. Okafor,Maintenance
+ORD-5099,2024-07-15,2024-07-22,Sunflower Ag Supply,AG-1009,IA,Soybean Seed (50lb bag),33,674.91,0.0,22272.03,0.0,22272.03,Net 30,Yes,S. Nguyen,Maintenance
+ORD-5100,2024-11-05,2024-11-12,Hawkeye Farm Supply,AG-1070,IA,Herbicide Concentrate,50,320.79,0.0,16039.5,0.0,16039.5,Credit Card,Yes,T. Morrison,Emergency
+ORD-5101,2024-08-09,2024-08-11,Hawkeye Farm Supply,AG-1034,IA,Herbicide Concentrate,6,697.48,0.0,4184.88,0.0,4184.88,Net 30,Yes,B. Callahan,Fall Planting
+ORD-5102,2024-07-13,2024-07-19,Sunflower Ag Supply,AG-1046,IA,Herbicide Concentrate,21,349.79,0.0,7345.59,0.0,7345.59,Net 30,Yes,A. Okafor,Maintenance
+ORD-5103,2024-02-22,2024-02-24,Sunflower Ag Supply,AG-1045,KS,Herbicide Concentrate,29,515.65,0.1,14953.85,1495.39,13458.46,Credit Card,Yes,B. Callahan,Spring Planting
+ORD-5104,2024-11-01,2024-11-06,Prairie Land Co-op,AG-1087,MO,Corn Seed (50lb bag),19,394.67,0.0,7498.73,0.0,7498.73,Net 30,Yes,S. Nguyen,Emergency
+ORD-5105,2024-03-27,2024-03-29,Iowa Crop Solutions,AG-1061,MO,Urea Fertilizer,32,168.31,0.0,5385.92,0.0,5385.92,Credit Card,Yes,T. Morrison,Spring Planting
+ORD-5106,2024-07-03,2024-07-06,Tallgrass Farm Group,AG-1050,KS,Fungicide Spray,39,566.09,0.05,22077.51,1103.88,20973.63,Net 30,Yes,B. Callahan,Maintenance
+ORD-5107,2024-11-13,2024-11-17,Midwest Grain Partners,AG-1061,MO,Potash,28,734.08,0.1,20554.24,2055.42,18498.82,Net 30,Yes,S. Nguyen,Maintenance
+ORD-5108,2024-03-31,2024-04-04,Iowa Crop Solutions,AG-1046,MO,Fungicide Spray,37,705.77,0.0,26113.49,0.0,26113.49,Credit Card,Yes,A. Okafor,Spring Planting
+ORD-5109,2024-10-15,2024-10-17,Show-Me Ag Dist.,AG-1056,IA,Winter Wheat Seed,44,693.64,0.0,30520.16,0.0,30520.16,Credit Card,Yes,S. Nguyen,Maintenance
+ORD-5110,2024-12-20,2024-12-21,Border Plains Ag,AG-1048,MO,Fungicide Spray,9,580.17,0.0,5221.53,0.0,5221.53,Net 60,Yes,A. Okafor,Spring Planting
+ORD-5111,2024-08-17,2024-08-22,Hawkeye Farm Supply,AG-1089,MO,Herbicide Concentrate,35,473.09,0.05,16558.15,827.91,15730.24,Net 30,Yes,T. Morrison,Spring Planting
+ORD-5112,2024-02-25,2024-03-03,Border Plains Ag,AG-1055,KS,Potash,11,591.71,0.0,6508.81,0.0,6508.81,Credit Card,Yes,T. Morrison,Spring Planting
+ORD-5113,2024-01-06,2024-01-07,Flint Hills Farms,AG-1059,MO,Irrigation Equipment,48,483.38,0.1,23202.24,2320.22,20882.02,Net 30,Yes,A. Okafor,Fall Planting
+ORD-5114,2024-06-25,2024-06-26,Missouri Valley Growers,AG-1044,MO,Urea Fertilizer,27,822.86,0.0,22217.22,0.0,22217.22,Net 30,Yes,S. Nguyen,Maintenance
+ORD-5115,2024-06-24,2024-06-28,Show-Me Ag Dist.,AG-1005,KS,Fungicide Spray,23,447.36,0.05,10289.28,514.46,9774.82,Credit Card,Yes,T. Morrison,Spring Planting
+ORD-5116,2024-01-12,2024-01-19,Border Plains Ag,AG-1071,MO,Soybean Seed (50lb bag),44,721.04,0.0,31725.76,0.0,31725.76,Net 30,Yes,T. Morrison,Emergency
+ORD-5117,2024-08-24,2024-08-26,Border Plains Ag,AG-1057,MO,Winter Wheat Seed,12,586.2,0.05,7034.4,351.72,6682.68,Credit Card,No,S. Nguyen,Emergency
+ORD-5118,2024-07-18,2024-07-19,Flint Hills Farms,AG-1046,IA,Anhydrous Ammonia,18,680.72,0.0,12252.96,0.0,12252.96,Net 30,Yes,S. Nguyen,Maintenance
+ORD-5119,2024-04-10,2024-04-14,Iowa Crop Solutions,AG-1044,KS,Fungicide Spray,34,861.2,0.0,29280.8,0.0,29280.8,Credit Card,Yes,B. Callahan,Maintenance
+ORD-5120,2024-08-22,2024-08-27,Border Plains Ag,AG-1014,KS,Urea Fertilizer,40,543.69,0.0,21747.6,0.0,21747.6,Net 60,Yes,T. Morrison,Fall Planting
+ORD-5121,2024-07-10,2024-07-16,Show-Me Ag Dist.,AG-1081,KS,Herbicide Concentrate,27,548.98,0.1,14822.46,1482.25,13340.21,Credit Card,Yes,A. Okafor,Fall Planting
+ORD-5122,2024-10-11,2024-10-13,Iowa Crop Solutions,AG-1062,MO,Winter Wheat Seed,12,310.82,0.05,3729.84,186.49,3543.35,Net 30,Yes,B. Callahan,Fall Planting
+ORD-5123,2024-04-09,2024-04-16,Show-Me Ag Dist.,AG-1062,MO,Irrigation Equipment,42,463.25,0.05,19456.5,972.83,18483.67,Credit Card,Yes,A. Okafor,Fall Planting
+ORD-5124,2024-02-12,2024-02-17,Flint Hills Farms,AG-1072,KS,Urea Fertilizer,3,277.25,0.1,831.75,83.18,748.57,Net 60,Yes,A. Okafor,Emergency
+ORD-5125,2024-10-08,2024-10-13,Hawkeye Farm Supply,AG-1069,KS,Soybean Seed (50lb bag),18,699.97,0.0,12599.46,0.0,12599.46,Net 30,Yes,A. Okafor,Fall Planting
+ORD-5126,2024-08-05,2024-08-06,Border Plains Ag,AG-1056,IA,Anhydrous Ammonia,20,784.21,0.0,15684.2,0.0,15684.2,Credit Card,Yes,B. Callahan,Spring Planting
+ORD-5127,2024-05-01,2024-05-03,Hawkeye Farm Supply,AG-1026,IA,Potash,46,560.67,0.05,25790.82,1289.54,24501.28,Net 30,Yes,S. Nguyen,Spring Planting
+ORD-5128,2024-10-18,2024-10-21,Iowa Crop Solutions,AG-1017,IA,Grain Auger,35,187.28,0.0,6554.8,0.0,6554.8,Net 60,Yes,B. Callahan,Emergency
+ORD-5129,2024-01-31,2024-02-03,Sunflower Ag Supply,AG-1062,IA,Winter Wheat Seed,16,168.58,0.0,2697.28,0.0,2697.28,Net 30,Yes,A. Okafor,Fall Planting
+ORD-5130,2024-10-22,2024-10-28,Border Plains Ag,AG-1088,MO,Herbicide Concentrate,25,426.93,0.0,10673.25,0.0,10673.25,Credit Card,Yes,T. Morrison,Maintenance
+ORD-5131,2024-08-20,2024-08-24,Hawkeye Farm Supply,AG-1008,MO,Corn Seed (50lb bag),50,760.86,0.0,38043.0,0.0,38043.0,Credit Card,Yes,T. Morrison,Emergency
+ORD-5132,2024-04-21,2024-04-25,Midwest Grain Partners,AG-1043,KS,Urea Fertilizer,21,744.95,0.0,15643.95,0.0,15643.95,Net 30,Yes,A. Okafor,Spring Planting
+ORD-5133,2024-01-24,2024-01-25,Midwest Grain Partners,AG-1025,IA,Corn Seed (50lb bag),8,830.37,0.0,6642.96,0.0,6642.96,Credit Card,Yes,A. Okafor,Fall Planting
+ORD-5134,2024-11-28,2024-12-01,Iowa Crop Solutions,AG-1006,KS,Soybean Seed (50lb bag),42,349.57,0.0,14681.94,0.0,14681.94,Net 60,Yes,S. Nguyen,Emergency
+ORD-5135,2024-11-16,2024-11-19,Tallgrass Farm Group,AG-1016,IA,Anhydrous Ammonia,28,598.89,0.0,16768.92,0.0,16768.92,Net 30,Yes,B. Callahan,Fall Planting
+ORD-5136,2024-09-22,2024-09-28,KC Farm & Feed,AG-1009,MO,Corn Seed (50lb bag),45,335.32,0.0,15089.4,0.0,15089.4,Credit Card,Yes,A. Okafor,Fall Planting
+ORD-5137,2024-07-15,2024-07-16,Missouri Valley Growers,AG-1082,IA,Soybean Seed (50lb bag),21,355.59,0.0,7467.39,0.0,7467.39,Net 30,Yes,S. Nguyen,Fall Planting
+ORD-5138,2024-02-05,2024-02-10,KC Farm & Feed,AG-1052,IA,Grain Auger,42,183.68,0.0,7714.56,0.0,7714.56,Net 30,Yes,S. Nguyen,Emergency
+ORD-5139,2024-04-21,2024-04-22,Sunflower Ag Supply,AG-1031,KS,Soybean Seed (50lb bag),38,661.86,0.0,25150.68,0.0,25150.68,Credit Card,Yes,S. Nguyen,Maintenance
+ORD-5140,2024-11-26,2024-11-27,Show-Me Ag Dist.,AG-1026,KS,Grain Auger,39,654.4,0.0,25521.6,0.0,25521.6,Net 30,Yes,T. Morrison,Fall Planting
+ORD-5141,2024-07-19,2024-07-22,KC Farm & Feed,AG-1067,IA,Anhydrous Ammonia,32,371.07,0.0,11874.24,0.0,11874.24,Credit Card,Yes,B. Callahan,Spring Planting
+ORD-5142,2024-07-03,2024-07-06,Prairie Land Co-op,AG-1002,KS,Grain Auger,27,353.77,0.0,9551.79,0.0,9551.79,Credit Card,Yes,B. Callahan,Spring Planting
+ORD-5143,2024-01-08,2024-01-11,KC Farm & Feed,AG-1010,KS,Corn Seed (50lb bag),26,473.09,0.1,12300.34,1230.03,11070.31,Credit Card,Yes,A. Okafor,Fall Planting
+ORD-5144,2024-05-22,2024-05-23,Missouri Valley Growers,AG-1039,MO,Irrigation Equipment,14,868.29,0.0,12156.06,0.0,12156.06,Net 60,Yes,B. Callahan,Emergency
+ORD-5145,2024-05-02,2024-05-03,Missouri Valley Growers,AG-1015,KS,Herbicide Concentrate,8,428.1,0.1,3424.8,342.48,3082.32,Net 30,Yes,S. Nguyen,Spring Planting
+ORD-5146,2024-12-28,2024-12-30,KC Farm & Feed,AG-1095,IA,Winter Wheat Seed,32,850.3,0.1,27209.6,2720.96,24488.64,Net 60,Yes,S. Nguyen,Maintenance
+ORD-5147,2024-03-01,2024-03-08,Gateway Agricultural,AG-1007,KS,Herbicide Concentrate,18,487.66,0.0,8777.88,0.0,8777.88,Net 30,Yes,T. Morrison,Emergency
+ORD-5148,2024-10-17,2024-10-19,Sunflower Ag Supply,AG-1005,MO,Urea Fertilizer,50,131.95,0.1,6597.5,659.75,5937.75,Net 30,Yes,B. Callahan,Spring Planting
+ORD-5149,2024-05-05,2024-05-06,Gateway Agricultural,AG-1053,MO,Herbicide Concentrate,10,196.22,0.0,1962.2,0.0,1962.2,Credit Card,Yes,S. Nguyen,Maintenance
+ORD-5150,2024-05-18,2024-05-25,Hawkeye Farm Supply,AG-1051,KS,Potash,8,469.22,0.0,3753.76,0.0,3753.76,Net 30,Yes,B. Callahan,Spring Planting
+ORD-5151,2024-08-26,2024-09-02,Iowa Crop Solutions,AG-1094,MO,Potash,6,512.36,0.0,3074.16,0.0,3074.16,Net 60,Yes,T. Morrison,Fall Planting
+ORD-5152,2024-08-25,2024-08-28,Midwest Grain Partners,AG-1003,IA,Anhydrous Ammonia,47,805.87,0.0,37875.89,0.0,37875.89,Net 30,No,A. Okafor,Fall Planting
+ORD-5153,2024-10-04,2024-10-07,Tallgrass Farm Group,AG-1053,IA,Corn Seed (50lb bag),22,46.24,0.05,1017.28,50.86,966.42,Net 60,Yes,S. Nguyen,Emergency
+ORD-5154,2024-01-31,2024-02-02,Iowa Crop Solutions,AG-1058,IA,Soybean Seed (50lb bag),3,823.48,0.1,2470.44,247.04,2223.4,Credit Card,Yes,T. Morrison,Spring Planting
+ORD-5155,2024-10-24,2024-10-25,Sunflower Ag Supply,AG-1030,IA,Herbicide Concentrate,5,545.15,0.0,2725.75,0.0,2725.75,Credit Card,Yes,S. Nguyen,Maintenance
+ORD-5156,2024-05-13,2024-05-20,Prairie Land Co-op,AG-1099,MO,Potash,21,427.58,0.0,8979.18,0.0,8979.18,Net 30,Yes,S. Nguyen,Spring Planting
+ORD-5157,2024-03-20,2024-03-21,Midwest Grain Partners,AG-1057,KS,Fungicide Spray,21,388.5,0.1,8158.5,815.85,7342.65,Net 60,Yes,S. Nguyen,Maintenance
+ORD-5158,2024-08-25,2024-08-28,Missouri Valley Growers,AG-1018,KS,Winter Wheat Seed,44,302.06,0.1,13290.64,1329.06,11961.58,Net 30,Yes,T. Morrison,Spring Planting
+ORD-5159,2024-12-30,2025-01-01,Prairie Land Co-op,AG-1057,MO,Irrigation Equipment,4,617.22,0.0,2468.88,0.0,2468.88,Net 30,No,A. Okafor,Fall Planting
+ORD-5160,2024-02-18,2024-02-22,Sunflower Ag Supply,AG-1047,KS,Soybean Seed (50lb bag),1,97.11,0.0,97.11,0.0,97.11,Net 30,Yes,A. Okafor,Spring Planting
+ORD-5161,2024-10-25,2024-10-30,Missouri Valley Growers,AG-1015,MO,Corn Seed (50lb bag),5,212.1,0.05,1060.5,53.03,1007.47,Net 30,Yes,T. Morrison,Spring Planting
+ORD-5162,2024-08-24,2024-08-25,Hawkeye Farm Supply,AG-1045,KS,Herbicide Concentrate,47,378.77,0.0,17802.19,0.0,17802.19,Credit Card,Yes,S. Nguyen,Fall Planting
+ORD-5163,2024-04-05,2024-04-08,Midwest Grain Partners,AG-1052,MO,Winter Wheat Seed,3,563.92,0.1,1691.76,169.18,1522.58,Net 30,Yes,A. Okafor,Emergency
+ORD-5164,2024-02-01,2024-02-02,Prairie Land Co-op,AG-1048,MO,Winter Wheat Seed,27,213.54,0.1,5765.58,576.56,5189.02,Net 30,Yes,B. Callahan,Maintenance
+ORD-5165,2024-09-02,2024-09-07,Gateway Agricultural,AG-1003,MO,Grain Auger,33,316.76,0.0,10453.08,0.0,10453.08,Net 30,No,S. Nguyen,Maintenance
+ORD-5166,2024-01-30,2024-02-06,Show-Me Ag Dist.,AG-1034,MO,Potash,50,538.47,0.0,26923.5,0.0,26923.5,Net 30,Yes,S. Nguyen,Spring Planting
+ORD-5167,2024-04-22,2024-04-27,Gateway Agricultural,AG-1090,MO,Winter Wheat Seed,12,244.89,0.0,2938.68,0.0,2938.68,Net 60,Yes,B. Callahan,Maintenance
+ORD-5168,2024-10-17,2024-10-22,Hawkeye Farm Supply,AG-1029,KS,Anhydrous Ammonia,32,503.1,0.0,16099.2,0.0,16099.2,Credit Card,No,B. Callahan,Fall Planting
+ORD-5169,2024-01-11,2024-01-16,KC Farm & Feed,AG-1007,MO,Potash,40,215.24,0.0,8609.6,0.0,8609.6,Net 60,Yes,T. Morrison,Spring Planting
+ORD-5170,2024-03-16,2024-03-21,Sunflower Ag Supply,AG-1075,IA,Soybean Seed (50lb bag),34,772.27,0.0,26257.18,0.0,26257.18,Net 60,Yes,A. Okafor,Spring Planting
+ORD-5171,2024-06-21,2024-06-24,Sunflower Ag Supply,AG-1028,MO,Winter Wheat Seed,47,846.65,0.05,39792.55,1989.63,37802.92,Net 60,Yes,T. Morrison,Fall Planting
+ORD-5172,2024-07-12,2024-07-15,Tallgrass Farm Group,AG-1023,IA,Urea Fertilizer,9,195.16,0.0,1756.44,0.0,1756.44,Credit Card,Yes,B. Callahan,Maintenance
+ORD-5173,2024-11-09,2024-11-11,Hawkeye Farm Supply,AG-1021,IA,Soybean Seed (50lb bag),32,163.84,0.0,5242.88,0.0,5242.88,Net 30,Yes,T. Morrison,Spring Planting
+ORD-5174,2024-12-28,2025-01-03,Tallgrass Farm Group,AG-1032,IA,Potash,29,54.63,0.0,1584.27,0.0,1584.27,Net 30,Yes,T. Morrison,Spring Planting
+ORD-5175,2024-01-01,2024-01-02,Midwest Grain Partners,AG-1012,MO,Herbicide Concentrate,11,792.45,0.05,8716.95,435.85,8281.1,Credit Card,Yes,A. Okafor,Emergency
+ORD-5176,2024-10-22,2024-10-28,Flint Hills Farms,AG-1013,IA,Winter Wheat Seed,29,107.28,0.0,3111.12,0.0,3111.12,Net 60,No,T. Morrison,Spring Planting
+ORD-5177,2024-06-24,2024-06-26,Sunflower Ag Supply,AG-1090,MO,Soybean Seed (50lb bag),36,840.85,0.0,30270.6,0.0,30270.6,Net 60,Yes,A. Okafor,Spring Planting
+ORD-5178,2024-08-08,2024-08-14,Hawkeye Farm Supply,AG-1089,KS,Herbicide Concentrate,11,90.25,0.0,992.75,0.0,992.75,Net 30,Yes,A. Okafor,Maintenance
+ORD-5179,2024-12-04,2024-12-07,Flint Hills Farms,AG-1000,MO,Soybean Seed (50lb bag),4,377.0,0.1,1508.0,150.8,1357.2,Credit Card,Yes,T. Morrison,Emergency
+ORD-5180,2024-02-14,2024-02-17,Border Plains Ag,AG-1010,IA,Grain Auger,31,213.73,0.0,6625.63,0.0,6625.63,Net 30,Yes,T. Morrison,Emergency
+ORD-5181,2024-02-29,2024-03-03,Midwest Grain Partners,AG-1047,MO,Fungicide Spray,43,268.93,0.1,11563.99,1156.4,10407.59,Credit Card,Yes,A. Okafor,Fall Planting
+ORD-5182,2024-08-16,2024-08-17,Midwest Grain Partners,AG-1010,MO,Fungicide Spray,17,236.17,0.0,4014.89,0.0,4014.89,Net 30,Yes,B. Callahan,Maintenance
+ORD-5183,2024-10-04,2024-10-08,Flint Hills Farms,AG-1073,IA,Irrigation Equipment,4,755.47,0.1,3021.88,302.19,2719.69,Credit Card,Yes,A. Okafor,Fall Planting
+ORD-5184,2024-08-31,2024-09-03,Prairie Land Co-op,AG-1022,KS,Corn Seed (50lb bag),33,527.68,0.1,17413.44,1741.34,15672.1,Net 30,Yes,A. Okafor,Fall Planting
+ORD-5185,2024-04-18,2024-04-25,Sunflower Ag Supply,AG-1076,KS,Corn Seed (50lb bag),28,111.22,0.05,3114.16,155.71,2958.45,Net 30,Yes,S. Nguyen,Maintenance
+ORD-5186,2024-06-12,2024-06-18,Missouri Valley Growers,AG-1089,KS,Herbicide Concentrate,36,380.76,0.0,13707.36,0.0,13707.36,Net 60,Yes,B. Callahan,Emergency
+ORD-5187,2024-02-27,2024-03-02,Sunflower Ag Supply,AG-1036,KS,Grain Auger,38,537.36,0.0,20419.68,0.0,20419.68,Net 30,Yes,B. Callahan,Maintenance
+ORD-5188,2024-07-29,2024-08-01,Border Plains Ag,AG-1079,MO,Fungicide Spray,37,559.57,0.0,20704.09,0.0,20704.09,Net 30,Yes,S. Nguyen,Emergency
+ORD-5189,2024-01-20,2024-01-24,Tallgrass Farm Group,AG-1039,MO,Anhydrous Ammonia,4,675.16,0.0,2700.64,0.0,2700.64,Net 60,No,T. Morrison,Maintenance
+ORD-5190,2024-09-08,2024-09-15,Border Plains Ag,AG-1077,IA,Soybean Seed (50lb bag),15,158.56,0.05,2378.4,118.92,2259.48,Net 60,Yes,A. Okafor,Spring Planting
+ORD-5191,2024-04-06,2024-04-10,Prairie Land Co-op,AG-1008,KS,Fungicide Spray,49,481.44,0.0,23590.56,0.0,23590.56,Net 30,Yes,S. Nguyen,Maintenance
+ORD-5192,2024-12-29,2025-01-03,Sunflower Ag Supply,AG-1004,MO,Irrigation Equipment,37,69.46,0.0,2570.02,0.0,2570.02,Net 30,Yes,S. Nguyen,Emergency
+ORD-5193,2024-01-26,2024-01-29,Flint Hills Farms,AG-1087,IA,Urea Fertilizer,24,740.86,0.1,17780.64,1778.06,16002.58,Credit Card,Yes,B. Callahan,Spring Planting
+ORD-5194,2024-05-03,2024-05-06,Hawkeye Farm Supply,AG-1095,MO,Fungicide Spray,12,856.64,0.05,10279.68,513.98,9765.7,Net 60,Yes,T. Morrison,Spring Planting
+ORD-5195,2024-05-25,2024-05-26,KC Farm & Feed,AG-1034,MO,Winter Wheat Seed,37,703.96,0.0,26046.52,0.0,26046.52,Net 30,Yes,S. Nguyen,Emergency
+ORD-5196,2024-09-19,2024-09-20,KC Farm & Feed,AG-1091,IA,Fungicide Spray,9,592.03,0.1,5328.27,532.83,4795.44,Net 30,Yes,T. Morrison,Maintenance
+ORD-5197,2024-08-04,2024-08-08,Midwest Grain Partners,AG-1065,MO,Urea Fertilizer,14,439.36,0.1,6151.04,615.1,5535.94,Credit Card,Yes,B. Callahan,Maintenance
+ORD-5198,2024-10-14,2024-10-20,Hawkeye Farm Supply,AG-1081,IA,Urea Fertilizer,20,623.33,0.05,12466.6,623.33,11843.27,Net 30,Yes,T. Morrison,Maintenance
+ORD-5199,2024-05-21,2024-05-24,Tallgrass Farm Group,AG-1084,IA,Urea Fertilizer,13,171.69,0.0,2231.97,0.0,2231.97,Net 30,Yes,A. Okafor,Maintenance
