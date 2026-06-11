@@ -131,3 +131,36 @@ class MarketplaceBuyer(Base):
     total_spent   = Column(Numeric(12, 4), default=0)
     total_calls   = Column(Integer, default=0)
     is_active     = Column(Integer, default=1)
+
+
+class BuyerApiImport(Base):
+    __tablename__ = "buyer_api_imports"
+
+    import_id         = Column(Integer, primary_key=True, index=True)
+    api_import_id     = Column(String(50), unique=True, nullable=False)
+    listing_id        = Column(Integer, ForeignKey("marketplace_listings.id"))
+    buyer_id          = Column(String(100), nullable=False)
+    buyer_name        = Column(String(255))
+    dataset_name      = Column(String(255))
+    imported_at       = Column(DateTime, default=datetime.utcnow)
+    casper_tx_hash    = Column(String(255))
+    records_delivered = Column(Integer, default=0)
+    cost_per_record   = Column(Numeric(10, 6))
+    total_cost        = Column(Numeric(10, 4))
+    currency          = Column(String(10), default="CSPR")
+    status            = Column(String(20), default="completed")
+
+    records = relationship("BuyerApiImportData", back_populates="import_batch")
+
+
+class BuyerApiImportData(Base):
+    __tablename__ = "buyer_api_import_data"
+
+    id              = Column(Integer, primary_key=True, index=True)
+    api_import_id   = Column(String(50), nullable=False)
+    import_id       = Column(Integer, ForeignKey("buyer_api_imports.import_id"))
+    record_sequence = Column(Integer)
+    record_data     = Column(Text)
+    imported_at     = Column(DateTime, default=datetime.utcnow)
+
+    import_batch = relationship("BuyerApiImport", back_populates="records")

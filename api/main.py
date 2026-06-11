@@ -22,11 +22,11 @@ sys.path.append(str(Path(__file__).parent.parent))
 from database.connection import get_db, engine
 from database.models import Base, Assessment, AssessmentFile
 from database.models import MarketplaceListing, MarketplaceTransaction, MarketplaceBuyer
+from database.models import BuyerApiImport, BuyerApiImportData
 from ai.profiler import profile_file
 from ai.scorer import run_scoring
 from casper.recorder import record_assessment_on_chain
 
-# Create tables if they don't exist
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -175,7 +175,6 @@ async def assess(request: AssessRequest, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(assessment)
 
-    # Record assessment hash on Casper testnet
     casper_result = record_assessment_on_chain(
         assessment_id=assessment.id,
         dataset_name=assessment.dataset_name,
@@ -243,12 +242,12 @@ def get_registry(db: Session = Depends(get_db)):
     assessments = db.query(Assessment).order_by(Assessment.created_at.desc()).all()
     return [
         {
-            "assessment_id":    a.id,
-            "created_at":       a.created_at,
-            "dataset_name":     a.dataset_name,
-            "weighted_score":   float(a.weighted_score) if a.weighted_score else None,
-            "metal_rating":     a.metal_rating,
-            "casper_tx_hash":   a.casper_tx_hash,
+            "assessment_id":      a.id,
+            "created_at":         a.created_at,
+            "dataset_name":       a.dataset_name,
+            "weighted_score":     float(a.weighted_score) if a.weighted_score else None,
+            "metal_rating":       a.metal_rating,
+            "casper_tx_hash":     a.casper_tx_hash,
             "casper_recorded_at": a.casper_recorded_at,
             "scores": {
                 "data_quality":       float(a.score_data_quality) if a.score_data_quality else None,
@@ -388,7 +387,6 @@ async def access_data(
     if not buyer:
         raise HTTPException(status_code=403, detail="Buyer not registered")
 
-    # x402 payment check
     if not payment_proof:
         return JSONResponse(
             status_code=402,
@@ -410,12 +408,12 @@ async def access_data(
             }
         )
 
-    # Payment proof provided — record transaction
     tx_hash = hashlib.sha256(
         f"{buyer_id}:{listing_id}:{payment_proof}:{datetime.utcnow().isoformat()}".encode()
     ).hexdigest()
 
-    # Load the data
+    api_import_id = "IMP-" + str(uuid.uuid4())[:8].upper()
+
     try:
         if listing.data_file_path and os.path.exists(listing.data_file_path):
             df = pd.read_csv(listing.data_file_path)
@@ -427,7 +425,6 @@ async def access_data(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Data load failed: {str(e)}")
 
-    # Record transaction
     tx = MarketplaceTransaction(
         listing_id        = listing_id,
         buyer_id          = buyer_id,
@@ -442,7 +439,32 @@ async def access_data(
     )
     db.add(tx)
 
-    # Update counters
+    cost_per_record = float(listing.price_per_call) / record_count if record_count > 0 else 0
+    import_batch = BuyerApiImport(
+        api_import_id     = api_import_id,
+        listing_id        = listing_id,
+        buyer_id          = buyer_id,
+        buyer_name        = buyer.buyer_name,
+        dataset_name      = listing.dataset_name,
+        casper_tx_hash    = tx_hash,
+        records_delivered = record_count,
+        cost_per_record   = cost_per_record,
+        total_cost        = float(listing.price_per_call),
+        currency          = listing.currency,
+        status            = "completed"
+    )
+    db.add(import_batch)
+    db.flush()
+
+    for seq, record in enumerate(records):
+        import_data = BuyerApiImportData(
+            api_import_id   = api_import_id,
+            import_id       = import_batch.import_id,
+            record_sequence = seq + 1,
+            record_data     = json.dumps(record)
+        )
+        db.add(import_data)
+
     listing.total_calls   += 1
     listing.total_revenue  = float(listing.total_revenue or 0) + float(listing.price_per_call)
     buyer.total_calls     += 1
@@ -452,9 +474,11 @@ async def access_data(
 
     return {
         "status":            "success",
+        "api_import_id":     api_import_id,
         "listing_id":        listing_id,
         "dataset_name":      listing.dataset_name,
         "records_delivered": record_count,
+        "cost_per_record":   cost_per_record,
         "amount_charged":    float(listing.price_per_call),
         "currency":          listing.currency,
         "casper_tx_hash":    tx_hash,
@@ -482,3 +506,101 @@ def get_transactions(db: Session = Depends(get_db)):
         }
         for t in txs
     ]
+
+
+@app.get("/marketplace/buyer/imports/{buyer_id}")
+def get_buyer_imports(buyer_id: str, db: Session = Depends(get_db)):
+    imports = db.query(BuyerApiImport)\
+        .filter(BuyerApiImport.buyer_id == buyer_id)\
+        .order_by(BuyerApiImport.imported_at.desc())\
+        .all()
+    return [
+        {
+            "api_import_id":     i.api_import_id,
+            "import_id":         i.import_id,
+            "dataset_name":      i.dataset_name,
+            "imported_at":       i.imported_at,
+            "records_delivered": i.records_delivered,
+            "cost_per_record":   float(i.cost_per_record) if i.cost_per_record else 0,
+            "total_cost":        float(i.total_cost) if i.total_cost else 0,
+            "currency":          i.currency,
+            "casper_tx_hash":    i.casper_tx_hash,
+            "status":            i.status
+        }
+        for i in imports
+    ]
+
+
+@app.get("/marketplace/buyer/imports/{buyer_id}/{api_import_id}/data")
+def get_import_data(buyer_id: str, api_import_id: str, db: Session = Depends(get_db)):
+    import_batch = db.query(BuyerApiImport).filter(
+        BuyerApiImport.api_import_id == api_import_id,
+        BuyerApiImport.buyer_id == buyer_id
+    ).first()
+
+    if not import_batch:
+        raise HTTPException(status_code=404, detail="Import not found")
+
+    records = db.query(BuyerApiImportData)\
+        .filter(BuyerApiImportData.api_import_id == api_import_id)\
+        .order_by(BuyerApiImportData.record_sequence)\
+        .all()
+
+    return {
+        "api_import_id":     api_import_id,
+        "dataset_name":      import_batch.dataset_name,
+        "imported_at":       import_batch.imported_at,
+        "records_delivered": import_batch.records_delivered,
+        "total_cost":        float(import_batch.total_cost) if import_batch.total_cost else 0,
+        "cost_per_record":   float(import_batch.cost_per_record) if import_batch.cost_per_record else 0,
+        "currency":          import_batch.currency,
+        "casper_tx_hash":    import_batch.casper_tx_hash,
+        "records":           [json.loads(r.record_data) for r in records]
+    }
+
+
+@app.get("/marketplace/seller/revenue")
+def get_seller_revenue(db: Session = Depends(get_db)):
+    imports = db.query(BuyerApiImport).all()
+
+    buyer_revenue = {}
+    for i in imports:
+        key = i.buyer_id
+        if key not in buyer_revenue:
+            buyer_revenue[key] = {
+                "buyer_id":      i.buyer_id,
+                "buyer_name":    i.buyer_name,
+                "total_spent":   0,
+                "total_records": 0,
+                "import_count":  0,
+                "last_import":   None
+            }
+        buyer_revenue[key]["total_spent"]   += float(i.total_cost or 0)
+        buyer_revenue[key]["total_records"] += i.records_delivered or 0
+        buyer_revenue[key]["import_count"]  += 1
+        buyer_revenue[key]["last_import"]    = i.imported_at
+
+    dataset_revenue = {}
+    for i in imports:
+        key = i.dataset_name
+        if key not in dataset_revenue:
+            dataset_revenue[key] = {
+                "dataset_name":  i.dataset_name,
+                "total_revenue": 0,
+                "total_records": 0,
+                "import_count":  0
+            }
+        dataset_revenue[key]["total_revenue"] += float(i.total_cost or 0)
+        dataset_revenue[key]["total_records"] += i.records_delivered or 0
+        dataset_revenue[key]["import_count"]  += 1
+
+    total_revenue = sum(float(i.total_cost or 0) for i in imports)
+    total_records = sum(i.records_delivered or 0 for i in imports)
+
+    return {
+        "total_revenue":  total_revenue,
+        "total_records":  total_records,
+        "total_imports":  len(imports),
+        "by_buyer":       list(buyer_revenue.values()),
+        "by_dataset":     list(dataset_revenue.values())
+    }

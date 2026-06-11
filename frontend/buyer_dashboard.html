@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORGE Buyer Dashboard</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0f1117; color: #e0e0e0; min-height: 100vh; }
+
+        header {
+            background: #1a1d27;
+            border-bottom: 2px solid #c9a84c;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header h1 { font-size: 1.6rem; color: #c9a84c; letter-spacing: 2px; }
+        header p { font-size: 0.85rem; color: #888; margin-top: 2px; }
+        .nav-links { display: flex; gap: 12px; }
+        .nav-link { color: #c9a84c; text-decoration: none; font-size: 0.9rem; border: 1px solid #c9a84c; padding: 6px 16px; border-radius: 4px; }
+        .nav-link:hover { background: #c9a84c; color: #0f1117; }
+        .nav-link.active { background: #c9a84c; color: #0f1117; }
+
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+
+        .card { background: #1a1d27; border: 1px solid #2a2d3a; border-radius: 8px; padding: 28px; margin-bottom: 24px; }
+        .card h2 { font-size: 1rem; color: #c9a84c; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+        .stat-box { background: #0f1117; border: 1px solid #2a2d3a; border-radius: 6px; padding: 16px; text-align: center; }
+        .stat-box .val { font-size: 2rem; font-weight: 700; color: #c9a84c; line-height: 1; }
+        .stat-box .lbl { font-size: 0.7rem; color: #888; text-transform: uppercase; margin-top: 6px; }
+
+        .import-table { width: 100%; border-collapse: collapse; }
+        .import-table th { text-align: left; font-size: 0.7rem; color: #888; text-transform: uppercase; padding: 8px 12px; border-bottom: 1px solid #2a2d3a; letter-spacing: 0.5px; }
+        .import-table td { padding: 12px; border-bottom: 1px solid #1a1d27; font-size: 0.85rem; vertical-align: middle; }
+        .import-table tr:hover td { background: #1e2130; cursor: pointer; }
+
+        .hash-short { font-family: monospace; font-size: 0.72rem; color: #c9a84c; }
+
+        /* Detail panel */
+        #detailPanel {
+            display: none;
+            position: fixed;
+            top: 0; right: 0;
+            width: 560px;
+            height: 100vh;
+            background: #1a1d27;
+            border-left: 2px solid #c9a84c;
+            overflow-y: auto;
+            z-index: 100;
+            padding: 28px;
+        }
+        #detailPanel h2 { color: #c9a84c; font-size: 1rem; text-transform: uppercase; margin-bottom: 20px; }
+        .close-btn { float: right; background: none; border: 1px solid #444; color: #888; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+        .close-btn:hover { border-color: #c9a84c; color: #c9a84c; }
+
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+        .data-table th { text-align: left; color: #888; padding: 6px 8px; border-bottom: 1px solid #2a2d3a; font-size: 0.68rem; text-transform: uppercase; }
+        .data-table td { padding: 6px 8px; border-bottom: 1px solid #1a1d27; color: #ccc; }
+        .data-table tr:nth-child(even) td { background: #0f1117; }
+
+        .meta-box { background: #0f1117; border: 1px solid #2a2d3a; border-radius: 6px; padding: 14px; margin-bottom: 14px; }
+        .meta-box .lbl { font-size: 0.7rem; color: #888; text-transform: uppercase; margin-bottom: 4px; }
+        .meta-box .val { font-size: 0.9rem; color: #e0e0e0; }
+        .meta-box .val.gold { color: #c9a84c; font-weight: 700; }
+        .meta-box .val.mono { font-family: monospace; font-size: 0.75rem; color: #c9a84c; word-break: break-all; }
+
+        .cost-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+        .cost-item { background: #0f1117; border: 1px solid #2a2d3a; border-radius: 6px; padding: 12px; text-align: center; }
+        .cost-item .val { font-size: 1.2rem; font-weight: 700; color: #c9a84c; }
+        .cost-item .lbl { font-size: 0.65rem; color: #888; text-transform: uppercase; margin-top: 4px; }
+
+        /* Trend chart */
+        .trend-bar-container { margin-top: 8px; }
+        .trend-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .trend-label { font-size: 0.75rem; color: #888; width: 80px; flex-shrink: 0; }
+        .trend-bar-bg { flex: 1; height: 20px; background: #0f1117; border-radius: 3px; overflow: hidden; }
+        .trend-bar-fill { height: 100%; background: #c9a84c; border-radius: 3px; transition: width 0.5s; }
+        .trend-val { font-size: 0.75rem; color: #c9a84c; width: 60px; text-align: right; }
+
+        .empty { text-align: center; color: #555; padding: 40px; }
+        .no-buyer { text-align: center; color: #888; padding: 60px; }
+        .no-buyer a { color: #c9a84c; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>⚒ FORGE BUYER DASHBOARD</h1>
+        <p id="buyerSubtitle">Data Import & Cost Tracking</p>
+    </div>
+    <div class="nav-links">
+        <a href="/static/index.html" class="nav-link">+ Assess</a>
+        <a href="/static/registry.html" class="nav-link">Registry</a>
+        <a href="/static/marketplace.html" class="nav-link">Marketplace</a>
+        <a href="/static/buyer_dashboard.html" class="nav-link active">Buyer</a>
+        <a href="/static/seller_dashboard.html" class="nav-link">Seller</a>
+    </div>
+</header>
+
+<div class="container" id="mainContent">
+    <div class="no-buyer" id="noBuyerMsg">
+        Not registered as a buyer. <a href="/static/marketplace.html">Register in the Marketplace</a> first.
+    </div>
+</div>
+
+<!-- Detail panel -->
+<div id="detailPanel">
+    <button class="close-btn" onclick="closeDetail()">✕ Close</button>
+    <h2>Import Detail</h2>
+    <div id="detailContent"></div>
+</div>
+
+<script>
+const API = 'http://127.0.0.1:8000';
+const buyerId   = localStorage.getItem('forge_buyer_id');
+const buyerName = localStorage.getItem('forge_buyer_name');
+
+async function init() {
+    if (!buyerId) {
+        document.getElementById('noBuyerMsg').style.display = 'block';
+        return;
+    }
+
+    document.getElementById('noBuyerMsg').style.display = 'none';
+    document.getElementById('buyerSubtitle').textContent = buyerName + ' — Import & Cost Tracking';
+
+    const imports = await fetchImports();
+    renderDashboard(imports);
+}
+
+async function fetchImports() {
+    const res = await fetch(`${API}/marketplace/buyer/imports/${buyerId}`);
+    return await res.json();
+}
+
+function renderDashboard(imports) {
+    const totalCost    = imports.reduce((s, i) => s + i.total_cost, 0);
+    const totalRecords = imports.reduce((s, i) => s + i.records_delivered, 0);
+    const avgCost      = imports.length > 0 ? totalCost / imports.length : 0;
+
+    const html = `
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="val">${imports.length}</div>
+                <div class="lbl">Total Imports</div>
+            </div>
+            <div class="stat-box">
+                <div class="val">${totalRecords.toLocaleString()}</div>
+                <div class="lbl">Records Received</div>
+            </div>
+            <div class="stat-box">
+                <div class="val">${totalCost.toFixed(4)}</div>
+                <div class="lbl">Total Spent (CSPR)</div>
+            </div>
+            <div class="stat-box">
+                <div class="val">${avgCost.toFixed(4)}</div>
+                <div class="lbl">Avg Cost / Import</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Import History</h2>
+            ${imports.length === 0
+                ? '<div class="empty">No imports yet. Purchase data from the Marketplace.</div>'
+                : `<table class="import-table">
+                    <thead>
+                        <tr>
+                            <th>Import ID</th>
+                            <th>Dataset</th>
+                            <th>Records</th>
+                            <th>Total Cost</th>
+                            <th>Cost/Record</th>
+                            <th>Imported</th>
+                            <th>Casper Hash</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${imports.map(i => `
+                            <tr onclick="showDetail('${i.api_import_id}')">
+                                <td style="font-family:monospace; font-size:0.8rem; color:#c9a84c;">${i.api_import_id}</td>
+                                <td style="font-size:0.8rem;">${i.dataset_name}</td>
+                                <td>${i.records_delivered}</td>
+                                <td style="color:#c9a84c; font-weight:700;">${i.total_cost.toFixed(4)} ${i.currency}</td>
+                                <td style="color:#888; font-size:0.8rem;">${i.cost_per_record.toFixed(6)}</td>
+                                <td style="font-size:0.75rem; color:#888;">${formatDate(i.imported_at)}</td>
+                                <td class="hash-short">${i.casper_tx_hash ? i.casper_tx_hash.substring(0,16)+'...' : '—'}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>`
+            }
+        </div>
+
+        ${imports.length > 1 ? renderTrends(imports) : ''}
+    `;
+
+    document.getElementById('mainContent').innerHTML = html;
+}
+
+function renderTrends(imports) {
+    const maxCost = Math.max(...imports.map(i => i.total_cost));
+    const bars = imports.slice(0, 10).reverse().map(i => `
+        <div class="trend-row">
+            <div class="trend-label">${i.api_import_id}</div>
+            <div class="trend-bar-bg">
+                <div class="trend-bar-fill" style="width:${maxCost > 0 ? (i.total_cost/maxCost*100) : 0}%"></div>
+            </div>
+            <div class="trend-val">${i.total_cost.toFixed(4)}</div>
+        </div>
+    `).join('');
+
+    return `
+        <div class="card">
+            <h2>Cost Trends</h2>
+            <div class="trend-bar-container">${bars}</div>
+        </div>
+    `;
+}
+
+async function showDetail(apiImportId) {
+    const res = await fetch(`${API}/marketplace/buyer/imports/${buyerId}/${apiImportId}/data`);
+    const data = await res.json();
+
+    const records = data.records || [];
+    const columns = records.length > 0 ? Object.keys(records[0]) : [];
+
+    document.getElementById('detailContent').innerHTML = `
+        <div class="cost-grid">
+            <div class="cost-item">
+                <div class="val">${data.records_delivered}</div>
+                <div class="lbl">Records</div>
+            </div>
+            <div class="cost-item">
+                <div class="val">${data.total_cost.toFixed(4)}</div>
+                <div class="lbl">Total Cost (CSPR)</div>
+            </div>
+            <div class="cost-item">
+                <div class="val">${data.cost_per_record.toFixed(6)}</div>
+                <div class="lbl">Cost / Record</div>
+            </div>
+        </div>
+
+        <div class="meta-box">
+            <div class="lbl">Dataset</div>
+            <div class="val">${data.dataset_name}</div>
+        </div>
+
+        <div class="meta-box">
+            <div class="lbl">Imported</div>
+            <div class="val">${formatDate(data.imported_at)}</div>
+        </div>
+
+        <div class="meta-box">
+            <div class="lbl">⛓ Casper Transaction Hash</div>
+            <div class="val mono">${data.casper_tx_hash || '—'}</div>
+        </div>
+
+        <div style="margin-top:20px;">
+            <div style="font-size:0.7rem; color:#888; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">
+                Delivered Records (${records.length} shown)
+            </div>
+            ${records.length > 0 ? `
+            <div style="overflow-x:auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>${columns.map(c => `<th>${c}</th>`).join('')}</tr>
+                    </thead>
+                    <tbody>
+                        ${records.slice(0, 20).map(r =>
+                            `<tr>${columns.map(c => `<td>${r[c] !== null && r[c] !== undefined ? r[c] : '—'}</td>`).join('')}</tr>`
+                        ).join('')}
+                    </tbody>
+                </table>
+                ${records.length > 20 ? `<div style="color:#555; font-size:0.75rem; margin-top:8px; text-align:center;">Showing 20 of ${records.length} records</div>` : ''}
+            </div>` : '<div class="empty">No records found.</div>'}
+        </div>
+    `;
+
+    document.getElementById('detailPanel').style.display = 'block';
+}
+
+function closeDetail() {
+    document.getElementById('detailPanel').style.display = 'none';
+}
+
+function formatDate(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) +
+           ' ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+}
+
+init();
+</script>
+</body>
+</html>
