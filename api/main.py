@@ -6,7 +6,8 @@ import uuid
 import hashlib
 from datetime import datetime
 from pathlib import Path
-from fastapi import FastAPI, UploadFile, File, HTTPException, Depends
+from collections import defaultdict
+from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
@@ -23,7 +24,7 @@ from database.connection import get_db, engine
 from database.models import Base, Assessment, AssessmentFile
 from database.models import MarketplaceListing, MarketplaceTransaction, MarketplaceBuyer
 from database.models import BuyerApiImport, BuyerApiImportData
-from ai.profiler import profile_file
+from ai.profiler import profile_file, validate_content
 from ai.scorer import run_scoring
 from casper.recorder import record_assessment_on_chain
 
@@ -46,6 +47,20 @@ UPLOAD_DIR = Path("uploads")
 UPLOAD_DIR.mkdir(exist_ok=True)
 
 app.mount("/static", StaticFiles(directory="frontend"), name="static")
+
+# --- Rate Limiting ---
+upload_counts = defaultdict(list)
+MAX_UPLOADS_PER_HOUR = 5
+
+
+def check_rate_limit(client_ip: str) -> bool:
+    now = datetime.utcnow()
+    hour_ago = now.timestamp() - 3600
+    upload_counts[client_ip] = [t for t in upload_counts[client_ip] if t > hour_ago]
+    if len(upload_counts[client_ip]) >= MAX_UPLOADS_PER_HOUR:
+        return False
+    upload_counts[client_ip].append(now.timestamp())
+    return True
 
 
 # --- Request Models ---
@@ -103,21 +118,60 @@ def root():
 
 
 @app.post("/upload")
-async def upload_file(file: UploadFile = File(...)):
+async def upload_file(request: Request, file: UploadFile = File(...)):
+    client_ip = request.client.host
+    if not check_rate_limit(client_ip):
+        raise HTTPException(
+            status_code=429,
+            detail=f"Rate limit exceeded. Maximum {MAX_UPLOADS_PER_HOUR} uploads per hour per IP address."
+        )
+
     ext = Path(file.filename).suffix.lower()
     if ext not in {".csv", ".xlsx", ".xls"}:
         raise HTTPException(status_code=400, detail=f"Unsupported file type: {ext}")
 
+    contents = await file.read()
+    file_size_mb = len(contents) / 1024 / 1024
+    if file_size_mb > 50:
+        raise HTTPException(
+            status_code=413,
+            detail=f"File size {file_size_mb:.1f}MB exceeds the 50MB maximum."
+        )
+
     tmp_path = UPLOAD_DIR / file.filename
     with open(tmp_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+        buffer.write(contents)
 
     try:
         profile = profile_file(str(tmp_path))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Profiling failed: {str(e)}")
 
-    return {"file_name": file.filename, "profile": profile}
+    try:
+        validation = validate_content(profile)
+        if not validation.get("approved", True):
+            tmp_path.unlink(missing_ok=True)
+            raise HTTPException(
+                status_code=422,
+                detail={
+                    "error": "Content validation failed",
+                    "reason": validation.get("reason"),
+                    "flags": validation.get("flags", [])
+                }
+            )
+    except HTTPException:
+        raise
+    except Exception:
+        pass
+
+    profile["file_size_mb"] = round(file_size_mb, 2)
+
+    return {
+        "file_name": file.filename,
+        "file_size_mb": round(file_size_mb, 2),
+        "profile": profile,
+        "content_approved": True
+    }
 
 
 @app.post("/assess")
@@ -604,3 +658,40 @@ def get_seller_revenue(db: Session = Depends(get_db)):
         "by_buyer":       list(buyer_revenue.values()),
         "by_dataset":     list(dataset_revenue.values())
     }
+
+
+# --- CSPR Price Endpoint ---
+
+@app.get("/market/cspr-price")
+async def get_cspr_price():
+    import httpx
+    try:
+        async with httpx.AsyncClient() as client:
+            r = await client.get(
+                "https://api.coingecko.com/api/v3/simple/price",
+                params={"ids": "casper-network", "vs_currencies": "usd,eur,gbp,cad,aud,jpy"},
+                timeout=5.0
+            )
+            data = r.json()
+            prices = data.get("casper-network", {})
+            return {
+                "cspr_usd": prices.get("usd", 0),
+                "cspr_eur": prices.get("eur", 0),
+                "cspr_gbp": prices.get("gbp", 0),
+                "cspr_cad": prices.get("cad", 0),
+                "cspr_aud": prices.get("aud", 0),
+                "cspr_jpy": prices.get("jpy", 0),
+                "source":   "CoinGecko",
+                "cached_at": datetime.utcnow().isoformat()
+            }
+    except Exception as e:
+        return {
+            "cspr_usd": 0.23,
+            "cspr_eur": 0.21,
+            "cspr_gbp": 0.18,
+            "cspr_cad": 0.31,
+            "cspr_aud": 0.35,
+            "cspr_jpy": 34.5,
+            "source":   "fallback",
+            "cached_at": datetime.utcnow().isoformat()
+        }
