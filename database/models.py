@@ -90,6 +90,8 @@ class MarketplaceListing(Base):
     total_revenue   = Column(Numeric(12, 4), default=0)
     data_file_path  = Column(String(500))
     tags            = Column(String(255))
+    row_count       = Column(Integer)
+    file_size_mb    = Column(Numeric(8, 2))
 
     transactions = relationship("MarketplaceTransaction", back_populates="listing")
 

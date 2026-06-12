@@ -101,6 +101,8 @@ class ListingCreate(BaseModel):
     currency: str = "CSPR"
     data_file_path: Optional[str] = None
     tags: Optional[str] = None
+    row_count: Optional[int] = None
+    file_size_mb: Optional[float] = None
 
 
 class BuyerRegister(BaseModel):
@@ -364,7 +366,9 @@ def create_listing(request: ListingCreate, db: Session = Depends(get_db)):
         price_annual   = request.price_annual,
         currency       = request.currency,
         data_file_path = request.data_file_path,
-        tags           = request.tags
+        tags           = request.tags,
+        row_count      = request.row_count,
+        file_size_mb   = request.file_size_mb
     )
     db.add(listing)
     db.commit()
@@ -385,11 +389,14 @@ def get_listings(db: Session = Depends(get_db)):
             "description":    l.description,
             "price_per_call": float(l.price_per_call),
             "price_monthly":  float(l.price_monthly) if l.price_monthly else None,
+            "price_annual":   float(l.price_annual) if l.price_annual else None,
             "currency":       l.currency,
             "total_calls":    l.total_calls,
             "tags":           l.tags,
             "listed_at":      l.listed_at,
-            "assessment_id":  l.assessment_id
+            "assessment_id":  l.assessment_id,
+            "row_count":      l.row_count,
+            "file_size_mb":   float(l.file_size_mb) if l.file_size_mb else None
         }
         for l in listings
     ]

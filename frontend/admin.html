@@ -121,6 +121,10 @@
         <p>Platform Administration Console</p>
     </div>
     <a href="/static/index.html" class="nav-link">← FORGE Agent</a>
+        <a href="/static/marketplace.html?mode=admin" class="nav-link">Marketplace</a>
+        <a href="/static/registry.html" class="nav-link">Registry</a>
+        <a href="/static/buyer_dashboard.html?mode=admin" class="nav-link">Buyer</a>
+        <a href="/static/seller_dashboard.html" class="nav-link">Seller</a>
 </header>
 
 <div id="loginGate">
@@ -152,6 +156,17 @@
         <div id="tab-users">
             <div class="card">
                 <h2>Registered Users</h2>
+                <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap; align-items:center;">
+                    <div style="font-size:0.75rem; color:#888; text-transform:uppercase; letter-spacing:0.5px;">Quick View:</div>
+                    <select id="buyerSelector" onchange="viewBuyerActivity()" style="background:#0f1117; border:1px solid #2a2d3a; border-radius:4px; padding:5px 10px; color:#e0e0e0; font-size:0.82rem;">
+                        <option value="">— Select a Buyer —</option>
+                    </select>
+                    <select id="sellerDatasetSelector" onchange="viewDatasetRevenue()" style="background:#0f1117; border:1px solid #2a2d3a; border-radius:4px; padding:5px 10px; color:#e0e0e0; font-size:0.82rem;">
+                        <option value="">— Select a Dataset —</option>
+                    </select>
+                    <button class="btn-sm" onclick="clearQuickView()">Clear</button>
+                </div>
+                <div id="quickViewPanel" style="display:none; background:#0f1117; border:1px solid #c9a84c; border-radius:6px; padding:16px; margin-bottom:16px;"></div>
                 <div id="usersStatus" class="status"></div>
                 <div class="overflow-x">
                     <table class="data-table">
@@ -273,6 +288,7 @@ async function adminLogin() {
         loadUsers();
         loadErrors();
         renderTableSelector();
+        populateBuyerSelectors();
     } catch (e) {
         err.textContent = 'Invalid admin password.';
         err.style.display = 'block';
@@ -490,6 +506,140 @@ function showTab(name) {
     document.querySelectorAll('.tab').forEach((el, i) => {
         el.classList.toggle('active', ['users','errors','browser'][i] === name);
     });
+}
+
+async function populateBuyerSelectors() {
+    try {
+        const [buyerRes, listingRes] = await Promise.all([
+            fetch(API + '/marketplace/transactions'),
+            fetch(API + '/marketplace/listings')
+        ]);
+        const txs      = await buyerRes.json();
+        const listings = await listingRes.json();
+
+        // Unique buyers
+        const buyers = {};
+        txs.forEach(t => { buyers[t.buyer_id] = t.buyer_name || t.buyer_id; });
+        const buyerSel = document.getElementById('buyerSelector');
+        buyerSel.innerHTML = '<option value="">— Select a Buyer —</option>' +
+            Object.entries(buyers).map(([id, name]) =>
+                `<option value="${id}">${name} (${id})</option>`
+            ).join('');
+
+        // Datasets
+        const datasetSel = document.getElementById('sellerDatasetSelector');
+        datasetSel.innerHTML = '<option value="">— Select a Dataset —</option>' +
+            listings.map(l => `<option value="${l.listing_id}">${l.dataset_name}</option>`).join('');
+    } catch(e) {}
+}
+
+async function viewBuyerActivity() {
+    const buyerId = document.getElementById('buyerSelector').value;
+    if (!buyerId) { clearQuickView(); return; }
+
+    const r = await fetch(API + '/marketplace/buyer/imports/' + buyerId);
+    const imports = await r.json();
+    const panel = document.getElementById('quickViewPanel');
+
+    if (!imports.length) {
+        panel.innerHTML = '<div style="color:#888; font-size:0.85rem;">No imports found for this buyer.</div>';
+        panel.style.display = 'block';
+        return;
+    }
+
+    const totalCost    = imports.reduce((s, i) => s + i.total_cost, 0);
+    const totalRecords = imports.reduce((s, i) => s + i.records_delivered, 0);
+    const buyerName    = imports[0].buyer_name || buyerId;
+
+    panel.innerHTML = `
+        <div style="font-size:0.82rem; color:#c9a84c; font-weight:700; margin-bottom:10px;">${buyerName}</div>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:12px;">
+            <div style="background:#1a1d27; border:1px solid #2a2d3a; border-radius:4px; padding:10px; text-align:center;">
+                <div style="font-size:1.2rem; font-weight:700; color:#c9a84c;">${imports.length}</div>
+                <div style="font-size:0.68rem; color:#888; margin-top:3px;">IMPORTS</div>
+            </div>
+            <div style="background:#1a1d27; border:1px solid #2a2d3a; border-radius:4px; padding:10px; text-align:center;">
+                <div style="font-size:1.2rem; font-weight:700; color:#c9a84c;">${totalRecords.toLocaleString()}</div>
+                <div style="font-size:0.68rem; color:#888; margin-top:3px;">RECORDS</div>
+            </div>
+            <div style="background:#1a1d27; border:1px solid #2a2d3a; border-radius:4px; padding:10px; text-align:center;">
+                <div style="font-size:1.2rem; font-weight:700; color:#c9a84c;">${totalCost.toFixed(4)}</div>
+                <div style="font-size:0.68rem; color:#888; margin-top:3px;">CSPR SPENT</div>
+            </div>
+        </div>
+        <table style="width:100%; font-size:0.78rem; border-collapse:collapse;">
+            <thead><tr>
+                <th style="text-align:left; color:#888; padding:5px 8px; border-bottom:1px solid #2a2d3a;">Import ID</th>
+                <th style="text-align:left; color:#888; padding:5px 8px; border-bottom:1px solid #2a2d3a;">Dataset</th>
+                <th style="text-align:left; color:#888; padding:5px 8px; border-bottom:1px solid #2a2d3a;">Records</th>
+                <th style="text-align:left; color:#888; padding:5px 8px; border-bottom:1px solid #2a2d3a;">Cost</th>
+                <th style="text-align:left; color:#888; padding:5px 8px; border-bottom:1px solid #2a2d3a;">Date</th>
+            </tr></thead>
+            <tbody>
+                ${imports.map(i => `
+                    <tr>
+                        <td style="padding:5px 8px; font-family:monospace; color:#c9a84c;">${i.api_import_id}</td>
+                        <td style="padding:5px 8px; color:#ccc; max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${i.dataset_name}</td>
+                        <td style="padding:5px 8px;">${i.records_delivered}</td>
+                        <td style="padding:5px 8px; color:#c9a84c;">${i.total_cost.toFixed(4)} CSPR</td>
+                        <td style="padding:5px 8px; color:#555;">${formatDate(i.imported_at)}</td>
+                    </tr>`).join('')}
+            </tbody>
+        </table>`;
+    panel.style.display = 'block';
+}
+
+async function viewDatasetRevenue() {
+    const listingId = document.getElementById('sellerDatasetSelector').value;
+    if (!listingId) { clearQuickView(); return; }
+
+    const r = await fetch(API + '/marketplace/transactions');
+    const allTxs = await r.json();
+    const txs = allTxs.filter(t => String(t.listing_id) === listingId);
+    const panel = document.getElementById('quickViewPanel');
+
+    const listings = await fetch(API + '/marketplace/listings').then(r => r.json());
+    const listing = listings.find(l => String(l.listing_id) === listingId);
+    const name = listing ? listing.dataset_name : 'Listing #' + listingId;
+
+    if (!txs.length) {
+        panel.innerHTML = `<div style="color:#888; font-size:0.85rem;">No transactions for "${name}" yet.</div>`;
+        panel.style.display = 'block';
+        return;
+    }
+
+    const totalRev = txs.reduce((s, t) => s + (t.amount || 0), 0);
+    const totalRec = txs.reduce((s, t) => s + (t.records_delivered || 0), 0);
+    const buyers   = [...new Set(txs.map(t => t.buyer_name || t.buyer_id))];
+
+    panel.innerHTML = `
+        <div style="font-size:0.82rem; color:#c9a84c; font-weight:700; margin-bottom:10px;">${name}</div>
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:12px;">
+            <div style="background:#1a1d27; border:1px solid #2a2d3a; border-radius:4px; padding:10px; text-align:center;">
+                <div style="font-size:1.2rem; font-weight:700; color:#c9a84c;">${txs.length}</div>
+                <div style="font-size:0.68rem; color:#888; margin-top:3px;">TRANSACTIONS</div>
+            </div>
+            <div style="background:#1a1d27; border:1px solid #2a2d3a; border-radius:4px; padding:10px; text-align:center;">
+                <div style="font-size:1.2rem; font-weight:700; color:#c9a84c;">${totalRev.toFixed(4)}</div>
+                <div style="font-size:0.68rem; color:#888; margin-top:3px;">CSPR REVENUE</div>
+            </div>
+            <div style="background:#1a1d27; border:1px solid #2a2d3a; border-radius:4px; padding:10px; text-align:center;">
+                <div style="font-size:1.2rem; font-weight:700; color:#c9a84c;">${totalRec.toLocaleString()}</div>
+                <div style="font-size:0.68rem; color:#888; margin-top:3px;">RECORDS SOLD</div>
+            </div>
+            <div style="background:#1a1d27; border:1px solid #2a2d3a; border-radius:4px; padding:10px; text-align:center;">
+                <div style="font-size:1.2rem; font-weight:700; color:#c9a84c;">${buyers.length}</div>
+                <div style="font-size:0.68rem; color:#888; margin-top:3px;">BUYERS</div>
+            </div>
+        </div>
+        <div style="font-size:0.75rem; color:#888;">Buyers: ${buyers.join(', ')}</div>`;
+    panel.style.display = 'block';
+}
+
+function clearQuickView() {
+    document.getElementById('buyerSelector').value = '';
+    document.getElementById('sellerDatasetSelector').value = '';
+    document.getElementById('quickViewPanel').style.display = 'none';
 }
 
 function formatDate(iso) {

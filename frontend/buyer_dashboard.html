@@ -33,11 +33,43 @@
         .stat-box .val { font-size: 2rem; font-weight: 700; color: #c9a84c; line-height: 1; }
         .stat-box .lbl { font-size: 0.7rem; color: #888; text-transform: uppercase; margin-top: 6px; }
 
+        /* Admin buyer selector */
+        .admin-selector {
+            background: #1a1d27;
+            border: 1px solid #e05555;
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .admin-selector .admin-label {
+            font-size: 0.75rem;
+            color: #e05555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .admin-selector select {
+            background: #0f1117;
+            border: 1px solid #2a2d3a;
+            border-radius: 4px;
+            padding: 8px 14px;
+            color: #e0e0e0;
+            font-size: 0.88rem;
+            min-width: 280px;
+        }
+        .admin-selector select:focus { outline: none; border-color: #c9a84c; }
+        .admin-back { color: #c9a84c; text-decoration: none; font-size: 0.82rem; margin-left: auto; }
+        .admin-back:hover { text-decoration: underline; }
+
         .import-table { width: 100%; border-collapse: collapse; }
         .import-table th { text-align: left; font-size: 0.7rem; color: #888; text-transform: uppercase; padding: 8px 12px; border-bottom: 1px solid #2a2d3a; letter-spacing: 0.5px; }
         .import-table td { padding: 12px; border-bottom: 1px solid #1a1d27; font-size: 0.85rem; vertical-align: middle; }
         .import-table tr:hover td { background: #1e2130; cursor: pointer; }
-
         .hash-short { font-family: monospace; font-size: 0.72rem; color: #c9a84c; }
 
         /* Detail panel */
@@ -73,16 +105,15 @@
         .cost-item .val { font-size: 1.2rem; font-weight: 700; color: #c9a84c; }
         .cost-item .lbl { font-size: 0.65rem; color: #888; text-transform: uppercase; margin-top: 4px; }
 
-        /* Trend chart */
         .trend-bar-container { margin-top: 8px; }
         .trend-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-        .trend-label { font-size: 0.75rem; color: #888; width: 80px; flex-shrink: 0; }
+        .trend-label { font-size: 0.75rem; color: #888; width: 90px; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .trend-bar-bg { flex: 1; height: 20px; background: #0f1117; border-radius: 3px; overflow: hidden; }
         .trend-bar-fill { height: 100%; background: #c9a84c; border-radius: 3px; transition: width 0.5s; }
-        .trend-val { font-size: 0.75rem; color: #c9a84c; width: 60px; text-align: right; }
+        .trend-val { font-size: 0.75rem; color: #c9a84c; width: 70px; text-align: right; }
 
         .empty { text-align: center; color: #555; padding: 40px; }
-        .no-buyer { text-align: center; color: #888; padding: 60px; }
+        .no-buyer { text-align: center; color: #888; padding: 60px; font-size: 0.9rem; }
         .no-buyer a { color: #c9a84c; }
     </style>
 </head>
@@ -103,7 +134,7 @@
 </header>
 
 <div class="container" id="mainContent">
-    <div class="no-buyer" id="noBuyerMsg">
+    <div class="no-buyer" id="noBuyerMsg" style="display:none">
         Not registered as a buyer. <a href="/static/marketplace.html">Register in the Marketplace</a> first.
     </div>
 </div>
@@ -117,24 +148,81 @@
 
 <script>
 const API = 'http://127.0.0.1:8000';
-const buyerId   = localStorage.getItem('forge_buyer_id');
-const buyerName = localStorage.getItem('forge_buyer_name');
+const isAdmin = new URLSearchParams(window.location.search).get('mode') === 'admin';
+let activeBuyerId   = localStorage.getItem('forge_buyer_id');
+let activeBuyerName = localStorage.getItem('forge_buyer_name');
 
 async function init() {
-    if (!buyerId) {
+    if (isAdmin) {
+        await renderAdminMode();
+    } else if (!activeBuyerId) {
         document.getElementById('noBuyerMsg').style.display = 'block';
+    } else {
+        document.getElementById('buyerSubtitle').textContent = activeBuyerName + ' — Import & Cost Tracking';
+        const imports = await fetchImports(activeBuyerId);
+        renderDashboard(imports);
+    }
+}
+
+async function renderAdminMode() {
+    // Fetch all buyers from transactions
+    const r = await fetch(API + '/marketplace/transactions');
+    const txs = await r.json();
+    const buyers = {};
+    txs.forEach(t => { buyers[t.buyer_id] = t.buyer_name || t.buyer_id; });
+
+    const adminHtml = `
+        <div class="admin-selector">
+            <span class="admin-label">🔐 Admin View</span>
+            <select id="adminBuyerSelect" onchange="loadAdminBuyer()">
+                <option value="">— Select a buyer to view —</option>
+                ${Object.entries(buyers).map(([id, name]) =>
+                    `<option value="${id}">${name} (${id})</option>`
+                ).join('')}
+            </select>
+            <a href="/static/admin.html" class="admin-back">← Back to Admin</a>
+        </div>
+        <div id="adminBuyerContent">
+            <div class="empty">Select a buyer above to view their import history.</div>
+        </div>`;
+
+    document.getElementById('mainContent').innerHTML = adminHtml;
+}
+
+async function loadAdminBuyer() {
+    const buyerId = document.getElementById('adminBuyerSelect').value;
+    if (!buyerId) {
+        document.getElementById('adminBuyerContent').innerHTML =
+            '<div class="empty">Select a buyer above to view their import history.</div>';
         return;
     }
 
-    document.getElementById('noBuyerMsg').style.display = 'none';
-    document.getElementById('buyerSubtitle').textContent = buyerName + ' — Import & Cost Tracking';
+    const imports = await fetchImports(buyerId);
+    const buyerName = document.getElementById('adminBuyerSelect').selectedOptions[0].text;
 
-    const imports = await fetchImports();
-    renderDashboard(imports);
+    const container = document.getElementById('adminBuyerContent');
+
+    if (!imports.length) {
+        container.innerHTML = '<div class="empty">No imports found for this buyer.</div>';
+        return;
+    }
+
+    const totalCost    = imports.reduce((s, i) => s + i.total_cost, 0);
+    const totalRecords = imports.reduce((s, i) => s + i.records_delivered, 0);
+
+    container.innerHTML = `
+        <div class="stats-grid">
+            <div class="stat-box"><div class="val">${imports.length}</div><div class="lbl">Total Imports</div></div>
+            <div class="stat-box"><div class="val">${totalRecords.toLocaleString()}</div><div class="lbl">Records Received</div></div>
+            <div class="stat-box"><div class="val">${totalCost.toFixed(4)}</div><div class="lbl">Total Spent (CSPR)</div></div>
+            <div class="stat-box"><div class="val">${(totalCost/imports.length).toFixed(4)}</div><div class="lbl">Avg Cost / Import</div></div>
+        </div>
+        ${renderImportTable(imports, buyerId)}
+        ${imports.length > 1 ? renderTrends(imports) : ''}`;
 }
 
-async function fetchImports() {
-    const res = await fetch(`${API}/marketplace/buyer/imports/${buyerId}`);
+async function fetchImports(buyerId) {
+    const res = await fetch(API + '/marketplace/buyer/imports/' + buyerId);
     return await res.json();
 }
 
@@ -143,63 +231,43 @@ function renderDashboard(imports) {
     const totalRecords = imports.reduce((s, i) => s + i.records_delivered, 0);
     const avgCost      = imports.length > 0 ? totalCost / imports.length : 0;
 
-    const html = `
+    document.getElementById('mainContent').innerHTML = `
         <div class="stats-grid">
-            <div class="stat-box">
-                <div class="val">${imports.length}</div>
-                <div class="lbl">Total Imports</div>
-            </div>
-            <div class="stat-box">
-                <div class="val">${totalRecords.toLocaleString()}</div>
-                <div class="lbl">Records Received</div>
-            </div>
-            <div class="stat-box">
-                <div class="val">${totalCost.toFixed(4)}</div>
-                <div class="lbl">Total Spent (CSPR)</div>
-            </div>
-            <div class="stat-box">
-                <div class="val">${avgCost.toFixed(4)}</div>
-                <div class="lbl">Avg Cost / Import</div>
-            </div>
+            <div class="stat-box"><div class="val">${imports.length}</div><div class="lbl">Total Imports</div></div>
+            <div class="stat-box"><div class="val">${totalRecords.toLocaleString()}</div><div class="lbl">Records Received</div></div>
+            <div class="stat-box"><div class="val">${totalCost.toFixed(4)}</div><div class="lbl">Total Spent (CSPR)</div></div>
+            <div class="stat-box"><div class="val">${avgCost.toFixed(4)}</div><div class="lbl">Avg Cost / Import</div></div>
         </div>
+        ${renderImportTable(imports, activeBuyerId)}
+        ${imports.length > 1 ? renderTrends(imports) : ''}`;
+}
 
+function renderImportTable(imports, buyerId) {
+    if (!imports.length) return '<div class="card"><div class="empty">No imports yet.</div></div>';
+    return `
         <div class="card">
             <h2>Import History</h2>
-            ${imports.length === 0
-                ? '<div class="empty">No imports yet. Purchase data from the Marketplace.</div>'
-                : `<table class="import-table">
-                    <thead>
-                        <tr>
-                            <th>Import ID</th>
-                            <th>Dataset</th>
-                            <th>Records</th>
-                            <th>Total Cost</th>
-                            <th>Cost/Record</th>
-                            <th>Imported</th>
-                            <th>Casper Hash</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${imports.map(i => `
-                            <tr onclick="showDetail('${i.api_import_id}')">
-                                <td style="font-family:monospace; font-size:0.8rem; color:#c9a84c;">${i.api_import_id}</td>
-                                <td style="font-size:0.8rem;">${i.dataset_name}</td>
-                                <td>${i.records_delivered}</td>
-                                <td style="color:#c9a84c; font-weight:700;">${i.total_cost.toFixed(4)} ${i.currency}</td>
-                                <td style="color:#888; font-size:0.8rem;">${i.cost_per_record.toFixed(6)}</td>
-                                <td style="font-size:0.75rem; color:#888;">${formatDate(i.imported_at)}</td>
-                                <td class="hash-short">${i.casper_tx_hash ? i.casper_tx_hash.substring(0,16)+'...' : '—'}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>`
-            }
-        </div>
-
-        ${imports.length > 1 ? renderTrends(imports) : ''}
-    `;
-
-    document.getElementById('mainContent').innerHTML = html;
+            <table class="import-table">
+                <thead>
+                    <tr>
+                        <th>Import ID</th><th>Dataset</th><th>Records</th>
+                        <th>Total Cost</th><th>Cost/Record</th><th>Imported</th><th>Hash</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${imports.map(i => `
+                        <tr onclick="showDetail('${buyerId}', '${i.api_import_id}')">
+                            <td style="font-family:monospace; font-size:0.8rem; color:#c9a84c;">${i.api_import_id}</td>
+                            <td style="font-size:0.8rem;">${i.dataset_name}</td>
+                            <td>${i.records_delivered}</td>
+                            <td style="color:#c9a84c; font-weight:700;">${i.total_cost.toFixed(4)} ${i.currency}</td>
+                            <td style="color:#888; font-size:0.8rem;">${i.cost_per_record.toFixed(6)}</td>
+                            <td style="font-size:0.75rem; color:#888;">${formatDate(i.imported_at)}</td>
+                            <td class="hash-short">${i.casper_tx_hash ? i.casper_tx_hash.substring(0,16)+'...' : '—'}</td>
+                        </tr>`).join('')}
+                </tbody>
+            </table>
+        </div>`;
 }
 
 function renderTrends(imports) {
@@ -211,55 +279,29 @@ function renderTrends(imports) {
                 <div class="trend-bar-fill" style="width:${maxCost > 0 ? (i.total_cost/maxCost*100) : 0}%"></div>
             </div>
             <div class="trend-val">${i.total_cost.toFixed(4)}</div>
-        </div>
-    `).join('');
-
+        </div>`).join('');
     return `
         <div class="card">
             <h2>Cost Trends</h2>
             <div class="trend-bar-container">${bars}</div>
-        </div>
-    `;
+        </div>`;
 }
 
-async function showDetail(apiImportId) {
-    const res = await fetch(`${API}/marketplace/buyer/imports/${buyerId}/${apiImportId}/data`);
+async function showDetail(buyerId, apiImportId) {
+    const res  = await fetch(API + '/marketplace/buyer/imports/' + buyerId + '/' + apiImportId + '/data');
     const data = await res.json();
-
     const records = data.records || [];
     const columns = records.length > 0 ? Object.keys(records[0]) : [];
 
     document.getElementById('detailContent').innerHTML = `
         <div class="cost-grid">
-            <div class="cost-item">
-                <div class="val">${data.records_delivered}</div>
-                <div class="lbl">Records</div>
-            </div>
-            <div class="cost-item">
-                <div class="val">${data.total_cost.toFixed(4)}</div>
-                <div class="lbl">Total Cost (CSPR)</div>
-            </div>
-            <div class="cost-item">
-                <div class="val">${data.cost_per_record.toFixed(6)}</div>
-                <div class="lbl">Cost / Record</div>
-            </div>
+            <div class="cost-item"><div class="val">${data.records_delivered}</div><div class="lbl">Records</div></div>
+            <div class="cost-item"><div class="val">${data.total_cost.toFixed(4)}</div><div class="lbl">Total Cost (CSPR)</div></div>
+            <div class="cost-item"><div class="val">${data.cost_per_record.toFixed(6)}</div><div class="lbl">Cost / Record</div></div>
         </div>
-
-        <div class="meta-box">
-            <div class="lbl">Dataset</div>
-            <div class="val">${data.dataset_name}</div>
-        </div>
-
-        <div class="meta-box">
-            <div class="lbl">Imported</div>
-            <div class="val">${formatDate(data.imported_at)}</div>
-        </div>
-
-        <div class="meta-box">
-            <div class="lbl">⛓ Casper Transaction Hash</div>
-            <div class="val mono">${data.casper_tx_hash || '—'}</div>
-        </div>
-
+        <div class="meta-box"><div class="lbl">Dataset</div><div class="val">${data.dataset_name}</div></div>
+        <div class="meta-box"><div class="lbl">Imported</div><div class="val">${formatDate(data.imported_at)}</div></div>
+        <div class="meta-box"><div class="lbl">⛓ Casper Transaction Hash</div><div class="val mono">${data.casper_tx_hash || '—'}</div></div>
         <div style="margin-top:20px;">
             <div style="font-size:0.7rem; color:#888; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">
                 Delivered Records (${records.length} shown)
@@ -267,19 +309,16 @@ async function showDetail(apiImportId) {
             ${records.length > 0 ? `
             <div style="overflow-x:auto;">
                 <table class="data-table">
-                    <thead>
-                        <tr>${columns.map(c => `<th>${c}</th>`).join('')}</tr>
-                    </thead>
+                    <thead><tr>${columns.map(c => `<th>${c}</th>`).join('')}</tr></thead>
                     <tbody>
-                        ${records.slice(0, 20).map(r =>
+                        ${records.slice(0,20).map(r =>
                             `<tr>${columns.map(c => `<td>${r[c] !== null && r[c] !== undefined ? r[c] : '—'}</td>`).join('')}</tr>`
                         ).join('')}
                     </tbody>
                 </table>
                 ${records.length > 20 ? `<div style="color:#555; font-size:0.75rem; margin-top:8px; text-align:center;">Showing 20 of ${records.length} records</div>` : ''}
-            </div>` : '<div class="empty">No records found.</div>'}
-        </div>
-    `;
+            </div>` : '<div class="empty">No records.</div>'}
+        </div>`;
 
     document.getElementById('detailPanel').style.display = 'block';
 }

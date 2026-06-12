@@ -6,13 +6,7 @@
     <title>FORGE Marketplace</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #0f1117;
-            color: #e0e0e0;
-            min-height: 100vh;
-        }
+        body { font-family: 'Segoe UI', sans-serif; background: #0f1117; color: #e0e0e0; min-height: 100vh; }
 
         header {
             background: #1a1d27;
@@ -21,104 +15,51 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
         }
-
         header h1 { font-size: 1.6rem; color: #c9a84c; letter-spacing: 2px; }
         header p { font-size: 0.85rem; color: #888; margin-top: 2px; }
 
-        .nav-links { display: flex; gap: 12px; }
-
-        .nav-link {
-            color: #c9a84c;
-            text-decoration: none;
-            font-size: 0.9rem;
-            border: 1px solid #c9a84c;
-            padding: 6px 16px;
-            border-radius: 4px;
-        }
-
+        .nav-links { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .nav-link { color: #c9a84c; text-decoration: none; font-size: 0.85rem; border: 1px solid #c9a84c; padding: 5px 14px; border-radius: 4px; }
         .nav-link:hover { background: #c9a84c; color: #0f1117; }
         .nav-link.active { background: #c9a84c; color: #0f1117; }
 
-        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
-
-        .card {
-            background: #1a1d27;
-            border: 1px solid #2a2d3a;
-            border-radius: 8px;
-            padding: 28px;
-            margin-bottom: 24px;
+        .currency-bar {
+            display: flex; align-items: center; gap: 8px;
+            background: #0f1117; border: 1px solid #2a2d3a;
+            border-radius: 4px; padding: 5px 12px; font-size: 0.8rem;
         }
+        .currency-bar .cspr-price { color: #c9a84c; font-weight: 700; font-size: 0.85rem; }
+        .currency-bar select { background: transparent; border: none; color: #e0e0e0; font-size: 0.8rem; cursor: pointer; outline: none; }
+        .currency-bar select option { background: #1a1d27; }
+        .live-dot { width: 6px; height: 6px; background: #55a055; border-radius: 50%; animation: pulse 2s infinite; flex-shrink: 0; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
-        .card h2 {
-            font-size: 1rem;
-            color: #c9a84c;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .container { max-width: 1100px; margin: 36px auto; padding: 0 20px; }
 
-        /* Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 32px;
-        }
+        .card { background: #1a1d27; border: 1px solid #2a2d3a; border-radius: 8px; padding: 24px; margin-bottom: 24px; }
+        .card h2 { font-size: 1rem; color: #c9a84c; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
 
-        .stat-box {
-            background: #0f1117;
-            border: 1px solid #2a2d3a;
-            border-radius: 6px;
-            padding: 16px;
-            text-align: center;
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+        .stat-box { background: #0f1117; border: 1px solid #2a2d3a; border-radius: 6px; padding: 14px; text-align: center; }
+        .stat-box .val { font-size: 1.8rem; font-weight: 700; color: #c9a84c; line-height: 1; }
+        .stat-box .lbl { font-size: 0.68rem; color: #888; text-transform: uppercase; margin-top: 5px; }
 
-        .stat-box .val { font-size: 2rem; font-weight: 700; color: #c9a84c; line-height: 1; }
-        .stat-box .lbl { font-size: 0.7rem; color: #888; text-transform: uppercase; margin-top: 6px; }
+        .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid #2a2d3a; }
+        .tab { padding: 8px 18px; font-size: 0.85rem; color: #888; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+        .tab.active { color: #c9a84c; border-bottom-color: #c9a84c; }
+        .tab:hover { color: #c9a84c; }
 
         /* Listings */
-        .listings-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .listing-card {
-            background: #0f1117;
-            border: 1px solid #2a2d3a;
-            border-radius: 8px;
-            padding: 20px;
-            cursor: pointer;
-            transition: border-color 0.2s;
-        }
-
+        .listings-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .listing-card { background: #0f1117; border: 1px solid #2a2d3a; border-radius: 8px; padding: 20px; cursor: pointer; transition: border-color 0.2s; }
         .listing-card:hover { border-color: #c9a84c; }
+        .listing-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .listing-name { font-size: 0.95rem; font-weight: 700; color: #fff; flex: 1; margin-right: 12px; }
 
-        .listing-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 10px;
-        }
-
-        .listing-name {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #fff;
-            flex: 1;
-            margin-right: 12px;
-        }
-
-        .metal-pill {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
+        .metal-pill { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
         .metal-Diamond  { background: #b9f2ff; color: #000; }
         .metal-Platinum { background: #e5e4e2; color: #000; }
         .metal-Gold     { background: #ffd700; color: #000; }
@@ -127,218 +68,111 @@
         .metal-Iron     { background: #434343; color: #fff; }
         .metal-Coal     { background: #1a1a1a; color: #aaa; border: 1px solid #444; }
 
-        .listing-desc {
-            font-size: 0.82rem;
-            color: #888;
-            line-height: 1.5;
-            margin-bottom: 14px;
+        .listing-desc { font-size: 0.8rem; color: #888; line-height: 1.5; margin-bottom: 12px; }
+        .listing-meta { font-size: 0.72rem; color: #555; margin-bottom: 10px; }
+        .listing-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+        .tag { background: #1a1d27; border: 1px solid #2a2d3a; border-radius: 10px; padding: 2px 7px; font-size: 0.68rem; color: #888; }
+
+        .listing-pricing { display: flex; gap: 10px; align-items: stretch; padding-top: 12px; border-top: 1px solid #2a2d3a; flex-wrap: wrap; }
+        .price-box { background: #1a1d27; border: 1px solid #2a2d3a; border-radius: 4px; padding: 8px 12px; text-align: center; min-width: 90px; }
+        .price-box .cspr-amt { font-size: 0.88rem; font-weight: 700; color: #c9a84c; }
+        .price-box .fiat-amt { font-size: 0.72rem; color: #55a055; margin-top: 2px; font-weight: 600; }
+        .price-box .period { font-size: 0.62rem; color: #888; text-transform: uppercase; margin-top: 2px; }
+        .listing-stats { margin-left: auto; text-align: right; font-size: 0.72rem; color: #555; align-self: flex-end; }
+
+        /* Calculator */
+        .calc-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .calc-field { margin-bottom: 16px; }
+        .calc-field label { display: block; font-size: 0.72rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .calc-field input, .calc-field select {
+            width: 100%; background: #0f1117; border: 1px solid #2a2d3a;
+            border-radius: 4px; padding: 9px 12px; color: #e0e0e0; font-size: 0.9rem;
         }
+        .calc-field input:focus, .calc-field select:focus { outline: none; border-color: #c9a84c; }
+        .calc-field .hint { font-size: 0.68rem; color: #555; margin-top: 4px; }
 
-        .listing-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 14px;
+        .calc-results { background: #0f1117; border: 1px solid #2a2d3a; border-radius: 6px; padding: 20px; }
+        .calc-results h3 { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; }
+
+        .calc-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #2a2d3a; }
+        .calc-row:last-child { border-bottom: none; }
+        .calc-row .rlabel { font-size: 0.82rem; color: #ccc; }
+        .calc-row .rvalue { text-align: right; }
+        .calc-row .rcspr { font-size: 0.92rem; font-weight: 700; color: #c9a84c; }
+        .calc-row .rfiat { font-size: 0.72rem; color: #55a055; margin-top: 2px; }
+        .calc-highlight { background: #1e2130; border-radius: 4px; margin: 4px -8px; padding: 10px 8px; }
+        .calc-highlight .rlabel { color: #c9a84c; font-weight: 700; }
+
+        .rec-box { background: #1a2a1a; border: 1px solid #55a055; border-radius: 6px; padding: 12px 14px; margin-top: 14px; font-size: 0.8rem; color: #55a055; line-height: 1.5; }
+
+        /* Transactions */
+        .tx-filter-bar { display: flex; gap: 10px; margin-bottom: 14px; align-items: center; flex-wrap: wrap; }
+        .tx-filter-bar input, .tx-filter-bar select {
+            background: #0f1117; border: 1px solid #2a2d3a; border-radius: 4px;
+            padding: 6px 10px; color: #e0e0e0; font-size: 0.82rem;
         }
+        .tx-filter-bar input:focus, .tx-filter-bar select:focus { outline: none; border-color: #c9a84c; }
+        .tx-meta { font-size: 0.75rem; color: #555; margin-bottom: 10px; }
 
-        .tag {
-            background: #1a1d27;
-            border: 1px solid #2a2d3a;
-            border-radius: 10px;
-            padding: 2px 8px;
-            font-size: 0.7rem;
-            color: #888;
-        }
+        .tx-table { width: 100%; border-collapse: collapse; }
+        .tx-table th { text-align: left; font-size: 0.68rem; color: #888; text-transform: uppercase; padding: 7px 10px; border-bottom: 1px solid #2a2d3a; }
+        .tx-table td { padding: 9px 10px; border-bottom: 1px solid #1a1d27; font-size: 0.8rem; }
+        .tx-table tr:hover td { background: #1e2130; }
+        .hash-short { font-family: monospace; font-size: 0.7rem; color: #c9a84c; }
 
-        .listing-pricing {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            padding-top: 12px;
-            border-top: 1px solid #2a2d3a;
-        }
+        .pagination { display: flex; gap: 8px; margin-top: 12px; align-items: center; }
+        .page-btn { background: #0f1117; border: 1px solid #2a2d3a; color: #888; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+        .page-btn:hover { border-color: #c9a84c; color: #c9a84c; }
+        .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .page-info { font-size: 0.78rem; color: #555; }
 
-        .price-box {
-            background: #1a1d27;
-            border: 1px solid #2a2d3a;
-            border-radius: 4px;
-            padding: 6px 12px;
-            text-align: center;
-        }
-
-        .price-box .amount { font-size: 0.9rem; font-weight: 700; color: #c9a84c; }
-        .price-box .period { font-size: 0.65rem; color: #888; text-transform: uppercase; }
-
-        .listing-stats {
-            margin-left: auto;
-            text-align: right;
-            font-size: 0.75rem;
-            color: #555;
-        }
-
-        /* Tabs */
-        .tabs {
-            display: flex;
-            gap: 4px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #2a2d3a;
-        }
-
-        .tab {
-            padding: 8px 20px;
-            font-size: 0.85rem;
-            color: #888;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            margin-bottom: -1px;
-        }
-
-        .tab.active { color: #c9a84c; border-bottom-color: #c9a84c; }
-        .tab:hover { color: #c9a84c; }
-
-        /* Purchase modal */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.7);
-            z-index: 200;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-overlay.open { display: flex; }
-
-        .modal {
-            background: #1a1d27;
-            border: 1px solid #c9a84c;
-            border-radius: 8px;
-            padding: 32px;
-            width: 520px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal h2 { color: #c9a84c; font-size: 1rem; text-transform: uppercase; margin-bottom: 20px; }
-
-        .form-group { margin-bottom: 16px; }
-
-        .form-group label {
-            display: block;
-            font-size: 0.75rem;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-        }
-
-        .form-group input {
-            width: 100%;
-            background: #0f1117;
-            border: 1px solid #2a2d3a;
-            border-radius: 4px;
-            padding: 10px 12px;
-            color: #e0e0e0;
-            font-size: 0.9rem;
-        }
-
+        /* Buyer registration */
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-size: 0.72rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+        .form-group input { width: 100%; background: #0f1117; border: 1px solid #2a2d3a; border-radius: 4px; padding: 9px 12px; color: #e0e0e0; font-size: 0.88rem; }
         .form-group input:focus { outline: none; border-color: #c9a84c; }
 
-        .btn {
-            background: #c9a84c;
-            color: #0f1117;
-            border: none;
-            border-radius: 4px;
-            padding: 10px 24px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            cursor: pointer;
-            letter-spacing: 1px;
-        }
-
+        .btn { background: #c9a84c; color: #0f1117; border: none; border-radius: 4px; padding: 9px 22px; font-size: 0.9rem; font-weight: 700; cursor: pointer; letter-spacing: 1px; }
         .btn:hover { background: #e0c068; }
         .btn:disabled { background: #444; cursor: not-allowed; }
+        .btn-outline { background: none; color: #888; border: 1px solid #444; border-radius: 4px; padding: 9px 18px; font-size: 0.88rem; cursor: pointer; }
+        .btn-outline:hover { border-color: #c9a84c; color: #c9a84c; }
+        .btn-danger { background: none; color: #e05555; border: 1px solid #e05555; border-radius: 4px; padding: 9px 18px; font-size: 0.88rem; cursor: pointer; }
+        .btn-danger:hover { background: #e05555; color: #fff; }
+        .btn-row { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
 
-        .btn-outline {
-            background: none;
-            color: #888;
-            border: 1px solid #444;
-            border-radius: 4px;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            cursor: pointer;
-        }
-
-        .btn-outline:hover { border-color: #888; color: #ccc; }
-
-        .btn-row { display: flex; gap: 12px; margin-top: 20px; }
-
-        .status {
-            padding: 10px 14px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            margin-bottom: 16px;
-            display: none;
-        }
-
+        .status { padding: 10px 14px; border-radius: 4px; font-size: 0.85rem; margin-bottom: 14px; display: none; }
         .status.info    { background: #1e2d3d; border-left: 3px solid #4a9eda; color: #4a9eda; display: block; }
         .status.error   { background: #2d1e1e; border-left: 3px solid #e05555; color: #e05555; display: block; }
         .status.success { background: #1e2d1e; border-left: 3px solid #55a055; color: #55a055; display: block; }
 
-        /* Transaction table */
-        .tx-table { width: 100%; border-collapse: collapse; }
+        /* Purchase modal */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.75); z-index: 200; align-items: center; justify-content: center; }
+        .modal-overlay.open { display: flex; }
+        .modal { background: #1a1d27; border: 1px solid #c9a84c; border-radius: 8px; padding: 28px; width: 540px; max-height: 88vh; overflow-y: auto; position: relative; }
+        .modal h2 { color: #c9a84c; font-size: 1rem; text-transform: uppercase; margin-bottom: 18px; }
+        .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: 1px solid #444; color: #888; padding: 3px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+        .modal-close:hover { border-color: #e05555; color: #e05555; }
 
-        .tx-table th {
-            text-align: left;
-            font-size: 0.7rem;
-            color: #888;
-            text-transform: uppercase;
-            padding: 8px 12px;
-            border-bottom: 1px solid #2a2d3a;
-        }
+        .x402-flow { background: #0f1117; border: 1px solid #2a2d3a; border-radius: 6px; padding: 14px; margin: 14px 0; font-family: monospace; font-size: 0.76rem; color: #aaa; line-height: 1.8; }
+        .x402-flow .sn { color: #c9a84c; font-weight: 700; }
+        .x402-flow .ok { color: #55a055; }
+        .x402-flow .pr { color: #e0a030; }
+        .x402-flow .ar { color: #444; }
 
-        .tx-table td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #1a1d27;
-            font-size: 0.82rem;
-        }
+        .price-summary { display: flex; gap: 10px; align-items: center; margin: 12px 0; flex-wrap: wrap; }
+        .ps-box { background: #0f1117; border: 1px solid #2a2d3a; border-radius: 4px; padding: 10px 14px; text-align: center; }
+        .ps-box .pcspr { font-size: 1rem; font-weight: 700; color: #c9a84c; }
+        .ps-box .pfiat { font-size: 0.75rem; color: #55a055; margin-top: 2px; }
+        .ps-box .plbl  { font-size: 0.65rem; color: #888; text-transform: uppercase; margin-top: 2px; }
 
-        .hash-short { font-family: monospace; font-size: 0.72rem; color: #c9a84c; }
+        .abort-warning { background: #2a1a1a; border: 1px solid #e05555; border-radius: 6px; padding: 10px 14px; margin-top: 12px; font-size: 0.78rem; color: #e05555; }
 
-        /* x402 flow visualization */
-        .x402-flow {
-            background: #0f1117;
-            border: 1px solid #2a2d3a;
-            border-radius: 6px;
-            padding: 16px;
-            margin: 16px 0;
-            font-family: monospace;
-            font-size: 0.78rem;
-            color: #aaa;
-            line-height: 1.8;
-        }
+        .success-hash { background: #0f1117; border: 1px solid #2a2d3a; border-radius: 6px; padding: 12px; margin-top: 12px; }
+        .success-hash .lbl { font-size: 0.68rem; color: #888; margin-bottom: 4px; }
+        .success-hash .val { font-family: monospace; font-size: 0.73rem; color: #c9a84c; word-break: break-all; }
 
-        .x402-flow .step-num { color: #c9a84c; font-weight: 700; }
-        .x402-flow .http-200 { color: #55a055; }
-        .x402-flow .http-402 { color: #e0a030; }
-        .x402-flow .arrow    { color: #555; }
-
-        .success-hash {
-            background: #0f1117;
-            border: 1px solid #2a2d3a;
-            border-radius: 6px;
-            padding: 12px;
-            margin-top: 12px;
-        }
-
-        .success-hash .lbl { font-size: 0.7rem; color: #888; margin-bottom: 4px; }
-        .success-hash .val { font-family: monospace; font-size: 0.75rem; color: #c9a84c; word-break: break-all; }
-
-        .empty { text-align: center; color: #555; padding: 40px; font-size: 0.9rem; }
-
-        #buyerPanel { display: none; }
-        #registeredBadge { display: none; }
+        .empty { text-align: center; color: #555; padding: 36px; font-size: 0.88rem; }
     </style>
 </head>
 <body>
@@ -349,37 +183,39 @@
         <p>Certified Data Products — Powered by Casper Network</p>
     </div>
     <div class="nav-links">
+        <div class="currency-bar">
+            <div class="live-dot"></div>
+            <span style="color:#555; font-size:0.72rem;">1 CSPR =</span>
+            <span class="cspr-price" id="csprPriceDisplay">loading...</span>
+            <select id="currencySelect" onchange="onCurrencyChange()">
+                <option value="usd">USD</option>
+                <option value="eur">EUR</option>
+                <option value="gbp">GBP</option>
+                <option value="cad">CAD</option>
+                <option value="aud">AUD</option>
+                <option value="jpy">JPY</option>
+            </select>
+        </div>
         <a href="/static/index.html" class="nav-link">+ Assess</a>
         <a href="/static/registry.html" class="nav-link">Registry</a>
         <a href="/static/marketplace.html" class="nav-link active">Marketplace</a>
+        <a href="/static/buyer_dashboard.html" class="nav-link">Buyer</a>
+        <a href="/static/seller_dashboard.html" class="nav-link">Seller</a>
     </div>
 </header>
 
 <div class="container">
 
-    <!-- Stats -->
     <div class="stats-grid">
-        <div class="stat-box">
-            <div class="val" id="statListings">—</div>
-            <div class="lbl">Active Listings</div>
-        </div>
-        <div class="stat-box">
-            <div class="val" id="statTxCount">—</div>
-            <div class="lbl">Transactions</div>
-        </div>
-        <div class="stat-box">
-            <div class="val" id="statRevenue">—</div>
-            <div class="lbl">Total Revenue (CSPR)</div>
-        </div>
-        <div class="stat-box">
-            <div class="val" id="statBuyerStatus">Not Registered</div>
-            <div class="lbl">Buyer Status</div>
-        </div>
+        <div class="stat-box"><div class="val" id="statListings">—</div><div class="lbl">Active Listings</div></div>
+        <div class="stat-box"><div class="val" id="statTxCount">—</div><div class="lbl">Transactions</div></div>
+        <div class="stat-box"><div class="val" id="statRevenue">—</div><div class="lbl">Revenue (CSPR)</div></div>
+        <div class="stat-box"><div class="val" id="statRevenueFiat">—</div><div class="lbl" id="statRevenueFiatLbl">Revenue (USD)</div></div>
     </div>
 
-    <!-- Tabs -->
     <div class="tabs">
         <div class="tab active" onclick="showTab('listings')">Data Products</div>
+        <div class="tab" onclick="showTab('calculator')">Price Calculator</div>
         <div class="tab" onclick="showTab('transactions')">Transaction Ledger</div>
         <div class="tab" onclick="showTab('buyer')">Buyer Account</div>
     </div>
@@ -391,11 +227,62 @@
         </div>
     </div>
 
+    <!-- Price Calculator Tab -->
+    <div id="tab-calculator" style="display:none">
+        <div class="card">
+            <h2>FORGE Data Price Calculator</h2>
+            <div class="calc-layout">
+                <div>
+                    <div class="calc-field">
+                        <label>Select Dataset</label>
+                        <select id="calcDataset" onchange="onDatasetChange()">
+                            <option value="">— Choose a dataset —</option>
+                        </select>
+                    </div>
+                    <div class="calc-field">
+                        <label>Estimated API Calls per Month</label>
+                        <input type="number" id="calcCalls" value="500" min="1" oninput="recalculate()">
+                        <div class="hint" id="calcRowHint"></div>
+                    </div>
+                    <div class="calc-field">
+                        <label>Display Currency</label>
+                        <select id="calcCurrency" onchange="onCalcCurrencyChange()">
+                            <option value="usd">USD — US Dollar</option>
+                            <option value="eur">EUR — Euro</option>
+                            <option value="gbp">GBP — British Pound</option>
+                            <option value="cad">CAD — Canadian Dollar</option>
+                            <option value="aud">AUD — Australian Dollar</option>
+                            <option value="jpy">JPY — Japanese Yen</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="calc-results" id="calcResults">
+                    <h3>Cost Breakdown</h3>
+                    <div class="empty" style="padding:20px; font-size:0.82rem;">Select a dataset to see pricing.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Transactions Tab -->
     <div id="tab-transactions" style="display:none">
         <div class="card">
             <h2>Transaction Ledger</h2>
+            <div class="tx-filter-bar">
+                <input type="text" id="txFilterBuyer" placeholder="Filter by buyer..." oninput="filterTransactions()">
+                <select id="txFilterListing" onchange="filterTransactions()">
+                    <option value="">All datasets</option>
+                </select>
+                <span style="margin-left:auto; font-size:0.78rem; color:#555;" id="txFilterCount"></span>
+                <button class="btn-outline" style="font-size:0.78rem; padding:5px 12px;" onclick="clearTxFilters()">Clear</button>
+            </div>
+            <div class="tx-meta" id="txMeta"></div>
             <div id="txContainer"><div class="empty">No transactions yet.</div></div>
+            <div class="pagination" id="txPagination" style="display:none">
+                <button class="page-btn" id="txPrevBtn" onclick="txChangePage(-1)">← Prev</button>
+                <span class="page-info" id="txPageInfo"></span>
+                <button class="page-btn" id="txNextBtn" onclick="txChangePage(1)">Next →</button>
+            </div>
         </div>
     </div>
 
@@ -403,29 +290,14 @@
     <div id="tab-buyer" style="display:none">
         <div class="card" id="registerCard">
             <h2>Register as a Data Buyer</h2>
-            <p style="color:#888; font-size:0.85rem; margin-bottom:20px;">
-                Register to purchase access to FORGE-certified data products. Your buyer ID is used to authenticate API calls.
-            </p>
-            <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" id="reg_name" placeholder="John Smith">
-            </div>
-            <div class="form-group">
-                <label>Organization</label>
-                <input type="text" id="reg_org" placeholder="Acme Analytics Corp">
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="text" id="reg_email" placeholder="jsmith@example.com">
-            </div>
-            <div class="form-group">
-                <label>CSPR Wallet Address (optional)</label>
-                <input type="text" id="reg_wallet" placeholder="01a3b5...">
-            </div>
+            <p style="color:#888; font-size:0.85rem; margin-bottom:20px;">Register to purchase access to FORGE-certified data products.</p>
+            <div class="form-group"><label>Full Name</label><input type="text" id="reg_name" placeholder="John Smith"></div>
+            <div class="form-group"><label>Organization</label><input type="text" id="reg_org" placeholder="Acme Analytics Corp"></div>
+            <div class="form-group"><label>Email</label><input type="text" id="reg_email" placeholder="jsmith@example.com"></div>
+            <div class="form-group"><label>CSPR Wallet (optional)</label><input type="text" id="reg_wallet" placeholder="01a3b5..."></div>
             <div id="regStatus" class="status"></div>
             <button class="btn" onclick="registerBuyer()">Register</button>
         </div>
-
         <div class="card" id="buyerCard" style="display:none">
             <h2>Your Buyer Account</h2>
             <div id="buyerInfo"></div>
@@ -437,12 +309,13 @@
 <!-- Purchase Modal -->
 <div class="modal-overlay" id="purchaseModal">
     <div class="modal">
+        <button class="modal-close" onclick="closeModal()">✕ Cancel</button>
         <h2>Purchase Data Access</h2>
         <div id="modalStatus" class="status"></div>
         <div id="modalContent"></div>
-        <div class="btn-row">
+        <div class="btn-row" id="modalBtnRow">
             <button class="btn" id="confirmPurchaseBtn" onclick="confirmPurchase()">Confirm Purchase</button>
-            <button class="btn-outline" onclick="closeModal()">Cancel</button>
+            <button class="btn-danger" onclick="closeModal()">Abandon</button>
         </div>
     </div>
 </div>
@@ -450,233 +323,483 @@
 <script>
 const API = 'http://127.0.0.1:8000';
 let currentListing = null;
-let buyerId = localStorage.getItem('forge_buyer_id');
+let buyerId   = localStorage.getItem('forge_buyer_id');
 let buyerName = localStorage.getItem('forge_buyer_name');
+let csprPrices = {};
+let selectedCurrency = localStorage.getItem('forge_currency') || 'usd';
+let allListings = [];
+let allTransactions = [];
+let filteredTransactions = [];
+let txPage = 1;
+const TX_PAGE_SIZE = 10;
+
+const SYM  = { usd:'$', eur:'€', gbp:'£', cad:'CA$', aud:'A$', jpy:'¥' };
+const DEC  = { usd:6, eur:6, gbp:6, cad:6, aud:6, jpy:4 };
+const DDEC = { usd:2, eur:2, gbp:2, cad:2, aud:2, jpy:0 };
+
+function fiatStr(cspr, cur) {
+    cur = cur || selectedCurrency;
+    const rate = csprPrices['cspr_' + cur] || 0;
+    const val  = cspr * rate;
+    const sym  = SYM[cur] || '$';
+    // Use more decimals for tiny values
+    const dec  = val < 0.01 ? 6 : val < 1 ? 4 : 2;
+    return sym + val.toFixed(dec) + ' ' + cur.toUpperCase();
+}
 
 async function init() {
-    await loadListings();
-    await loadTransactions();
+    document.getElementById('currencySelect').value = selectedCurrency;
+    document.getElementById('calcCurrency').value   = selectedCurrency;
+    await loadCsprPrice();
+    await Promise.all([loadListings(), loadTransactions()]);
     updateBuyerStatus();
+    setInterval(loadCsprPrice, 300000);
+}
+
+async function loadCsprPrice() {
+    try {
+        const r = await fetch(API + '/market/cspr-price');
+        csprPrices = await r.json();
+    } catch {
+        csprPrices = { cspr_usd:0.0021, cspr_eur:0.0019, cspr_gbp:0.0016, cspr_cad:0.0029, cspr_aud:0.0030, cspr_jpy:0.34 };
+    }
+    updatePriceDisplay();
+}
+
+function updatePriceDisplay() {
+    const price = csprPrices['cspr_' + selectedCurrency] || 0;
+    const sym   = SYM[selectedCurrency] || '$';
+    const dec   = price < 0.001 ? 6 : 4;
+    document.getElementById('csprPriceDisplay').textContent =
+        sym + price.toFixed(dec) + ' ' + selectedCurrency.toUpperCase();
+    renderListings();
+    updateRevenueStats();
+    recalculate();
+}
+
+function updateRevenueStats() {
+    const total = allTransactions.reduce((s, t) => s + (t.amount || 0), 0);
+    document.getElementById('statRevenue').textContent = total.toFixed(4);
+    document.getElementById('statRevenueFiat').textContent = fiatStr(total);
+    const lbl = selectedCurrency.toUpperCase();
+    document.getElementById('statRevenueFiatLbl').textContent = 'Revenue (' + lbl + ')';
+    document.getElementById('statTxCount').textContent = allTransactions.length;
+}
+
+function onCurrencyChange() {
+    selectedCurrency = document.getElementById('currencySelect').value;
+    document.getElementById('calcCurrency').value = selectedCurrency;
+    localStorage.setItem('forge_currency', selectedCurrency);
+    updatePriceDisplay();
+    renderTransactions();
+}
+
+function onCalcCurrencyChange() {
+    selectedCurrency = document.getElementById('calcCurrency').value;
+    document.getElementById('currencySelect').value = selectedCurrency;
+    localStorage.setItem('forge_currency', selectedCurrency);
+    updatePriceDisplay();
 }
 
 function updateBuyerStatus() {
+    const isAdmin = new URLSearchParams(window.location.search).get('mode') === 'admin';
+
+    if (isAdmin) {
+        window._adminMode = true;
+        document.getElementById('registerCard').style.display = 'none';
+        document.getElementById('buyerCard').style.display = 'block';
+        document.getElementById('buyerInfo').innerHTML = `
+            <div style="background:#1a2a1a; border:1px solid #55a055; border-radius:6px; padding:16px; font-size:0.85rem; color:#55a055; line-height:1.6;">
+                ✓ Admin view — read only. Transactions and listings are visible but purchases are disabled.
+                <div style="margin-top:10px;">
+                    <a href="/static/admin.html" style="color:#c9a84c; font-size:0.82rem;">← Return to Admin Dashboard</a>
+                </div>
+            </div>`;
+        return;
+    }
+
+    window._adminMode = false;
+
     if (buyerId) {
-        document.getElementById('statBuyerStatus').textContent = buyerName || buyerId;
-        document.getElementById('statBuyerStatus').style.fontSize = '0.85rem';
-        document.getElementById('statBuyerStatus').style.marginTop = '4px';
         document.getElementById('registerCard').style.display = 'none';
         document.getElementById('buyerCard').style.display = 'block';
         document.getElementById('buyerInfo').innerHTML = `
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                <div style="background:#0f1117; border:1px solid #2a2d3a; border-radius:6px; padding:14px;">
-                    <div style="font-size:0.7rem; color:#888; margin-bottom:4px;">BUYER ID</div>
-                    <div style="font-family:monospace; color:#c9a84c; font-size:0.85rem;">${buyerId}</div>
+                <div style="background:#0f1117; border:1px solid #2a2d3a; border-radius:6px; padding:12px;">
+                    <div style="font-size:0.68rem; color:#888; margin-bottom:4px;">BUYER ID</div>
+                    <div style="font-family:monospace; color:#c9a84c; font-size:0.82rem;">${buyerId}</div>
                 </div>
-                <div style="background:#0f1117; border:1px solid #2a2d3a; border-radius:6px; padding:14px;">
-                    <div style="font-size:0.7rem; color:#888; margin-bottom:4px;">NAME</div>
+                <div style="background:#0f1117; border:1px solid #2a2d3a; border-radius:6px; padding:12px;">
+                    <div style="font-size:0.68rem; color:#888; margin-bottom:4px;">NAME</div>
                     <div style="color:#fff; font-size:0.85rem;">${buyerName || '—'}</div>
                 </div>
             </div>
             <div style="margin-top:12px;">
-                <button class="btn-outline" onclick="clearBuyer()" style="font-size:0.8rem; padding:6px 14px;">
-                    Clear Registration
-                </button>
-            </div>
-        `;
+                <button class="btn-outline" onclick="clearBuyer()" style="font-size:0.78rem; padding:5px 12px;">Clear Registration</button>
+            </div>`;
     }
 }
 
 async function loadListings() {
-    try {
-        const res = await fetch(API + '/marketplace/listings');
-        const listings = await res.json();
+    const [listRes, regRes] = await Promise.all([
+        fetch(API + '/marketplace/listings'),
+        fetch(API + '/registry')
+    ]);
+    allListings = await listRes.json();
+    const registry = await regRes.json();
+    const ratingMap = {};
+    registry.forEach(a => { ratingMap[a.assessment_id] = a.metal_rating; });
 
-        document.getElementById('statListings').textContent = listings.length;
+    document.getElementById('statListings').textContent = allListings.length;
 
-        if (listings.length === 0) {
-            document.getElementById('listingsGrid').innerHTML =
-                '<div class="empty">No listings yet. Run a FORGE assessment and list your dataset.</div>';
-            return;
-        }
+    // Populate calculator dropdown
+    const sel = document.getElementById('calcDataset');
+    sel.innerHTML = '<option value="">— Choose a dataset —</option>' +
+        allListings.map(l =>
+            `<option value="${l.listing_id}"
+             data-price="${l.price_per_call}"
+             data-monthly="${l.price_monthly||0}"
+             data-annual="${l.price_annual||0}"
+             data-rows="${l.row_count||0}"
+             data-name="${l.dataset_name}">${l.dataset_name}</option>`
+        ).join('');
 
-        // Get assessment details for metal ratings
-        const regRes = await fetch(API + '/registry');
-        const registry = await regRes.json();
+    renderListingsWithRatings(allListings, ratingMap);
+}
+
+function renderListings() {
+    if (!allListings.length) return;
+    fetch(API + '/registry').then(r => r.json()).then(registry => {
         const ratingMap = {};
         registry.forEach(a => { ratingMap[a.assessment_id] = a.metal_rating; });
+        renderListingsWithRatings(allListings, ratingMap);
+    });
+}
 
-        document.getElementById('listingsGrid').innerHTML = listings.map(l => {
-            const rating = ratingMap[l.assessment_id] || 'Unknown';
-            const tags = l.tags ? l.tags.split(',').map(t =>
-                `<span class="tag">${t.trim()}</span>`).join('') : '';
-            return `
-                <div class="listing-card" onclick="openPurchaseModal(${JSON.stringify(l).replace(/"/g, '&quot;')}, '${rating}')">
-                    <div class="listing-header">
-                        <div class="listing-name">${l.dataset_name}</div>
-                        <span class="metal-pill metal-${rating}">${rating}</span>
-                    </div>
-                    <div class="listing-desc">${l.description || 'No description provided.'}</div>
-                    <div class="listing-tags">${tags}</div>
-                    <div class="listing-pricing">
-                        <div class="price-box">
-                            <div class="amount">${l.price_per_call} ${l.currency}</div>
-                            <div class="period">Per Call</div>
-                        </div>
-                        ${l.price_monthly ? `
-                        <div class="price-box">
-                            <div class="amount">${l.price_monthly} ${l.currency}</div>
-                            <div class="period">Monthly</div>
-                        </div>` : ''}
-                        <div class="listing-stats">
-                            ${l.total_calls} calls made
-                        </div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-
-    } catch (err) {
-        document.getElementById('listingsGrid').innerHTML =
-            `<div class="empty">Failed to load listings: ${err.message}</div>`;
+function renderListingsWithRatings(listings, ratingMap) {
+    if (!listings.length) {
+        document.getElementById('listingsGrid').innerHTML = '<div class="empty">No listings yet.</div>';
+        return;
     }
+    document.getElementById('listingsGrid').innerHTML = listings.map(l => {
+        const rating = ratingMap[l.assessment_id] || 'Unknown';
+        const tags   = l.tags ? l.tags.split(',').map(t => `<span class="tag">${t.trim()}</span>`).join('') : '';
+        const rowInfo = l.row_count ? `${l.row_count.toLocaleString()} rows` + (l.file_size_mb ? ` · ${l.file_size_mb} MB` : '') : '';
+
+        return `
+            <div class="listing-card" onclick="openPurchaseModal(${JSON.stringify(l).replace(/"/g,'&quot;')}, '${rating}')">
+                <div class="listing-header">
+                    <div class="listing-name">${l.dataset_name}</div>
+                    <span class="metal-pill metal-${rating}">${rating}</span>
+                </div>
+                ${rowInfo ? `<div class="listing-meta">📊 ${rowInfo}</div>` : ''}
+                <div class="listing-desc">${l.description || 'No description.'}</div>
+                <div class="listing-tags">${tags}</div>
+                <div class="listing-pricing">
+                    <div class="price-box">
+                        <div class="cspr-amt">${l.price_per_call} CSPR</div>
+                        <div class="fiat-amt">${fiatStr(l.price_per_call)}</div>
+                        <div class="period">Per Call</div>
+                    </div>
+                    ${l.price_monthly ? `
+                    <div class="price-box">
+                        <div class="cspr-amt">${l.price_monthly} CSPR</div>
+                        <div class="fiat-amt">${fiatStr(l.price_monthly)}</div>
+                        <div class="period">Monthly</div>
+                    </div>` : ''}
+                    ${l.price_annual ? `
+                    <div class="price-box">
+                        <div class="cspr-amt">${l.price_annual} CSPR</div>
+                        <div class="fiat-amt">${fiatStr(l.price_annual)}</div>
+                        <div class="period">Annual</div>
+                    </div>` : ''}
+                    <div class="listing-stats">${l.total_calls} calls made</div>
+                </div>
+            </div>`;
+    }).join('');
+}
+
+function onDatasetChange() {
+    const sel    = document.getElementById('calcDataset');
+    const option = sel.options[sel.selectedIndex];
+    if (!option || !option.value) return;
+    const rows = parseInt(option.dataset.rows) || 0;
+    if (rows > 0) {
+        document.getElementById('calcCalls').value = rows;
+        document.getElementById('calcRowHint').textContent =
+            `Default set to full dataset size: ${rows.toLocaleString()} rows`;
+    }
+    recalculate();
+}
+
+function recalculate() {
+    const sel    = document.getElementById('calcDataset');
+    const calls  = parseInt(document.getElementById('calcCalls').value) || 0;
+    const cur    = document.getElementById('calcCurrency').value;
+    const option = sel.options[sel.selectedIndex];
+
+    if (!option || !option.value) return;
+
+    const pricePerCall = parseFloat(option.dataset.price)   || 0;
+    const priceMonthly = parseFloat(option.dataset.monthly) || 0;
+    const priceAnnual  = parseFloat(option.dataset.annual)  || 0;
+    const datasetRows  = parseInt(option.dataset.rows)      || 0;
+
+    const rate = csprPrices['cspr_' + cur] || 0;
+    const sym  = SYM[cur] || '$';
+
+    const perCallTotal = calls * pricePerCall;
+    const annualVsMonthly = priceMonthly > 0 ? (priceMonthly * 12 - priceAnnual) : 0;
+    const breakeven = priceMonthly > 0 && pricePerCall > 0 ? Math.ceil(priceMonthly / pricePerCall) : 0;
+
+    let recommendation = '';
+    if (priceMonthly > 0) {
+        if (perCallTotal > priceMonthly) {
+            const saving = perCallTotal - priceMonthly;
+            recommendation = `Monthly subscription saves you ${saving.toFixed(4)} CSPR (${fiatStr(saving, cur)}) at ${calls.toLocaleString()} calls/month.`;
+        } else {
+            recommendation = `Per-call pricing saves you ${(priceMonthly - perCallTotal).toFixed(4)} CSPR (${fiatStr(priceMonthly - perCallTotal, cur)}) at this volume. Monthly becomes better above ${breakeven.toLocaleString()} calls/month.`;
+        }
+    }
+
+    document.getElementById('calcResults').innerHTML = `
+        <h3>Cost Breakdown — ${calls.toLocaleString()} calls/month
+            ${datasetRows > 0 ? `<span style="color:#555; font-weight:400;"> · Dataset: ${datasetRows.toLocaleString()} rows</span>` : ''}
+        </h3>
+
+        <div class="calc-row">
+            <div class="rlabel">Price per API call</div>
+            <div class="rvalue">
+                <div class="rcspr">${pricePerCall} CSPR</div>
+                <div class="rfiat">${fiatStr(pricePerCall, cur)}</div>
+            </div>
+        </div>
+
+        <div class="calc-row calc-highlight">
+            <div class="rlabel">Per-call total (${calls.toLocaleString()} calls)</div>
+            <div class="rvalue">
+                <div class="rcspr">${perCallTotal.toFixed(4)} CSPR</div>
+                <div class="rfiat">${fiatStr(perCallTotal, cur)}</div>
+            </div>
+        </div>
+
+        ${priceMonthly > 0 ? `
+        <div class="calc-row">
+            <div class="rlabel">Monthly subscription</div>
+            <div class="rvalue">
+                <div class="rcspr">${priceMonthly} CSPR</div>
+                <div class="rfiat">${fiatStr(priceMonthly, cur)}</div>
+            </div>
+        </div>` : ''}
+
+        ${priceAnnual > 0 ? `
+        <div class="calc-row">
+            <div class="rlabel">Annual subscription</div>
+            <div class="rvalue">
+                <div class="rcspr">${priceAnnual} CSPR</div>
+                <div class="rfiat">${fiatStr(priceAnnual, cur)}</div>
+            </div>
+        </div>
+        <div class="calc-row">
+            <div class="rlabel">Annual vs 12× monthly savings</div>
+            <div class="rvalue">
+                <div class="rcspr">${annualVsMonthly.toFixed(4)} CSPR</div>
+                <div class="rfiat">${fiatStr(annualVsMonthly, cur)}</div>
+            </div>
+        </div>` : ''}
+
+        ${recommendation ? `<div class="rec-box">💡 ${recommendation}</div>` : ''}
+    `;
 }
 
 async function loadTransactions() {
-    try {
-        const res = await fetch(API + '/marketplace/transactions');
-        const txs = await res.json();
+    const r = await fetch(API + '/marketplace/transactions?limit=200');
+    // Fall back to unlimited fetch
+    const r2 = await fetch(API + '/marketplace/transactions');
+    allTransactions = await r2.json();
+    filteredTransactions = [...allTransactions];
 
-        document.getElementById('statTxCount').textContent = txs.length;
+    // Populate listing filter
+    const listingIds = [...new Set(allTransactions.map(t => t.listing_id))];
+    const sel = document.getElementById('txFilterListing');
+    sel.innerHTML = '<option value="">All datasets</option>' +
+        listingIds.map(id => {
+            const l = allListings.find(x => x.listing_id === id);
+            return `<option value="${id}">Listing #${id}${l ? ' — ' + l.dataset_name.substring(0,30) : ''}</option>`;
+        }).join('');
 
-        const totalRevenue = txs.reduce((sum, t) => sum + (t.amount || 0), 0);
-        document.getElementById('statRevenue').textContent = totalRevenue.toFixed(4);
+    updateRevenueStats();
+    renderTransactions();
+}
 
-        if (txs.length === 0) {
-            document.getElementById('txContainer').innerHTML =
-                '<div class="empty">No transactions yet.</div>';
-            return;
-        }
+function filterTransactions() {
+    const buyerFilter  = document.getElementById('txFilterBuyer').value.toLowerCase();
+    const listingFilter = document.getElementById('txFilterListing').value;
 
-        document.getElementById('txContainer').innerHTML = `
-            <table class="tx-table">
-                <thead>
+    filteredTransactions = allTransactions.filter(t => {
+        const matchBuyer   = !buyerFilter || (t.buyer_name || '').toLowerCase().includes(buyerFilter);
+        const matchListing = !listingFilter || String(t.listing_id) === listingFilter;
+        return matchBuyer && matchListing;
+    });
+
+    txPage = 1;
+    renderTransactions();
+}
+
+function clearTxFilters() {
+    document.getElementById('txFilterBuyer').value = '';
+    document.getElementById('txFilterListing').value = '';
+    filteredTransactions = [...allTransactions];
+    txPage = 1;
+    renderTransactions();
+}
+
+function txChangePage(delta) {
+    const totalPages = Math.ceil(filteredTransactions.length / TX_PAGE_SIZE);
+    const newPage = txPage + delta;
+    if (newPage >= 1 && newPage <= totalPages) { txPage = newPage; renderTransactions(); }
+}
+
+function renderTransactions() {
+    const total      = allTransactions.length;
+    const filtered   = filteredTransactions.length;
+    const totalPages = Math.ceil(filtered / TX_PAGE_SIZE);
+    const start      = (txPage - 1) * TX_PAGE_SIZE;
+    const page       = filteredTransactions.slice(start, start + TX_PAGE_SIZE);
+
+    document.getElementById('txMeta').textContent =
+        `Showing ${filtered} of ${total} transaction${total !== 1 ? 's' : ''}` +
+        (filtered < total ? ' (filtered)' : '');
+
+    document.getElementById('txFilterCount').textContent =
+        filtered < total ? `${filtered} match` : '';
+
+    if (page.length === 0) {
+        document.getElementById('txContainer').innerHTML = '<div class="empty">No matching transactions.</div>';
+        document.getElementById('txPagination').style.display = 'none';
+        return;
+    }
+
+    document.getElementById('txContainer').innerHTML = `
+        <table class="tx-table">
+            <thead><tr>
+                <th>ID</th><th>Buyer</th><th>Dataset</th>
+                <th>CSPR</th><th>${selectedCurrency.toUpperCase()}</th>
+                <th>Records</th><th>Time</th><th>Hash</th>
+            </tr></thead>
+            <tbody>
+                ${page.map(t => `
                     <tr>
-                        <th>ID</th>
-                        <th>Buyer</th>
-                        <th>Dataset</th>
-                        <th>Amount</th>
-                        <th>Records</th>
-                        <th>Time</th>
-                        <th>Casper Hash</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${txs.map(t => `
-                        <tr>
-                            <td>${t.id}</td>
-                            <td>${t.buyer_name || t.buyer_id}</td>
-                            <td style="font-size:0.75rem; color:#888;">Listing #${t.listing_id}</td>
-                            <td style="color:#c9a84c; font-weight:700;">${t.amount} ${t.currency}</td>
-                            <td>${t.records_delivered || '—'}</td>
-                            <td style="font-size:0.75rem; color:#888;">${formatDate(t.transacted_at)}</td>
-                            <td class="hash-short">${t.casper_tx_hash ? t.casper_tx_hash.substring(0, 16) + '...' : '—'}</td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>
-        `;
-    } catch (err) {
-        console.error('Failed to load transactions:', err);
+                        <td style="color:#555;">${t.id}</td>
+                        <td>${t.buyer_name || t.buyer_id}</td>
+                        <td style="font-size:0.75rem; color:#888;">Listing #${t.listing_id}</td>
+                        <td style="color:#c9a84c; font-weight:700;">${t.amount} CSPR</td>
+                        <td style="color:#55a055; font-size:0.78rem;">${t.amount ? fiatStr(t.amount) : '—'}</td>
+                        <td>${t.records_delivered || '—'}</td>
+                        <td style="font-size:0.72rem; color:#888;">${formatDate(t.transacted_at)}</td>
+                        <td class="hash-short">${t.casper_tx_hash ? t.casper_tx_hash.substring(0,14)+'...' : '—'}</td>
+                    </tr>`).join('')}
+            </tbody>
+        </table>`;
+
+    if (totalPages > 1) {
+        document.getElementById('txPagination').style.display = 'flex';
+        document.getElementById('txPageInfo').textContent = `Page ${txPage} of ${totalPages} (${filtered} transactions)`;
+        document.getElementById('txPrevBtn').disabled = txPage <= 1;
+        document.getElementById('txNextBtn').disabled = txPage >= totalPages;
+    } else {
+        document.getElementById('txPagination').style.display = 'none';
     }
 }
 
 function openPurchaseModal(listing, rating) {
-    if (!buyerId) {
+    if (window._adminMode) {
         showTab('buyer');
         return;
     }
-
+    if (!buyerId) { showTab('buyer'); return; }
     currentListing = listing;
-
     document.getElementById('modalStatus').className = 'status';
     document.getElementById('confirmPurchaseBtn').disabled = false;
+    document.getElementById('confirmPurchaseBtn').textContent = 'Confirm Purchase';
+    document.getElementById('modalBtnRow').style.display = 'flex';
+
+    const rowInfo = listing.row_count ? `${listing.row_count.toLocaleString()} rows available` : 'rows available';
 
     document.getElementById('modalContent').innerHTML = `
-        <div style="margin-bottom:16px;">
-            <div style="font-size:1.1rem; font-weight:700; color:#fff; margin-bottom:6px;">${listing.dataset_name}</div>
+        <div style="margin-bottom:14px;">
+            <div style="font-size:1rem; font-weight:700; color:#fff; margin-bottom:6px;">${listing.dataset_name}</div>
             <span class="metal-pill metal-${rating}">${rating} Certified</span>
+            ${listing.row_count ? `<span style="font-size:0.78rem; color:#555; margin-left:10px;">📊 ${rowInfo}</span>` : ''}
         </div>
 
         <div class="x402-flow">
-<span class="step-num">Step 1</span> <span class="arrow">→</span> Your agent calls the data endpoint
+<span class="sn">Step 1</span> <span class="ar">→</span> Your agent calls the data endpoint
 GET /marketplace/data/${listing.listing_id}?buyer_id=${buyerId}
 
-<span class="step-num">Step 2</span> <span class="arrow">→</span> Server responds with payment terms
-<span class="http-402">402 Payment Required</span>
-X-Payment-Price: ${listing.price_per_call} ${listing.currency}
+<span class="sn">Step 2</span> <span class="ar">→</span> Server returns payment terms
+<span class="pr">402 Payment Required</span>
+X-Payment-Price: ${listing.price_per_call} CSPR · ${fiatStr(listing.price_per_call)}
 X-Payment-Network: casper:casper-test
 
-<span class="step-num">Step 3</span> <span class="arrow">→</span> Agent signs CSPR authorization &amp; retries
-X-Payment: casper:signed-authorization...
-
-<span class="step-num">Step 4</span> <span class="arrow">→</span> Casper Facilitator settles on-chain
-<span class="http-200">200 OK</span> — Data delivered + tx hash recorded
+<span class="sn">Step 3</span> <span class="ar">→</span> Agent signs CSPR authorization &amp; retries
+<span class="sn">Step 4</span> <span class="ar">→</span> Casper settles on-chain
+<span class="ok">200 OK</span> — Data delivered + tx hash recorded
         </div>
 
-        <div style="display:flex; gap:12px; margin-top:8px;">
-            <div class="price-box">
-                <div class="amount">${listing.price_per_call} ${listing.currency}</div>
-                <div class="period">This Call</div>
+        <div class="price-summary">
+            <div class="ps-box">
+                <div class="pcspr">${listing.price_per_call} CSPR</div>
+                <div class="pfiat">${fiatStr(listing.price_per_call)}</div>
+                <div class="plbl">This Call</div>
             </div>
-            <div style="font-size:0.8rem; color:#888; align-self:center;">
+            <div style="font-size:0.78rem; color:#888;">
                 Buyer: ${buyerId}<br>
-                Records: up to 100 rows delivered
+                Up to 100 records delivered per call
             </div>
         </div>
-    `;
+
+        <div class="abort-warning">
+            ⚠ You can abandon this purchase at any time before confirming. Once confirmed, the CSPR payment is processed and the transaction is recorded on-chain.
+        </div>`;
 
     document.getElementById('purchaseModal').classList.add('open');
 }
 
 async function confirmPurchase() {
     if (!currentListing || !buyerId) return;
-
     document.getElementById('confirmPurchaseBtn').disabled = true;
 
     const status = document.getElementById('modalStatus');
     status.className = 'status info';
     status.textContent = 'Submitting payment authorization to Casper testnet...';
 
-    // Simulate x402 payment proof (real x402 would sign with CSPR wallet)
-    const paymentProof = `sim-cspr-${Date.now()}-${buyerId}`;
+    const proof = 'sim-cspr-' + Date.now() + '-' + buyerId;
 
     try {
         const res = await fetch(
-            `${API}/marketplace/data/${currentListing.listing_id}?buyer_id=${buyerId}&payment_proof=${paymentProof}`
+            API + '/marketplace/data/' + currentListing.listing_id +
+            '?buyer_id=' + buyerId + '&payment_proof=' + proof
         );
         const data = await res.json();
-
         if (!res.ok) throw new Error(data.detail || 'Purchase failed');
 
         status.className = 'status success';
-        status.textContent = `Success! ${data.records_delivered} records delivered. ${data.amount_charged} ${data.currency} charged.`;
+        status.textContent = `Success! ${data.records_delivered} records delivered. ${data.amount_charged} CSPR (${fiatStr(data.amount_charged)}) charged.`;
 
         document.getElementById('modalContent').innerHTML += `
-            <div class="success-hash">
+            <div class="success-hash" style="margin-top:14px;">
                 <div class="lbl">⛓ Casper Transaction Hash</div>
                 <div class="val">${data.casper_tx_hash}</div>
             </div>
-            <div style="margin-top:12px; font-size:0.8rem; color:#888;">
-                First record: <span style="color:#c9a84c;">${data.data && data.data[0] ? data.data[0].measurement_date + ' — ' + data.data[0].pollutant_code + ': ' + data.data[0].measurement_value + ' ' + data.data[0].unit_of_measure : '—'}</span>
-            </div>
-        `;
+            <div style="margin-top:10px; font-size:0.78rem; color:#888;">
+                Import ID: <span style="color:#c9a84c;">${data.api_import_id}</span>
+            </div>`;
 
         document.getElementById('confirmPurchaseBtn').textContent = 'Purchase Complete';
+        document.getElementById('modalBtnRow').innerHTML = `<button class="btn-outline" onclick="closeModal()">Close</button>`;
 
-        // Refresh stats
-        await loadTransactions();
-        await loadListings();
-
+        await Promise.all([loadTransactions(), loadListings()]);
     } catch (err) {
         status.className = 'status error';
         status.textContent = 'Purchase failed: ' + err.message;
@@ -691,66 +814,44 @@ function closeModal() {
 }
 
 async function registerBuyer() {
-    const name  = document.getElementById('reg_name').value.trim();
-    const org   = document.getElementById('reg_org').value.trim();
-    const email = document.getElementById('reg_email').value.trim();
+    const name   = document.getElementById('reg_name').value.trim();
+    const org    = document.getElementById('reg_org').value.trim();
+    const email  = document.getElementById('reg_email').value.trim();
     const wallet = document.getElementById('reg_wallet').value.trim();
-
-    if (!name) {
-        const s = document.getElementById('regStatus');
-        s.className = 'status error';
-        s.textContent = 'Please enter your name.';
-        return;
-    }
-
     const s = document.getElementById('regStatus');
-    s.className = 'status info';
-    s.textContent = 'Registering...';
-
+    if (!name) { s.className = 'status error'; s.textContent = 'Please enter your name.'; return; }
+    s.className = 'status info'; s.textContent = 'Registering...';
     try {
         const res = await fetch(API + '/marketplace/buyers/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ buyer_name: name, organization: org, email, cspr_wallet: wallet })
         });
         const data = await res.json();
-
         if (!res.ok) throw new Error(data.detail || 'Registration failed');
-
-        buyerId   = data.buyer_id;
-        buyerName = data.buyer_name;
+        buyerId = data.buyer_id; buyerName = data.buyer_name;
         localStorage.setItem('forge_buyer_id', buyerId);
         localStorage.setItem('forge_buyer_name', buyerName);
-
         s.className = 'status success';
-        s.textContent = `Registered! Your buyer ID is ${buyerId}`;
-
-        setTimeout(() => {
-            updateBuyerStatus();
-        }, 1000);
-
+        s.textContent = 'Registered! Buyer ID: ' + buyerId;
+        setTimeout(updateBuyerStatus, 1000);
     } catch (err) {
-        s.className = 'status error';
-        s.textContent = 'Registration failed: ' + err.message;
+        s.className = 'status error'; s.textContent = err.message;
     }
 }
 
 function clearBuyer() {
-    localStorage.removeItem('forge_buyer_id');
-    localStorage.removeItem('forge_buyer_name');
-    buyerId = null;
-    buyerName = null;
-    document.getElementById('statBuyerStatus').textContent = 'Not Registered';
+    localStorage.removeItem('forge_buyer_id'); localStorage.removeItem('forge_buyer_name');
+    buyerId = null; buyerName = null;
     document.getElementById('registerCard').style.display = 'block';
     document.getElementById('buyerCard').style.display = 'none';
 }
 
 function showTab(name) {
-    ['listings', 'transactions', 'buyer'].forEach(t => {
+    ['listings','calculator','transactions','buyer'].forEach(t => {
         document.getElementById('tab-' + t).style.display = t === name ? 'block' : 'none';
     });
     document.querySelectorAll('.tab').forEach((el, i) => {
-        el.classList.toggle('active', ['listings', 'transactions', 'buyer'][i] === name);
+        el.classList.toggle('active', ['listings','calculator','transactions','buyer'][i] === name);
     });
 }
 
