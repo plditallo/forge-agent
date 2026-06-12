@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORGE Admin</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0f1117; color: #e0e0e0; min-height: 100vh; }
+
+        header {
+            background: #1a1d27;
+            border-bottom: 2px solid #e05555;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header h1 { font-size: 1.6rem; color: #e05555; letter-spacing: 2px; }
+        header p { font-size: 0.85rem; color: #888; margin-top: 2px; }
+        .nav-link { color: #c9a84c; text-decoration: none; font-size: 0.9rem; border: 1px solid #c9a84c; padding: 6px 16px; border-radius: 4px; }
+        .nav-link:hover { background: #c9a84c; color: #0f1117; }
+
+        #loginGate { max-width: 420px; margin: 100px auto; padding: 0 20px; }
+        .login-card { background: #1a1d27; border: 1px solid #e05555; border-radius: 8px; padding: 36px; text-align: center; }
+        .login-card h2 { color: #e05555; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+        .login-card input { width: 100%; background: #0f1117; border: 1px solid #2a2d3a; border-radius: 4px; padding: 10px 12px; color: #e0e0e0; font-size: 0.9rem; margin-bottom: 12px; font-family: monospace; }
+        .login-card input:focus { outline: none; border-color: #e05555; }
+        .btn-admin { width: 100%; background: #e05555; color: #fff; border: none; border-radius: 4px; padding: 12px; font-size: 0.9rem; font-weight: 700; cursor: pointer; }
+        .btn-admin:hover { background: #cc3333; }
+
+        #mainContent { display: none; }
+        .container { max-width: 1200px; margin: 32px auto; padding: 0 20px; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+        .stat-box { background: #1a1d27; border: 1px solid #2a2d3a; border-radius: 6px; padding: 16px; text-align: center; }
+        .stat-box .val { font-size: 2rem; font-weight: 700; color: #c9a84c; line-height: 1; }
+        .stat-box .lbl { font-size: 0.7rem; color: #888; text-transform: uppercase; margin-top: 6px; }
+
+        .card { background: #1a1d27; border: 1px solid #2a2d3a; border-radius: 8px; padding: 24px; margin-bottom: 24px; }
+        .card h2 { font-size: 1rem; color: #c9a84c; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid #2a2d3a; }
+        .tab { padding: 8px 20px; font-size: 0.85rem; color: #888; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+        .tab.active { color: #c9a84c; border-bottom-color: #c9a84c; }
+        .tab:hover { color: #c9a84c; }
+
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+        .data-table th { text-align: left; font-size: 0.7rem; color: #888; text-transform: uppercase; padding: 8px 10px; border-bottom: 1px solid #2a2d3a; }
+        .data-table td { padding: 10px; border-bottom: 1px solid #1a1d27; vertical-align: middle; }
+        .data-table tr:hover td { background: #1e2130; }
+
+        .badge-active   { background: #1a2a1a; border: 1px solid #55a055; color: #55a055; font-size: 0.68rem; padding: 2px 8px; border-radius: 10px; }
+        .badge-inactive { background: #2a1a1a; border: 1px solid #e05555; color: #e05555; font-size: 0.68rem; padding: 2px 8px; border-radius: 10px; }
+
+        .btn-sm { background: none; border: 1px solid #444; color: #888; padding: 3px 10px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+        .btn-sm:hover { border-color: #e05555; color: #e05555; }
+        .btn-sm.activate:hover { border-color: #55a055; color: #55a055; }
+
+        /* Table browser */
+        .table-selector { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+        .table-btn { background: #0f1117; border: 1px solid #2a2d3a; color: #888; padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+        .table-btn:hover, .table-btn.active { border-color: #c9a84c; color: #c9a84c; }
+
+        /* Filter bar */
+        .filter-bar {
+            background: #0f1117;
+            border: 1px solid #2a2d3a;
+            border-radius: 6px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            display: none;
+        }
+        .filter-bar.visible { display: block; }
+        .filter-bar-title { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+        .filter-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
+        .filter-group { display: flex; flex-direction: column; gap: 4px; }
+        .filter-group label { font-size: 0.68rem; color: #888; text-transform: uppercase; }
+        .filter-group input, .filter-group select {
+            background: #1a1d27;
+            border: 1px solid #2a2d3a;
+            border-radius: 4px;
+            padding: 6px 10px;
+            color: #e0e0e0;
+            font-size: 0.82rem;
+            min-width: 160px;
+        }
+        .filter-group input:focus, .filter-group select:focus { outline: none; border-color: #c9a84c; }
+        .filter-apply {
+            background: #c9a84c;
+            color: #0f1117;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 18px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            align-self: flex-end;
+        }
+        .filter-apply:hover { background: #e0c068; }
+        .filter-clear { background: none; border: 1px solid #444; color: #888; border-radius: 4px; padding: 6px 14px; font-size: 0.82rem; cursor: pointer; align-self: flex-end; }
+        .filter-clear:hover { border-color: #888; color: #ccc; }
+
+        .pagination { display: flex; gap: 8px; margin-top: 12px; align-items: center; }
+        .page-btn { background: #0f1117; border: 1px solid #2a2d3a; color: #888; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+        .page-btn:hover { border-color: #c9a84c; color: #c9a84c; }
+        .page-info { font-size: 0.8rem; color: #555; }
+
+        .overflow-x { overflow-x: auto; }
+        .empty { text-align: center; color: #555; padding: 32px; }
+        .status { padding: 8px 12px; border-radius: 4px; font-size: 0.8rem; margin-bottom: 12px; display: none; }
+        .status.error   { background: #2d1e1e; border-left: 3px solid #e05555; color: #e05555; display: block; }
+        .status.success { background: #1e2d1e; border-left: 3px solid #55a055; color: #55a055; display: block; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>⚒ FORGE ADMIN</h1>
+        <p>Platform Administration Console</p>
+    </div>
+    <a href="/static/index.html" class="nav-link">← FORGE Agent</a>
+</header>
+
+<div id="loginGate">
+    <div class="login-card">
+        <h2>🔐 Admin Access</h2>
+        <input type="password" id="adminPassword" placeholder="Admin password" onkeypress="if(event.key==='Enter') adminLogin()">
+        <button class="btn-admin" onclick="adminLogin()">Sign In</button>
+        <div id="loginError" class="status error" style="margin-top:12px;"></div>
+    </div>
+</div>
+
+<div id="mainContent">
+    <div class="container">
+
+        <div class="stats-grid">
+            <div class="stat-box"><div class="val" id="sUsers">—</div><div class="lbl">Registered Users</div></div>
+            <div class="stat-box"><div class="val" id="sAssess">—</div><div class="lbl">Assessments</div></div>
+            <div class="stat-box"><div class="val" id="sTxs">—</div><div class="lbl">Transactions</div></div>
+            <div class="stat-box"><div class="val" id="sRevenue">—</div><div class="lbl">Revenue (CSPR)</div></div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('users')">Users & API Keys</div>
+            <div class="tab" onclick="showTab('errors')">Error Log</div>
+            <div class="tab" onclick="showTab('browser')">Data Browser</div>
+        </div>
+
+        <!-- Users Tab -->
+        <div id="tab-users">
+            <div class="card">
+                <h2>Registered Users</h2>
+                <div id="usersStatus" class="status"></div>
+                <div class="overflow-x">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>User ID</th><th>Name</th><th>Email</th><th>Organization</th>
+                                <th>Registered</th><th>Last Login</th><th>API Key</th>
+                                <th>Attestations</th><th>Status</th><th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersBody"><tr><td colspan="10" class="empty">Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Errors Tab -->
+        <div id="tab-errors" style="display:none">
+            <div class="card">
+                <h2>Error Log</h2>
+                <div class="overflow-x" id="errorsContainer"><div class="empty">Loading...</div></div>
+            </div>
+        </div>
+
+        <!-- Data Browser Tab -->
+        <div id="tab-browser" style="display:none">
+            <div class="card">
+                <h2>Data Browser</h2>
+                <div class="table-selector" id="tableSelector"></div>
+
+                <!-- Dynamic filter bar -->
+                <div class="filter-bar" id="filterBar">
+                    <div class="filter-bar-title">Filter</div>
+                    <div class="filter-row" id="filterRow"></div>
+                </div>
+
+                <div id="browserStatus" class="status"></div>
+                <div class="overflow-x" id="browserContainer">
+                    <div class="empty">Select a table above to browse data.</div>
+                </div>
+                <div class="pagination" id="paginationControls" style="display:none">
+                    <button class="page-btn" id="prevBtn" onclick="changePage(-1)">← Prev</button>
+                    <span class="page-info" id="pageInfo"></span>
+                    <button class="page-btn" id="nextBtn" onclick="changePage(1)">Next →</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+const API = 'http://127.0.0.1:8000';
+let adminKey = '';
+let currentTable = '';
+let currentPage = 1;
+let totalRows = 0;
+let activeFilters = {};
+const PAGE_SIZE = 50;
+
+const ALLOWED_TABLES = [
+    'assessments', 'marketplace_listings', 'marketplace_transactions',
+    'marketplace_buyers', 'buyer_api_imports', 'buyer_api_import_data',
+    'forge_api_users', 'forge_api_errors'
+];
+
+// Filter definitions per table — label, field, type (text/select/date), options
+const TABLE_FILTERS = {
+    assessments: [
+        { label: 'Dataset Name', field: 'dataset_name', type: 'text' },
+        { label: 'Metal Rating', field: 'metal_rating', type: 'select',
+          options: ['','Coal','Iron','Bronze','Silver','Gold','Platinum','Diamond'] },
+        { label: 'Industry', field: 'industry_segment', type: 'text' },
+    ],
+    marketplace_listings: [
+        { label: 'Dataset Name', field: 'dataset_name', type: 'text' },
+        { label: 'Active Only', field: 'is_active', type: 'select', options: ['','1','0'] },
+    ],
+    marketplace_transactions: [
+        { label: 'Buyer Name', field: 'buyer_name', type: 'text' },
+        { label: 'Status', field: 'status', type: 'select', options: ['','completed','failed','pending'] },
+    ],
+    marketplace_buyers: [
+        { label: 'Buyer Name', field: 'buyer_name', type: 'text' },
+        { label: 'Organization', field: 'organization', type: 'text' },
+    ],
+    buyer_api_imports: [
+        { label: 'Buyer Name', field: 'buyer_name', type: 'text' },
+        { label: 'Dataset Name', field: 'dataset_name', type: 'text' },
+        { label: 'Status', field: 'status', type: 'select', options: ['','completed','failed'] },
+    ],
+    buyer_api_import_data: [
+        { label: 'Import ID', field: 'api_import_id', type: 'text' },
+    ],
+    forge_api_users: [
+        { label: 'Name', field: 'full_name', type: 'text' },
+        { label: 'Email', field: 'email', type: 'text' },
+        { label: 'Organization', field: 'organization', type: 'text' },
+        { label: 'Active Only', field: 'is_active', type: 'select', options: ['','1','0'] },
+    ],
+    forge_api_errors: [
+        { label: 'Error Type', field: 'error_type', type: 'text' },
+        { label: 'User ID', field: 'user_id', type: 'text' },
+        { label: 'Endpoint', field: 'endpoint', type: 'text' },
+    ],
+};
+
+async function adminLogin() {
+    const pwd = document.getElementById('adminPassword').value;
+    const err = document.getElementById('loginError');
+    try {
+        const r = await fetch(API + '/admin/summary?admin_key=' + encodeURIComponent(pwd));
+        if (!r.ok) throw new Error('Invalid password');
+        adminKey = pwd;
+        const summary = await r.json();
+        document.getElementById('loginGate').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+        renderSummary(summary);
+        loadUsers();
+        loadErrors();
+        renderTableSelector();
+    } catch (e) {
+        err.textContent = 'Invalid admin password.';
+        err.style.display = 'block';
+    }
+}
+
+function renderSummary(s) {
+    document.getElementById('sUsers').textContent   = s.users.total;
+    document.getElementById('sAssess').textContent  = s.assessments;
+    document.getElementById('sTxs').textContent     = s.transactions;
+    document.getElementById('sRevenue').textContent = s.total_revenue.toFixed(4);
+}
+
+async function loadUsers() {
+    const r = await fetch(API + '/admin/users?admin_key=' + encodeURIComponent(adminKey));
+    const users = await r.json();
+    document.getElementById('usersBody').innerHTML = users.map(u => `
+        <tr>
+            <td style="font-family:monospace;font-size:0.75rem;color:#c9a84c;">${u.user_id}</td>
+            <td>${u.full_name}</td>
+            <td style="font-size:0.78rem;color:#888;">${u.email}</td>
+            <td style="font-size:0.78rem;color:#888;">${u.organization || '—'}</td>
+            <td style="font-size:0.75rem;color:#555;">${formatDate(u.registered_at)}</td>
+            <td style="font-size:0.75rem;color:#555;">${u.last_login ? formatDate(u.last_login) : 'Never'}</td>
+            <td style="font-family:monospace;font-size:0.7rem;color:#555;">${u.api_key_prefix}</td>
+            <td style="font-size:0.75rem;">
+                ${u.attest_owner ? '✓' : '✗'} Own
+                ${u.attest_no_pii ? '✓' : '✗'} PII
+                ${u.attest_appropriate ? '✓' : '✗'} Content
+            </td>
+            <td><span class="${u.is_active ? 'badge-active' : 'badge-inactive'}">${u.is_active ? 'Active' : 'Inactive'}</span></td>
+            <td>
+                ${u.is_active
+                    ? `<button class="btn-sm" onclick="toggleUser('${u.user_id}',false)">Deactivate</button>`
+                    : `<button class="btn-sm activate" onclick="toggleUser('${u.user_id}',true)">Activate</button>`}
+            </td>
+        </tr>
+    `).join('');
+}
+
+async function toggleUser(userId, activate) {
+    const action = activate ? 'activate' : 'deactivate';
+    const r = await fetch(API + '/admin/users/' + userId + '/' + action + '?admin_key=' + encodeURIComponent(adminKey), { method: 'POST' });
+    if (r.ok) {
+        const s = document.getElementById('usersStatus');
+        s.className = 'status success';
+        s.textContent = 'User ' + userId + ' ' + action + 'd.';
+        loadUsers();
+    }
+}
+
+async function loadErrors() {
+    const r = await fetch(API + '/admin/errors?admin_key=' + encodeURIComponent(adminKey));
+    const errors = await r.json();
+    if (errors.length === 0) {
+        document.getElementById('errorsContainer').innerHTML = '<div class="empty">No errors logged yet.</div>';
+        return;
+    }
+    document.getElementById('errorsContainer').innerHTML = `
+        <table class="data-table">
+            <thead><tr><th>Time</th><th>User</th><th>Endpoint</th><th>Error Type</th><th>Detail</th><th>IP</th><th>HTTP</th></tr></thead>
+            <tbody>${errors.map(e => `
+                <tr>
+                    <td style="font-size:0.75rem;color:#555;">${formatDate(e.logged_at)}</td>
+                    <td style="font-size:0.75rem;color:#c9a84c;">${e.user_id || '—'}</td>
+                    <td style="font-size:0.75rem;color:#888;">${e.endpoint || '—'}</td>
+                    <td style="color:#e05555;font-size:0.78rem;">${e.error_type || '—'}</td>
+                    <td style="font-size:0.75rem;color:#888;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.error_detail || '—'}</td>
+                    <td style="font-size:0.75rem;color:#555;">${e.client_ip || '—'}</td>
+                    <td style="color:${e.http_status >= 400 ? '#e05555' : '#55a055'};">${e.http_status || '—'}</td>
+                </tr>`).join('')}
+            </tbody>
+        </table>`;
+}
+
+function renderTableSelector() {
+    document.getElementById('tableSelector').innerHTML = ALLOWED_TABLES.map(t =>
+        `<button class="table-btn" onclick="selectTable('${t}')">${t}</button>`
+    ).join('');
+}
+
+function selectTable(tableName) {
+    currentTable  = tableName;
+    currentPage   = 1;
+    activeFilters = {};
+
+    document.querySelectorAll('.table-btn').forEach(b => {
+        b.classList.toggle('active', b.textContent === tableName);
+    });
+
+    renderFilterBar(tableName);
+    loadTable();
+}
+
+function renderFilterBar(tableName) {
+    const filters = TABLE_FILTERS[tableName] || [];
+    const bar = document.getElementById('filterBar');
+    const row = document.getElementById('filterRow');
+
+    if (filters.length === 0) {
+        bar.classList.remove('visible');
+        return;
+    }
+
+    bar.classList.add('visible');
+    row.innerHTML = filters.map(f => {
+        if (f.type === 'select') {
+            return `
+                <div class="filter-group">
+                    <label>${f.label}</label>
+                    <select id="filter_${f.field}">
+                        ${f.options.map(o => `<option value="${o}">${o || 'All'}</option>`).join('')}
+                    </select>
+                </div>`;
+        }
+        return `
+            <div class="filter-group">
+                <label>${f.label}</label>
+                <input type="text" id="filter_${f.field}" placeholder="Filter by ${f.label.toLowerCase()}...">
+            </div>`;
+    }).join('') + `
+        <button class="filter-apply" onclick="applyFilters()">Apply</button>
+        <button class="filter-clear" onclick="clearFilters()">Clear</button>
+    `;
+}
+
+function applyFilters() {
+    const filters = TABLE_FILTERS[currentTable] || [];
+    activeFilters = {};
+    filters.forEach(f => {
+        const val = document.getElementById('filter_' + f.field)?.value?.trim();
+        if (val) activeFilters[f.field] = val;
+    });
+    currentPage = 1;
+    loadTable();
+}
+
+function clearFilters() {
+    const filters = TABLE_FILTERS[currentTable] || [];
+    filters.forEach(f => {
+        const el = document.getElementById('filter_' + f.field);
+        if (el) el.value = '';
+    });
+    activeFilters = {};
+    currentPage = 1;
+    loadTable();
+}
+
+async function loadTable(page) {
+    if (page) currentPage = page;
+    if (!currentTable) return;
+
+    document.getElementById('browserContainer').innerHTML = '<div class="empty">Loading...</div>';
+
+    let url = API + '/admin/data/' + currentTable +
+        '?admin_key=' + encodeURIComponent(adminKey) +
+        '&page=' + currentPage +
+        '&page_size=' + PAGE_SIZE;
+
+    // Append filters as query params
+    Object.entries(activeFilters).forEach(([k, v]) => {
+        url += '&filter_' + k + '=' + encodeURIComponent(v);
+    });
+
+    const r = await fetch(url);
+    if (!r.ok) {
+        document.getElementById('browserContainer').innerHTML = '<div class="empty">Failed to load table.</div>';
+        return;
+    }
+
+    const data = await r.json();
+    totalRows = data.total_rows;
+
+    if (data.data.length === 0) {
+        document.getElementById('browserContainer').innerHTML = '<div class="empty">No matching records found.</div>';
+        document.getElementById('paginationControls').style.display = 'none';
+        return;
+    }
+
+    const cols = data.columns;
+    const activeFilterCount = Object.keys(activeFilters).length;
+
+    document.getElementById('browserContainer').innerHTML = `
+        <div style="font-size:0.75rem;color:#555;margin-bottom:8px;">
+            Table: <span style="color:#c9a84c;">${currentTable}</span>
+            &nbsp;·&nbsp; ${data.total_rows.toLocaleString()} rows
+            ${activeFilterCount > 0 ? `&nbsp;·&nbsp; <span style="color:#c9a84c;">${activeFilterCount} filter${activeFilterCount>1?'s':''} active</span>` : ''}
+        </div>
+        <table class="data-table">
+            <thead><tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr></thead>
+            <tbody>
+                ${data.data.map(row =>
+                    `<tr>${cols.map(c => `<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${row[c] !== null ? row[c] : ''}">${row[c] !== null && row[c] !== undefined ? row[c] : '—'}</td>`).join('')}</tr>`
+                ).join('')}
+            </tbody>
+        </table>`;
+
+    const totalPages = Math.ceil(totalRows / PAGE_SIZE);
+    document.getElementById('paginationControls').style.display = totalPages > 1 ? 'flex' : 'none';
+    document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages} (${totalRows.toLocaleString()} rows)`;
+    document.getElementById('prevBtn').disabled = currentPage <= 1;
+    document.getElementById('nextBtn').disabled = currentPage >= totalPages;
+}
+
+function changePage(delta) {
+    const totalPages = Math.ceil(totalRows / PAGE_SIZE);
+    const newPage = currentPage + delta;
+    if (newPage >= 1 && newPage <= totalPages) loadTable(newPage);
+}
+
+function showTab(name) {
+    ['users','errors','browser'].forEach(t => {
+        document.getElementById('tab-' + t).style.display = t === name ? 'block' : 'none';
+    });
+    document.querySelectorAll('.tab').forEach((el, i) => {
+        el.classList.toggle('active', ['users','errors','browser'][i] === name);
+    });
+}
+
+function formatDate(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) +
+           ' ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+}
+
+document.getElementById('adminPassword').addEventListener('keypress', e => {
+    if (e.key === 'Enter') adminLogin();
+});
+</script>
+</body>
+</html>

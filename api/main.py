@@ -799,3 +799,184 @@ def verify_key(api_key: str, db: Session = Depends(get_db)):
         "full_name":    user.full_name,
         "organization": user.organization
     }
+
+
+# --- Admin Endpoints ---
+
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "ForgeAdmin2026!")
+
+
+def verify_admin(admin_key: str):
+    if admin_key != ADMIN_PASSWORD:
+        raise HTTPException(status_code=403, detail="Invalid admin credentials.")
+
+
+@app.get("/admin/users")
+def admin_get_users(admin_key: str, db: Session = Depends(get_db)):
+    from database.models import ForgeApiUser
+    verify_admin(admin_key)
+    users = db.query(ForgeApiUser).order_by(ForgeApiUser.registered_at.desc()).all()
+    return [
+        {
+            "user_id":           u.user_id,
+            "full_name":         u.full_name,
+            "email":             u.email,
+            "phone":             u.phone,
+            "organization":      u.organization,
+            "use_case":          u.use_case,
+            "registered_at":     u.registered_at,
+            "last_login":        u.last_login,
+            "is_active":         u.is_active,
+            "api_key_prefix":    u.api_key[:16] + "..." if u.api_key else None,
+            "attest_owner":      u.attest_owner,
+            "attest_no_pii":     u.attest_no_pii,
+            "attest_appropriate": u.attest_appropriate
+        }
+        for u in users
+    ]
+
+
+@app.post("/admin/users/{user_id}/deactivate")
+def admin_deactivate_user(user_id: str, admin_key: str, db: Session = Depends(get_db)):
+    from database.models import ForgeApiUser
+    verify_admin(admin_key)
+    user = db.query(ForgeApiUser).filter(ForgeApiUser.user_id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found.")
+    user.is_active = 0
+    db.commit()
+    return {"status": "deactivated", "user_id": user_id}
+
+
+@app.post("/admin/users/{user_id}/activate")
+def admin_activate_user(user_id: str, admin_key: str, db: Session = Depends(get_db)):
+    from database.models import ForgeApiUser
+    verify_admin(admin_key)
+    user = db.query(ForgeApiUser).filter(ForgeApiUser.user_id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found.")
+    user.is_active = 1
+    db.commit()
+    return {"status": "activated", "user_id": user_id}
+
+
+@app.get("/admin/errors")
+def admin_get_errors(admin_key: str, db: Session = Depends(get_db)):
+    from database.models import ForgeApiError
+    verify_admin(admin_key)
+    errors = db.query(ForgeApiError).order_by(ForgeApiError.logged_at.desc()).limit(100).all()
+    return [
+        {
+            "id":             e.id,
+            "logged_at":      e.logged_at,
+            "user_id":        e.user_id,
+            "api_key_prefix": e.api_key_prefix,
+            "endpoint":       e.endpoint,
+            "error_type":     e.error_type,
+            "error_detail":   e.error_detail,
+            "client_ip":      e.client_ip,
+            "http_status":    e.http_status
+        }
+        for e in errors
+    ]
+
+
+@app.get("/admin/data/{table_name}")
+def admin_get_table(
+    table_name: str,
+    admin_key: str,
+    page: int = 1,
+    page_size: int = 50,
+    request: Request = None,
+    db: Session = Depends(get_db)
+):
+    from sqlalchemy import text
+    verify_admin(admin_key)
+
+    allowed_tables = [
+        "assessments", "marketplace_listings", "marketplace_transactions",
+        "marketplace_buyers", "buyer_api_imports", "buyer_api_import_data",
+        "forge_api_users", "forge_api_errors"
+    ]
+
+    if table_name not in allowed_tables:
+        raise HTTPException(status_code=400, detail=f"Table not allowed. Allowed: {allowed_tables}")
+
+    # Extract filter params (filter_fieldname=value)
+    filters = {}
+    if request:
+        for key, value in request.query_params.items():
+            if key.startswith("filter_") and value:
+                field = key[7:]  # strip "filter_"
+                filters[field] = value
+
+    # Build WHERE clause safely using LIKE for text fields
+    where_clauses = []
+    for field, value in filters.items():
+        # Only allow alphanumeric/underscore field names to prevent injection
+        if field.replace("_","").isalnum():
+            where_clauses.append(f"CAST({field} AS NVARCHAR(MAX)) LIKE '%{value}%'")
+
+    where_sql = " WHERE " + " AND ".join(where_clauses) if where_clauses else ""
+
+    offset = (page - 1) * page_size
+
+    count_result = db.execute(text(f"SELECT COUNT(*) FROM {table_name}{where_sql}")).scalar()
+    rows = db.execute(text(f"SELECT * FROM {table_name}{where_sql} ORDER BY 1 DESC OFFSET {offset} ROWS FETCH NEXT {page_size} ROWS ONLY")).fetchall()
+
+    if count_result > 0:
+        col_result = db.execute(text(f"SELECT * FROM {table_name} ORDER BY 1 DESC OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY"))
+        col_names = list(col_result.keys())
+    else:
+        col_result = db.execute(text(f"SELECT * FROM {table_name} ORDER BY 1 DESC OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY"))
+        col_names = list(col_result.keys())
+
+    data = [dict(zip(col_names, row)) for row in rows]
+
+    for row in data:
+        for k, v in row.items():
+            if hasattr(v, 'isoformat'):
+                row[k] = v.isoformat()
+            elif v is None:
+                row[k] = None
+            else:
+                row[k] = str(v) if not isinstance(v, (int, float, bool, str)) else v
+
+    return {
+        "table":      table_name,
+        "total_rows": count_result,
+        "page":       page,
+        "page_size":  page_size,
+        "columns":    col_names,
+        "filters":    filters,
+        "data":       data
+    }
+
+
+@app.get("/admin/summary")
+def admin_summary(admin_key: str, db: Session = Depends(get_db)):
+    from database.models import ForgeApiUser, ForgeApiError
+    verify_admin(admin_key)
+
+    total_users    = db.query(ForgeApiUser).count()
+    active_users   = db.query(ForgeApiUser).filter(ForgeApiUser.is_active == 1).count()
+    total_errors   = db.query(ForgeApiError).count()
+    total_assess   = db.query(Assessment).count()
+    total_listings = db.query(MarketplaceListing).count()
+    total_buyers   = db.query(MarketplaceBuyer).count()
+    total_txs      = db.query(MarketplaceTransaction).count()
+    total_imports  = db.query(BuyerApiImport).count()
+
+    revenue = db.query(BuyerApiImport).all()
+    total_revenue = sum(float(i.total_cost or 0) for i in revenue)
+
+    return {
+        "users":          {"total": total_users, "active": active_users},
+        "errors":         total_errors,
+        "assessments":    total_assess,
+        "listings":       total_listings,
+        "buyers":         total_buyers,
+        "transactions":   total_txs,
+        "imports":        total_imports,
+        "total_revenue":  total_revenue
+    }
