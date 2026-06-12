@@ -9,154 +9,327 @@
 
         body {
             font-family: 'Segoe UI', sans-serif;
-            background: #0f1117;
-            color: #e0e0e0;
+            background: #0d0f14;
+            color: #e0d5b0;
             min-height: 100vh;
         }
 
+        /* ── Grid texture overlay ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+            background-size: 32px 32px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
         header {
-            background: #1a1d27;
-            border-bottom: 2px solid #c9a84c;
-            padding: 20px 40px;
+            position: relative;
+            z-index: 1;
+            background: rgba(20, 22, 32, 0.95);
+            border-bottom: 1px solid rgba(201,168,76,0.2);
+            padding: 18px 40px;
             display: flex;
             align-items: center;
-            gap: 16px;
+            justify-content: space-between;
+            backdrop-filter: blur(4px);
         }
 
-        header h1 {
-            font-size: 1.6rem;
+        .brand h1 {
+            font-size: 1.5rem;
             color: #c9a84c;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            font-weight: 700;
         }
 
-        header p {
-            font-size: 0.85rem;
-            color: #888;
-            margin-top: 2px;
+        .brand p {
+            font-size: 0.78rem;
+            color: rgba(201,168,76,0.45);
+            margin-top: 3px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .nav-links { display: flex; gap: 8px; }
+
+        .nav-links a {
+            color: #c9a84c;
+            text-decoration: none;
+            font-size: 0.82rem;
+            border: 1px solid rgba(201,168,76,0.3);
+            padding: 7px 16px;
+            border-radius: 5px;
+            background: rgba(201,168,76,0.05);
+            letter-spacing: 0.03em;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: rgba(201,168,76,0.12);
+            border-color: rgba(201,168,76,0.55);
         }
 
         .container {
+            position: relative;
+            z-index: 1;
             max-width: 900px;
             margin: 40px auto;
             padding: 0 20px;
         }
 
+        /* ── Step progress bar ── */
+        .step-indicator {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 32px;
+        }
+
+        .step {
+            flex: 1;
+            height: 3px;
+            background: rgba(201,168,76,0.12);
+            border-radius: 2px;
+            transition: background 0.3s;
+        }
+
+        .step.active { background: #c9a84c; }
+
+        /* ── Cards ── */
         .card {
-            background: #1a1d27;
-            border: 1px solid #2a2d3a;
-            border-radius: 8px;
+            background: rgba(22, 25, 36, 0.9);
+            border: 1px solid rgba(201,168,76,0.12);
+            border-radius: 10px;
             padding: 32px;
             margin-bottom: 24px;
+            backdrop-filter: blur(2px);
         }
 
         .card h2 {
-            font-size: 1.1rem;
+            font-size: 0.75rem;
             color: #c9a84c;
             margin-bottom: 24px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.12em;
+            font-weight: 600;
         }
 
+        /* ── Upload area ── */
         .upload-area {
-            border: 2px dashed #2a2d3a;
-            border-radius: 8px;
-            padding: 48px;
+            border: 1.5px dashed rgba(201,168,76,0.22);
+            border-radius: 10px;
+            padding: 56px 48px;
             text-align: center;
             cursor: pointer;
-            transition: border-color 0.2s;
+            transition: border-color 0.2s, background 0.2s;
         }
 
-        .upload-area:hover { border-color: #c9a84c; }
-        .upload-area.active { border-color: #c9a84c; background: #1e2130; }
+        .upload-area:hover {
+            border-color: rgba(201,168,76,0.5);
+            background: rgba(201,168,76,0.03);
+        }
 
-        .upload-area p { color: #888; margin-top: 8px; font-size: 0.9rem; }
-        .upload-area .icon { font-size: 2.5rem; }
+        .upload-area.active {
+            border-color: #c9a84c;
+            background: rgba(201,168,76,0.05);
+        }
 
+        .upload-icon {
+            font-size: 2.4rem;
+            margin-bottom: 12px;
+            opacity: 0.75;
+        }
+
+        .upload-area p {
+            color: rgba(201,168,76,0.5);
+            font-size: 0.88rem;
+            line-height: 1.7;
+        }
+
+        /* ── Coal-to-Diamond tier strip ── */
+        .tier-section {
+            margin-top: 32px;
+            padding-top: 28px;
+            border-top: 1px solid rgba(201,168,76,0.08);
+        }
+
+        .tier-section-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(201,168,76,0.45);
+            margin-bottom: 14px;
+            font-weight: 600;
+        }
+
+        .tier-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 0;
+        }
+
+        .tier-card {
+            flex: 1;
+            border-radius: 8px;
+            padding: 14px 10px 12px;
+            text-align: center;
+            border: 1px solid transparent;
+        }
+
+        .tier-card .tier-icon { font-size: 1.3rem; display: block; margin-bottom: 6px; }
+        .tier-card .tier-name { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+        .tier-card .tier-range { font-size: 0.65rem; margin-top: 3px; opacity: 0.6; }
+
+        .tier-coal    { background: rgba(55,50,45,0.35);  border-color: rgba(110,100,90,0.2);  color: #9e8e80; }
+        .tier-bronze  { background: rgba(75,50,25,0.35);  border-color: rgba(175,115,55,0.25); color: #c47a35; }
+        .tier-iron    { background: rgba(45,48,52,0.4);   border-color: rgba(130,140,150,0.25); color: #8a9aaa; }
+        .tier-silver  { background: rgba(55,60,70,0.35);  border-color: rgba(155,165,180,0.25);color: #a0b0c0; }
+        .tier-gold    { background: rgba(75,60,12,0.45);  border-color: rgba(201,168,76,0.35); color: #c9a84c; box-shadow: 0 0 0 1px rgba(201,168,76,0.08) inset; }
+        .tier-diamond { background: rgba(35,50,85,0.45);  border-color: rgba(110,170,245,0.3); color: #88bbf5; }
+
+        .tier-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            flex-shrink: 0;
+            color: rgba(201,168,76,0.2);
+            font-size: 0.75rem;
+            padding-top: 18px;
+        }
+
+        /* ── Dimension pills ── */
+        .dim-section {
+            margin-top: 24px;
+        }
+
+        .dim-section-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(201,168,76,0.45);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .dim-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .dim-pill {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(201,168,76,0.1);
+            border-radius: 7px;
+            padding: 10px 8px;
+            text-align: center;
+        }
+
+        .dim-pill-label {
+            font-size: 0.65rem;
+            color: rgba(201,168,76,0.4);
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .dim-pill-val {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: rgba(201,168,76,0.25);
+        }
+
+        /* ── Status messages ── */
+        #statusMsg {
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        #statusMsg.info    { background: rgba(30,45,62,0.8);  border-left: 3px solid #4a9eda; color: #6ab4ea; display: block; }
+        #statusMsg.error   { background: rgba(45,30,30,0.8);  border-left: 3px solid #e05555; color: #e07070; display: block; }
+        #statusMsg.success { background: rgba(25,45,25,0.8);  border-left: 3px solid #55a055; color: #70bb70; display: block; }
+
+        /* ── Form elements ── */
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
         }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
         .form-group.full { grid-column: 1 / -1; }
 
         label {
-            font-size: 0.8rem;
-            color: #888;
+            font-size: 0.75rem;
+            color: rgba(201,168,76,0.5);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.05em;
         }
 
         input, select {
-            background: #0f1117;
-            border: 1px solid #2a2d3a;
-            border-radius: 4px;
+            background: rgba(13,15,20,0.8);
+            border: 1px solid rgba(201,168,76,0.15);
+            border-radius: 5px;
             padding: 10px 12px;
-            color: #e0e0e0;
-            font-size: 0.9rem;
+            color: #e0d5b0;
+            font-size: 0.88rem;
             width: 100%;
         }
 
         input:focus, select:focus {
             outline: none;
-            border-color: #c9a84c;
+            border-color: rgba(201,168,76,0.5);
         }
 
         select option { background: #1a1d27; }
 
+        /* ── Buttons ── */
         .btn {
             background: #c9a84c;
-            color: #0f1117;
+            color: #0d0f14;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             padding: 12px 32px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 700;
             cursor: pointer;
-            letter-spacing: 1px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
             transition: background 0.2s;
         }
 
-        .btn:hover { background: #e0c068; }
-        .btn:disabled { background: #444; cursor: not-allowed; }
+        .btn:hover { background: #dfc068; }
+        .btn:disabled { background: rgba(201,168,76,0.25); color: rgba(13,15,20,0.5); cursor: not-allowed; }
+        .btn-full { width: 100%; margin-top: 12px; }
 
-        .btn-full { width: 100%; margin-top: 8px; }
-
-        .status {
-            padding: 12px 16px;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            margin-bottom: 16px;
-            display: none;
-        }
-
-        .status.info { background: #1e2d3d; border-left: 3px solid #4a9eda; color: #4a9eda; display: block; }
-        .status.error { background: #2d1e1e; border-left: 3px solid #e05555; color: #e05555; display: block; }
-        .status.success { background: #1e2d1e; border-left: 3px solid #55a055; color: #55a055; display: block; }
+        /* ── Report ── */
+        #report { display: none; }
 
         .metal-badge {
             display: inline-block;
             padding: 6px 20px;
             border-radius: 20px;
             font-weight: 700;
-            font-size: 1rem;
-            letter-spacing: 1px;
+            font-size: 0.95rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
             margin-bottom: 8px;
         }
 
-        .metal-Diamond  { background: #b9f2ff; color: #000; }
-        .metal-Platinum { background: #e5e4e2; color: #000; }
-        .metal-Gold     { background: #ffd700; color: #000; }
-        .metal-Silver   { background: #c0c0c0; color: #000; }
-        .metal-Bronze   { background: #cd7f32; color: #fff; }
-        .metal-Iron     { background: #434343; color: #fff; }
-        .metal-Coal     { background: #1a1a1a; color: #fff; border: 1px solid #444; }
+        .metal-Diamond  { background: #b9f2ff; color: #003344; }
+        .metal-Platinum { background: #e5e4e2; color: #222; }
+        .metal-Gold     { background: #c9a84c; color: #0d0f14; }
+        .metal-Silver   { background: #a0b0c0; color: #111; }
+        .metal-Bronze   { background: #c47a35; color: #fff; }
+        .metal-Iron     { background: #555;    color: #eee; }
+        .metal-Coal     { background: #222;    color: #aaa; border: 1px solid #444; }
 
         .score-display {
             font-size: 3rem;
@@ -168,34 +341,35 @@
         .score-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-top: 16px;
+            gap: 10px;
+            margin-top: 12px;
         }
 
         .score-item {
-            background: #0f1117;
-            border: 1px solid #2a2d3a;
-            border-radius: 6px;
+            background: rgba(13,15,20,0.7);
+            border: 1px solid rgba(201,168,76,0.12);
+            border-radius: 7px;
             padding: 12px;
             text-align: center;
         }
 
         .score-item .label {
-            font-size: 0.7rem;
-            color: #888;
+            font-size: 0.65rem;
+            color: rgba(201,168,76,0.45);
             text-transform: uppercase;
+            letter-spacing: 0.06em;
             margin-bottom: 4px;
         }
 
         .score-item .value {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: #c9a84c;
         }
 
         .score-bar {
-            height: 4px;
-            background: #2a2d3a;
+            height: 3px;
+            background: rgba(201,168,76,0.12);
             border-radius: 2px;
             margin-top: 6px;
         }
@@ -206,109 +380,98 @@
             background: #c9a84c;
         }
 
+        .section-subhead {
+            font-size: 0.68rem;
+            color: rgba(201,168,76,0.45);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            margin: 24px 0 12px;
+        }
+
         .reasoning-item {
             padding: 10px 0;
-            border-bottom: 1px solid #2a2d3a;
-            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(201,168,76,0.07);
+            font-size: 0.84rem;
             color: #aaa;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .reasoning-item:last-child { border-bottom: none; }
-        .reasoning-item strong { color: #c9a84c; display: block; margin-bottom: 2px; }
+        .reasoning-item strong { color: #c9a84c; display: block; margin-bottom: 2px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
 
         .action-item {
             padding: 10px 14px;
-            background: #0f1117;
-            border-left: 3px solid #c9a84c;
-            border-radius: 0 4px 4px 0;
+            background: rgba(13,15,20,0.6);
+            border-left: 2px solid #c9a84c;
+            border-radius: 0 5px 5px 0;
             margin-bottom: 8px;
-            font-size: 0.85rem;
+            font-size: 0.84rem;
             color: #ccc;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .monetization-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 8px;
-            margin-top: 8px;
         }
 
         .mono-item {
-            background: #0f1117;
-            border: 1px solid #2a2d3a;
-            border-radius: 6px;
+            background: rgba(13,15,20,0.6);
+            border: 1px solid rgba(201,168,76,0.1);
+            border-radius: 7px;
             padding: 10px 8px;
             text-align: center;
         }
 
-        .mono-item .label { font-size: 0.65rem; color: #888; text-transform: uppercase; margin-bottom: 4px; }
-        .mono-item .value { font-size: 0.85rem; font-weight: 700; }
-        .mono-item .High   { color: #55a055; }
-        .mono-item .Medium { color: #c9a84c; }
-        .mono-item .Low    { color: #888; }
+        .mono-item .label { font-size: 0.62rem; color: rgba(201,168,76,0.4); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+        .mono-item .value { font-size: 0.82rem; font-weight: 700; }
+        .High   { color: #70bb70; }
+        .Medium { color: #c9a84c; }
+        .Low    { color: rgba(201,168,76,0.3); }
 
         .chain-record {
-            background: #0f1117;
-            border: 1px solid #2a2d3a;
-            border-radius: 6px;
+            background: rgba(13,15,20,0.7);
+            border: 1px solid rgba(201,168,76,0.12);
+            border-radius: 7px;
             padding: 16px;
         }
 
         .chain-record .chain-label {
-            font-size: 0.75rem;
-            color: #888;
+            font-size: 0.68rem;
+            color: rgba(201,168,76,0.4);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.08em;
             margin-bottom: 6px;
         }
 
         .chain-record .chain-hash {
-            font-family: monospace;
-            font-size: 0.8rem;
+            font-family: 'Consolas', monospace;
+            font-size: 0.78rem;
             color: #c9a84c;
             word-break: break-all;
         }
 
         .chain-record .chain-name {
-            font-size: 0.75rem;
-            color: #555;
+            font-size: 0.72rem;
+            color: rgba(201,168,76,0.3);
             margin-top: 6px;
         }
-
-        #report { display: none; }
-
-        .step-indicator {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 32px;
-        }
-
-        .step {
-            flex: 1;
-            height: 3px;
-            background: #2a2d3a;
-            border-radius: 2px;
-            transition: background 0.3s;
-        }
-
-        .step.active { background: #c9a84c; }
     </style>
 </head>
 <body>
 
 <header>
-    <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-        <div>
-            <h1>⚒ FORGE AGENT</h1>
-            <p>Data Product Discovery & Monetization Platform</p>
-        </div>
-    <div style="display:flex; gap:12px;">
-        <a href="/static/registry.html" style="color:#c9a84c; text-decoration:none; font-size:0.9rem; border:1px solid #c9a84c; padding:6px 16px; border-radius:4px;">⛓ Registry</a>
-        <a href="/static/marketplace.html" style="color:#c9a84c; text-decoration:none; font-size:0.9rem; border:1px solid #c9a84c; padding:6px 16px; border-radius:4px;">🛒 Marketplace</a>
-        <a href="/static/buyer_dashboard.html" style="color:#c9a84c; text-decoration:none; font-size:0.9rem; border:1px solid #c9a84c; padding:6px 16px; border-radius:4px;">📥 Buyer</a>
-        <a href="/static/seller_dashboard.html" style="color:#c9a84c; text-decoration:none; font-size:0.9rem; border:1px solid #c9a84c; padding:6px 16px; border-radius:4px;">💰 Seller</a>
+    <div class="brand">
+        <h1>⚒ FORGE AGENT</h1>
+        <p>Data Product Discovery &amp; Monetization Platform</p>
+    </div>
+    <div class="nav-links">
+        <a href="/static/registry.html">⛓ Registry</a>
+        <a href="/static/marketplace.html">🛒 Marketplace</a>
+        <a href="/static/buyer_dashboard.html">📥 Buyer</a>
+        <a href="/static/seller_dashboard.html">💰 Seller</a>
     </div>
 </header>
 
@@ -320,17 +483,71 @@
         <div class="step" id="step3"></div>
     </div>
 
-    <div id="statusMsg" class="status"></div>
+    <div id="statusMsg"></div>
 
     <!-- Step 1: Upload -->
     <div id="uploadSection" class="card">
-        <h2>Step 1 — Upload Data Asset</h2>
-        <div class="upload-area" id="uploadArea">
-            <div class="icon">📁</div>
+        <p style="font-size:1.1rem; color:#c9a84c; font-weight:600; margin-bottom:6px; letter-spacing:0.03em;">Ready to certify your data?</p>
+        <h2 style="margin-bottom:6px;">Step 1 — Upload Data Asset</h2>
+        <p style="font-size:0.85rem; color:rgba(201,168,76,0.5); margin-bottom:20px;">Upload the dataset you want assessed for commercial readiness.</p>
+
+        <div class="upload-area" id="uploadArea" title="Your dataset is a structured file containing business records your organization has collected over time. This could be sales transactions, operational logs, customer records, delivery data, inventory history, or any tabular data your business runs on. FORGE will analyze its structure, completeness, and commercial potential, then certify it on a scale from Coal to Diamond. CSV and Excel files up to 50MB are supported.">
+            <div class="upload-icon" title="Your dataset is a structured file containing business records your organization has collected over time. This could be sales transactions, operational logs, customer records, delivery data, inventory history, or any tabular data your business runs on. FORGE will analyze its structure, completeness, and commercial potential, then certify it on a scale from Coal to Diamond. CSV and Excel files up to 50MB are supported.">📁</div>
             <p>Click to upload or drag and drop</p>
             <p>CSV, Excel (.xlsx, .xls) supported</p>
         </div>
         <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" style="display:none">
+
+        <!-- Coal-to-Diamond tier reference -->
+        <div class="tier-section">
+            <div class="tier-section-label">Coal-to-Diamond certification scale</div>
+            <div class="tier-row">
+                <div class="tier-card tier-coal">
+                    <span class="tier-icon">⬡</span>
+                    <div class="tier-name">Coal</div>
+                </div>
+                <div class="tier-arrow">›</div>
+                <div class="tier-card tier-bronze">
+                    <span class="tier-icon">⬡</span>
+                    <div class="tier-name">Bronze</div>
+                </div>
+                <div class="tier-arrow">›</div>
+                <div class="tier-card tier-iron">
+                    <span class="tier-icon">⬡</span>
+                    <div class="tier-name">Iron</div>
+                </div>
+                <div class="tier-arrow">›</div>
+                <div class="tier-card tier-silver">
+                    <span class="tier-icon">⬡</span>
+                    <div class="tier-name">Silver</div>
+                </div>
+                <div class="tier-arrow">›</div>
+                <div class="tier-card tier-gold">
+                    <span class="tier-icon">◈</span>
+                    <div class="tier-name">Gold</div>
+                </div>
+                <div class="tier-arrow">›</div>
+                <div class="tier-card tier-diamond">
+                    <span class="tier-icon">◈</span>
+                    <div class="tier-name">Diamond</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Eight dimension pills -->
+        <div class="dim-section">
+            <div class="dim-section-label">Eight scored dimensions</div>
+            <div class="dim-grid">
+                <div class="dim-pill"><div class="dim-pill-label">Quality</div><div class="dim-pill-val">—</div></div>
+                <div class="dim-pill"><div class="dim-pill-label">Compliance</div><div class="dim-pill-val">—</div></div>
+                <div class="dim-pill"><div class="dim-pill-label">Reliability</div><div class="dim-pill-val">—</div></div>
+                <div class="dim-pill"><div class="dim-pill-label">Refresh</div><div class="dim-pill-val">—</div></div>
+                <div class="dim-pill"><div class="dim-pill-label">Governance</div><div class="dim-pill-val">—</div></div>
+                <div class="dim-pill"><div class="dim-pill-label">Accessibility</div><div class="dim-pill-val">—</div></div>
+                <div class="dim-pill"><div class="dim-pill-label">Relevance</div><div class="dim-pill-val">—</div></div>
+                <div class="dim-pill"><div class="dim-pill-label">Sustainability</div><div class="dim-pill-val">—</div></div>
+            </div>
+        </div>
     </div>
 
     <!-- Step 2: Intake Questionnaire -->
@@ -487,27 +704,27 @@
         <div style="display:flex; align-items:flex-end; gap:24px; margin-bottom:24px;">
             <div>
                 <div class="score-display" id="reportScore">--</div>
-                <div style="color:#888; font-size:0.8rem; margin-top:4px;">FORGE Score</div>
+                <div style="color:rgba(201,168,76,0.4); font-size:0.75rem; margin-top:4px; text-transform:uppercase; letter-spacing:0.08em;">FORGE Score</div>
             </div>
             <div>
                 <div class="metal-badge" id="reportBadge">--</div>
-                <div style="color:#888; font-size:0.8rem; margin-top:4px;" id="reportDataset">--</div>
+                <div style="color:rgba(201,168,76,0.4); font-size:0.75rem; margin-top:4px;" id="reportDataset">--</div>
             </div>
         </div>
 
-        <h3 style="color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">Dimension Scores</h3>
+        <div class="section-subhead">Dimension Scores</div>
         <div class="score-grid" id="scoreGrid"></div>
 
-        <h3 style="color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin:24px 0 12px;">Score Reasoning</h3>
+        <div class="section-subhead">Score Reasoning</div>
         <div id="reasoningList"></div>
 
-        <h3 style="color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin:24px 0 12px;">Recommended Actions</h3>
+        <div class="section-subhead">Recommended Actions</div>
         <div id="actionsList"></div>
 
-        <h3 style="color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin:24px 0 12px;">Monetization Potential</h3>
+        <div class="section-subhead">Monetization Potential</div>
         <div class="monetization-grid" id="monetizationGrid"></div>
 
-        <h3 style="color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin:24px 0 12px;">Blockchain Provenance</h3>
+        <div class="section-subhead">Blockchain Provenance</div>
         <div class="chain-record" id="casperRecord">
             <div class="chain-label">Assessment Hash — Casper Testnet</div>
             <div class="chain-hash" id="casperHash"></div>
@@ -527,13 +744,9 @@
         const fileInput = document.getElementById('fileInput');
         const uploadArea = document.getElementById('uploadArea');
 
-        uploadArea.addEventListener('click', function() {
-            fileInput.click();
-        });
+        uploadArea.addEventListener('click', function() { fileInput.click(); });
 
-        fileInput.addEventListener('change', function() {
-            handleFileUpload(this);
-        });
+        fileInput.addEventListener('change', function() { handleFileUpload(this); });
 
         uploadArea.addEventListener('dragover', function(e) {
             e.preventDefault();
@@ -558,8 +771,9 @@
 
     function showStatus(msg, type) {
         const el = document.getElementById('statusMsg');
-        el.className = 'status ' + type;
+        el.className = type;
         el.textContent = msg;
+        el.style.display = 'block';
     }
 
     function setStep(n) {
@@ -581,7 +795,6 @@
         try {
             const res = await fetch(API + '/upload', { method: 'POST', body: formData });
             const data = await res.json();
-
             if (!res.ok) throw new Error(data.detail || 'Upload failed');
 
             fileProfile = data.profile;
@@ -704,7 +917,6 @@
             </div>
         `).join('');
 
-        // Casper blockchain provenance
         if (data.casper_hash) {
             document.getElementById('casperHash').textContent = data.casper_hash;
             document.getElementById('casperChain').textContent = 'Chain: ' + data.casper_chain;
@@ -720,7 +932,7 @@
         document.getElementById('intakeSection').style.display = 'none';
         document.getElementById('fileInput').value = '';
         document.getElementById('uploadArea').classList.remove('active');
-        document.getElementById('statusMsg').className = 'status';
+        document.getElementById('statusMsg').style.display = 'none';
         document.getElementById('assessBtn').disabled = false;
         document.getElementById('casperRecord').style.display = 'block';
         setStep(1);
