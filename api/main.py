@@ -695,3 +695,107 @@ async def get_cspr_price():
             "source":   "fallback",
             "cached_at": datetime.utcnow().isoformat()
         }
+
+
+# --- Auth Request Models ---
+
+class UserRegister(BaseModel):
+    full_name: str
+    email: str
+    phone: Optional[str] = None
+    organization: Optional[str] = None
+    use_case: Optional[str] = None
+    attest_owner: bool = False
+    attest_no_pii: bool = False
+    attest_appropriate: bool = False
+
+
+class UserLogin(BaseModel):
+    api_key: str
+
+
+# --- Auth Endpoints ---
+
+@app.post("/auth/register")
+def register_user(request: UserRegister, db: Session = Depends(get_db)):
+    from database.models import ForgeApiUser
+
+    if not request.attest_owner or not request.attest_no_pii or not request.attest_appropriate:
+        raise HTTPException(status_code=400, detail="All three attestations are required.")
+
+    existing = db.query(ForgeApiUser).filter(ForgeApiUser.email == request.email).first()
+    if existing:
+        raise HTTPException(status_code=409, detail="An account with this email already exists.")
+
+    user_id = "USR-" + str(uuid.uuid4())[:8].upper()
+    api_key = "FORGE-" + str(uuid.uuid4()).upper()
+
+    user = ForgeApiUser(
+        user_id            = user_id,
+        api_key            = api_key,
+        full_name          = request.full_name,
+        email              = request.email,
+        phone              = request.phone,
+        organization       = request.organization,
+        use_case           = request.use_case,
+        attest_owner       = 1 if request.attest_owner else 0,
+        attest_no_pii      = 1 if request.attest_no_pii else 0,
+        attest_appropriate = 1 if request.attest_appropriate else 0
+    )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+
+    return {
+        "user_id":       user.user_id,
+        "api_key":       user.api_key,
+        "full_name":     user.full_name,
+        "email":         user.email,
+        "registered_at": user.registered_at,
+        "status":        "registered"
+    }
+
+
+@app.post("/auth/login")
+def login_user(request: UserLogin, db: Session = Depends(get_db)):
+    from database.models import ForgeApiUser
+
+    user = db.query(ForgeApiUser).filter(
+        ForgeApiUser.api_key == request.api_key,
+        ForgeApiUser.is_active == 1
+    ).first()
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid API key.")
+
+    user.last_login = datetime.utcnow()
+    db.commit()
+
+    return {
+        "user_id":      user.user_id,
+        "full_name":    user.full_name,
+        "email":        user.email,
+        "organization": user.organization,
+        "last_login":   user.last_login,
+        "status":       "authenticated"
+    }
+
+
+@app.get("/auth/verify")
+def verify_key(api_key: str, db: Session = Depends(get_db)):
+    from database.models import ForgeApiUser
+
+    user = db.query(ForgeApiUser).filter(
+        ForgeApiUser.api_key == api_key,
+        ForgeApiUser.is_active == 1
+    ).first()
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid or inactive API key.")
+
+    return {
+        "valid":        True,
+        "user_id":      user.user_id,
+        "full_name":    user.full_name,
+        "organization": user.organization
+    }

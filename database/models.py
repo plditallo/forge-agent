@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, DateTime, Numeric, ForeignKey, Text
+from sqlalchemy import Column, Integer, String, DateTime, Numeric, ForeignKey, Text, Boolean
 from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
@@ -18,7 +18,6 @@ class Assessment(Base):
     file_name                = Column(String(255))
     file_type                = Column(String(50))
 
-    # Intake questionnaire
     ownership_level          = Column(String(50))
     documentation_level      = Column(String(50))
     refresh_frequency        = Column(String(50))
@@ -33,7 +32,6 @@ class Assessment(Base):
     historical_depth         = Column(String(50))
     enrichment_potential     = Column(String(50))
 
-    # Dimension scores
     score_data_quality       = Column(Numeric(3, 1))
     score_reliability        = Column(Numeric(3, 1))
     score_refresh            = Column(Numeric(3, 1))
@@ -43,20 +41,17 @@ class Assessment(Base):
     score_business_relevance = Column(Numeric(3, 1))
     score_sustainability     = Column(Numeric(3, 1))
 
-    # Monetization metrics
     score_uniqueness         = Column(Numeric(3, 1))
     score_coverage           = Column(Numeric(3, 1))
     score_historical_depth   = Column(Numeric(3, 1))
     score_enrichment         = Column(Numeric(3, 1))
 
-    # Results
     weighted_score           = Column(Numeric(5, 2))
     metal_rating             = Column(String(20))
     monetization_potential   = Column(Text)
     recommended_actions      = Column(Text)
     full_report              = Column(Text)
 
-    # Casper
     casper_tx_hash           = Column(String(255))
     casper_recorded_at       = Column(DateTime)
 
@@ -164,3 +159,37 @@ class BuyerApiImportData(Base):
     imported_at     = Column(DateTime, default=datetime.utcnow)
 
     import_batch = relationship("BuyerApiImport", back_populates="records")
+
+
+class ForgeApiUser(Base):
+    __tablename__ = "forge_api_users"
+
+    id                   = Column(Integer, primary_key=True, index=True)
+    user_id              = Column(String(50), unique=True, nullable=False)
+    api_key              = Column(String(100), unique=True, nullable=False)
+    full_name            = Column(String(255), nullable=False)
+    email                = Column(String(255), unique=True, nullable=False)
+    phone                = Column(String(50))
+    organization         = Column(String(255))
+    use_case             = Column(String(500))
+    registered_at        = Column(DateTime, default=datetime.utcnow)
+    last_login           = Column(DateTime)
+    is_active            = Column(Integer, default=1)
+    marketplace_enabled  = Column(Integer, default=1)
+    attest_owner         = Column(Integer, default=0)
+    attest_no_pii        = Column(Integer, default=0)
+    attest_appropriate   = Column(Integer, default=0)
+
+
+class ForgeApiError(Base):
+    __tablename__ = "forge_api_errors"
+
+    id              = Column(Integer, primary_key=True, index=True)
+    logged_at       = Column(DateTime, default=datetime.utcnow)
+    user_id         = Column(String(50))
+    api_key_prefix  = Column(String(20))
+    endpoint        = Column(String(255))
+    error_type      = Column(String(100))
+    error_detail    = Column(Text)
+    client_ip       = Column(String(50))
+    http_status     = Column(Integer)
