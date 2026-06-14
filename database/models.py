@@ -92,6 +92,8 @@ class MarketplaceListing(Base):
     tags            = Column(String(255))
     row_count       = Column(Integer)
     file_size_mb    = Column(Numeric(8, 2))
+    seller_user_id  = Column(String(50))
+    seller_name     = Column(String(255))
 
     transactions = relationship("MarketplaceTransaction", back_populates="listing")
 
@@ -128,6 +130,7 @@ class MarketplaceBuyer(Base):
     total_spent   = Column(Numeric(12, 4), default=0)
     total_calls   = Column(Integer, default=0)
     is_active     = Column(Integer, default=1)
+    user_id       = Column(String(50))
 
 
 class BuyerApiImport(Base):
@@ -181,6 +184,10 @@ class ForgeApiUser(Base):
     attest_owner         = Column(Integer, default=0)
     attest_no_pii        = Column(Integer, default=0)
     attest_appropriate   = Column(Integer, default=0)
+    is_buyer             = Column(Integer, default=0)
+    is_seller            = Column(Integer, default=0)
+    is_admin             = Column(Integer, default=0)
+    display_name         = Column(String(255))
 
 
 class ForgeApiError(Base):

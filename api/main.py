@@ -103,6 +103,8 @@ class ListingCreate(BaseModel):
     tags: Optional[str] = None
     row_count: Optional[int] = None
     file_size_mb: Optional[float] = None
+    seller_user_id: Optional[str] = None
+    seller_name: Optional[str] = None
 
 
 class BuyerRegister(BaseModel):
@@ -110,6 +112,7 @@ class BuyerRegister(BaseModel):
     organization: Optional[str] = None
     email: Optional[str] = None
     cspr_wallet: Optional[str] = None
+    user_id: Optional[str] = None
 
 
 # --- Core Endpoints ---
@@ -368,7 +371,9 @@ def create_listing(request: ListingCreate, db: Session = Depends(get_db)):
         data_file_path = request.data_file_path,
         tags           = request.tags,
         row_count      = request.row_count,
-        file_size_mb   = request.file_size_mb
+        file_size_mb   = request.file_size_mb,
+        seller_user_id = request.seller_user_id if hasattr(request, 'seller_user_id') else None,
+        seller_name    = request.seller_name if hasattr(request, 'seller_name') else None
     )
     db.add(listing)
     db.commit()
@@ -396,7 +401,9 @@ def get_listings(db: Session = Depends(get_db)):
             "listed_at":      l.listed_at,
             "assessment_id":  l.assessment_id,
             "row_count":      l.row_count,
-            "file_size_mb":   float(l.file_size_mb) if l.file_size_mb else None
+            "file_size_mb":   float(l.file_size_mb) if l.file_size_mb else None,
+            "seller_user_id": l.seller_user_id,
+            "seller_name":    l.seller_name
         }
         for l in listings
     ]
@@ -404,15 +411,24 @@ def get_listings(db: Session = Depends(get_db)):
 
 @app.post("/marketplace/buyers/register")
 def register_buyer(request: BuyerRegister, db: Session = Depends(get_db)):
+    from database.models import ForgeApiUser
     buyer_id = "BUYER-" + str(uuid.uuid4())[:8].upper()
     buyer = MarketplaceBuyer(
         buyer_id     = buyer_id,
         buyer_name   = request.buyer_name,
         organization = request.organization,
         email        = request.email,
-        cspr_wallet  = request.cspr_wallet
+        cspr_wallet  = request.cspr_wallet,
+        user_id      = request.user_id if hasattr(request, 'user_id') else None
     )
     db.add(buyer)
+
+    # If user_id provided, update their is_buyer flag
+    if hasattr(request, 'user_id') and request.user_id:
+        user = db.query(ForgeApiUser).filter(ForgeApiUser.user_id == request.user_id).first()
+        if user:
+            user.is_buyer = 1
+
     db.commit()
     db.refresh(buyer)
     return {
@@ -759,6 +775,9 @@ def register_user(request: UserRegister, db: Session = Depends(get_db)):
         "full_name":     user.full_name,
         "email":         user.email,
         "registered_at": user.registered_at,
+        "is_admin":      bool(user.is_admin),
+        "is_seller":     bool(user.is_seller),
+        "is_buyer":      bool(user.is_buyer),
         "status":        "registered"
     }
 
@@ -784,6 +803,9 @@ def login_user(request: UserLogin, db: Session = Depends(get_db)):
         "email":        user.email,
         "organization": user.organization,
         "last_login":   user.last_login,
+        "is_admin":     bool(user.is_admin),
+        "is_seller":    bool(user.is_seller),
+        "is_buyer":     bool(user.is_buyer),
         "status":       "authenticated"
     }
 
@@ -805,6 +827,44 @@ def verify_key(api_key: str, db: Session = Depends(get_db)):
         "user_id":      user.user_id,
         "full_name":    user.full_name,
         "organization": user.organization
+    }
+
+
+# --- Role Management Endpoints ---
+
+@app.post("/auth/become-seller")
+def become_seller(user_id: str, db: Session = Depends(get_db)):
+    from database.models import ForgeApiUser
+    user = db.query(ForgeApiUser).filter(
+        ForgeApiUser.user_id == user_id,
+        ForgeApiUser.is_active == 1
+    ).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found.")
+    user.is_seller = 1
+    db.commit()
+    return {"status": "seller_enabled", "user_id": user_id, "is_seller": True}
+
+
+@app.get("/auth/me")
+def get_me(api_key: str, db: Session = Depends(get_db)):
+    from database.models import ForgeApiUser
+    user = db.query(ForgeApiUser).filter(
+        ForgeApiUser.api_key == api_key,
+        ForgeApiUser.is_active == 1
+    ).first()
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid API key.")
+    return {
+        "user_id":      user.user_id,
+        "full_name":    user.full_name,
+        "email":        user.email,
+        "organization": user.organization,
+        "is_admin":     bool(user.is_admin),
+        "is_seller":    bool(user.is_seller),
+        "is_buyer":     bool(user.is_buyer),
+        "registered_at": user.registered_at,
+        "last_login":   user.last_login
     }
 
 

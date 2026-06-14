@@ -8,220 +8,92 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', sans-serif; background: #0f1117; color: #e0e0e0; min-height: 100vh; display: flex; flex-direction: column; }
 
-        header {
-            background: #1a1d27;
-            border-bottom: 2px solid #c9a84c;
-            padding: 20px 40px;
-        }
+        header { background: #1a1d27; border-bottom: 2px solid #c9a84c; padding: 20px 40px; }
         header h1 { font-size: 1.6rem; color: #c9a84c; letter-spacing: 2px; }
         header p { font-size: 0.85rem; color: #888; margin-top: 2px; }
 
-        .container {
-            max-width: 620px;
-            margin: 48px auto;
-            padding: 0 20px;
-            width: 100%;
-        }
+        .container { max-width: 620px; margin: 48px auto; padding: 0 20px; width: 100%; }
 
-        .card {
-            background: #1a1d27;
-            border: 1px solid #2a2d3a;
-            border-radius: 8px;
-            padding: 36px;
-            margin-bottom: 24px;
-        }
-
-        .card h2 {
-            font-size: 1rem;
-            color: #c9a84c;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .card .subtitle {
-            font-size: 0.85rem;
-            color: #888;
-            margin-bottom: 28px;
-            line-height: 1.5;
-        }
+        .card { background: #1a1d27; border: 1px solid #2a2d3a; border-radius: 8px; padding: 36px; margin-bottom: 24px; }
+        .card h2 { font-size: 1rem; color: #c9a84c; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .card .subtitle { font-size: 0.85rem; color: #888; margin-bottom: 28px; line-height: 1.5; }
 
         .form-group { margin-bottom: 18px; }
-
-        .form-group label {
-            display: block;
-            font-size: 0.75rem;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-        }
-
+        .form-group label { display: block; font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
         .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-            background: #0f1117;
-            border: 1px solid #2a2d3a;
-            border-radius: 4px;
-            padding: 10px 12px;
-            color: #e0e0e0;
-            font-size: 0.9rem;
-            font-family: 'Segoe UI', sans-serif;
+            width: 100%; background: #0f1117; border: 1px solid #2a2d3a;
+            border-radius: 4px; padding: 10px 12px; color: #e0e0e0;
+            font-size: 0.9rem; font-family: 'Segoe UI', sans-serif;
         }
-
-        .form-group input:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: #c9a84c;
-        }
-
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: #c9a84c; }
         .form-group textarea { resize: vertical; min-height: 80px; }
 
-        /* Attestation checkboxes */
-        .attest-section {
+        /* Role selection cards */
+        .role-section { margin-bottom: 24px; }
+        .role-section h3 { font-size: 0.82rem; color: #c9a84c; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
+        .role-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .role-card {
+            background: #0f1117; border: 2px solid #2a2d3a;
+            border-radius: 6px; padding: 16px; cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .role-card:hover { border-color: #c9a84c; }
+        .role-card.selected { border-color: #c9a84c; background: #1e2130; }
+        .role-card input[type="checkbox"] { display: none; }
+        .role-card .role-icon { font-size: 1.5rem; margin-bottom: 8px; }
+        .role-card .role-title { font-size: 0.88rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+        .role-card .role-desc { font-size: 0.75rem; color: #888; line-height: 1.4; }
+        .role-card.selected .role-title { color: #c9a84c; }
+
+        /* Marketplace intent */
+        .marketplace-intent {
             background: #0f1117;
             border: 1px solid #2a2d3a;
             border-radius: 6px;
-            padding: 20px;
+            padding: 16px 20px;
             margin-bottom: 20px;
+            display: none;
         }
-
-        .attest-section h3 {
-            font-size: 0.8rem;
-            color: #c9a84c;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 16px;
+        .marketplace-intent.visible { display: block; }
+        .marketplace-intent h3 { font-size: 0.78rem; color: #c9a84c; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+        .intent-options { display: flex; gap: 10px; }
+        .intent-btn {
+            flex: 1; padding: 10px; border-radius: 4px; cursor: pointer;
+            font-size: 0.82rem; text-align: center; border: 1px solid #2a2d3a;
+            background: #1a1d27; color: #888; transition: all 0.2s;
         }
+        .intent-btn:hover { border-color: #c9a84c; color: #c9a84c; }
+        .intent-btn.selected { border-color: #c9a84c; background: #1e2130; color: #c9a84c; font-weight: 700; }
 
-        .attest-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 14px;
-            cursor: pointer;
-        }
-
+        /* Attestation */
+        .attest-section { background: #0f1117; border: 1px solid #2a2d3a; border-radius: 6px; padding: 20px; margin-bottom: 20px; }
+        .attest-section h3 { font-size: 0.8rem; color: #c9a84c; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; }
+        .attest-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; cursor: pointer; }
         .attest-item:last-child { margin-bottom: 0; }
+        .attest-item input[type="checkbox"] { width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px; accent-color: #c9a84c; cursor: pointer; }
+        .attest-item span { font-size: 0.82rem; color: #ccc; line-height: 1.5; }
 
-        .attest-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0;
-            margin-top: 2px;
-            accent-color: #c9a84c;
-            cursor: pointer;
-        }
-
-        .attest-item span {
-            font-size: 0.82rem;
-            color: #ccc;
-            line-height: 1.5;
-        }
-
-        .btn {
-            width: 100%;
-            background: #c9a84c;
-            color: #0f1117;
-            border: none;
-            border-radius: 4px;
-            padding: 13px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            letter-spacing: 1px;
-            transition: background 0.2s;
-        }
-
+        .btn { width: 100%; background: #c9a84c; color: #0f1117; border: none; border-radius: 4px; padding: 13px; font-size: 1rem; font-weight: 700; cursor: pointer; letter-spacing: 1px; transition: background 0.2s; }
         .btn:hover { background: #e0c068; }
         .btn:disabled { background: #333; color: #666; cursor: not-allowed; }
 
-        .status {
-            padding: 12px 16px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            margin-bottom: 16px;
-            display: none;
-        }
-
+        .status { padding: 12px 16px; border-radius: 4px; font-size: 0.85rem; margin-bottom: 16px; display: none; }
         .status.error   { background: #2d1e1e; border-left: 3px solid #e05555; color: #e05555; display: block; }
         .status.success { background: #1e2d1e; border-left: 3px solid #55a055; color: #55a055; display: block; }
         .status.info    { background: #1e2d3d; border-left: 3px solid #4a9eda; color: #4a9eda; display: block; }
 
         /* API Key display */
-        .api-key-display {
-            display: none;
-            background: #0f1117;
-            border: 2px solid #c9a84c;
-            border-radius: 8px;
-            padding: 28px;
-            text-align: center;
-        }
-
-        .api-key-display h3 {
-            color: #55a055;
-            font-size: 1rem;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-
-        .api-key-display .warning {
-            font-size: 0.8rem;
-            color: #e0a030;
-            margin-bottom: 20px;
-        }
-
-        .key-box {
-            background: #1a1d27;
-            border: 1px solid #2a2d3a;
-            border-radius: 6px;
-            padding: 16px;
-            font-family: monospace;
-            font-size: 0.85rem;
-            color: #c9a84c;
-            word-break: break-all;
-            margin-bottom: 16px;
-            letter-spacing: 1px;
-        }
-
-        .copy-btn {
-            background: #2a2d3a;
-            color: #c9a84c;
-            border: 1px solid #c9a84c;
-            border-radius: 4px;
-            padding: 8px 24px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            margin-bottom: 16px;
-        }
-
+        .api-key-display { display: none; background: #0f1117; border: 2px solid #c9a84c; border-radius: 8px; padding: 28px; text-align: center; }
+        .api-key-display h3 { color: #55a055; font-size: 1rem; margin-bottom: 8px; text-transform: uppercase; }
+        .api-key-display .warning { font-size: 0.8rem; color: #e0a030; margin-bottom: 20px; }
+        .key-box { background: #1a1d27; border: 1px solid #2a2d3a; border-radius: 6px; padding: 16px; font-family: monospace; font-size: 0.85rem; color: #c9a84c; word-break: break-all; margin-bottom: 16px; letter-spacing: 1px; }
+        .copy-btn { background: #2a2d3a; color: #c9a84c; border: 1px solid #c9a84c; border-radius: 4px; padding: 8px 24px; font-size: 0.85rem; cursor: pointer; margin-bottom: 16px; }
         .copy-btn:hover { background: #c9a84c; color: #0f1117; }
+        .role-summary { font-size: 0.82rem; color: #888; margin-bottom: 20px; line-height: 1.6; }
+        .proceed-btn { display: inline-block; background: #c9a84c; color: #0f1117; text-decoration: none; padding: 10px 32px; border-radius: 4px; font-weight: 700; font-size: 0.9rem; letter-spacing: 1px; }
 
-        .user-id-display {
-            font-size: 0.8rem;
-            color: #888;
-            margin-bottom: 20px;
-        }
-
-        .proceed-btn {
-            display: inline-block;
-            background: #c9a84c;
-            color: #0f1117;
-            text-decoration: none;
-            padding: 10px 32px;
-            border-radius: 4px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-        }
-
-        .login-link {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.85rem;
-            color: #888;
-        }
-
+        .login-link { text-align: center; margin-top: 20px; font-size: 0.85rem; color: #888; }
         .login-link a { color: #c9a84c; text-decoration: none; }
-        .login-link a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -232,10 +104,9 @@
 </header>
 
 <div class="container">
-
     <div class="card" id="registerCard">
         <h2>Create Your Account</h2>
-        <p class="subtitle">Register to receive your FORGE Agent API key. You'll use this key to access the assessment engine, registry, and marketplace.</p>
+        <p class="subtitle">Register to receive your FORGE Agent API key and access the assessment engine, registry, and marketplace.</p>
 
         <div id="regStatus" class="status"></div>
 
@@ -260,19 +131,46 @@
             <textarea id="use_case" placeholder="Briefly describe how you intend to use FORGE Agent..."></textarea>
         </div>
 
+        <!-- Role selection -->
+        <div class="role-section">
+            <h3>How will you use FORGE Agent?</h3>
+            <div class="role-cards">
+                <label class="role-card" id="roleCardSeller" onclick="toggleRole('seller')">
+                    <input type="checkbox" id="wantsSeller">
+                    <div class="role-icon">📤</div>
+                    <div class="role-title">I want to certify & sell data</div>
+                    <div class="role-desc">Upload datasets, receive FORGE certification, and list in the marketplace to earn CSPR.</div>
+                </label>
+                <label class="role-card" id="roleCardBuyer" onclick="toggleRole('buyer')">
+                    <input type="checkbox" id="wantsBuyer">
+                    <div class="role-icon">📥</div>
+                    <div class="role-title">I want to buy certified data</div>
+                    <div class="role-desc">Browse FORGE-certified datasets, purchase via x402 micropayments, and access data via API.</div>
+                </label>
+            </div>
+        </div>
+
+        <!-- Marketplace intent for sellers -->
+        <div class="marketplace-intent" id="marketplaceIntent">
+            <h3>Marketplace Participation</h3>
+            <p style="font-size:0.8rem; color:#888; margin-bottom:12px;">Do you want to list your certified datasets in the FORGE Marketplace for others to purchase?</p>
+            <div class="intent-options">
+                <div class="intent-btn" id="intentYes" onclick="setIntent('yes')">✓ Yes — List in Marketplace</div>
+                <div class="intent-btn" id="intentNo" onclick="setIntent('no')">◯ Certification Only</div>
+            </div>
+        </div>
+
+        <!-- Attestations -->
         <div class="attest-section">
             <h3>Terms of Use — Attestation Required</h3>
-
             <label class="attest-item">
                 <input type="checkbox" id="attest_owner" onchange="checkAttestations()">
                 <span>I attest that I am the owner of, or have legal rights to submit, any data I certify through FORGE Agent.</span>
             </label>
-
             <label class="attest-item">
                 <input type="checkbox" id="attest_no_pii" onchange="checkAttestations()">
                 <span>I attest that no data I submit contains personal identifiers including Social Security numbers, medical records, financial account numbers, or other protected personal information beyond what is disclosed in the intake questionnaire.</span>
             </label>
-
             <label class="attest-item">
                 <input type="checkbox" id="attest_appropriate" onchange="checkAttestations()">
                 <span>I attest that no data I submit contains sexual, offensive, racist, or otherwise inappropriate content, and that I will use FORGE Agent solely for legitimate business purposes.</span>
@@ -288,31 +186,52 @@
         </div>
     </div>
 
-    <!-- API Key Display (shown after registration) -->
+    <!-- API Key Display -->
     <div class="api-key-display" id="apiKeyDisplay">
         <h3>✓ Registration Successful</h3>
         <p class="warning">⚠ Copy your API key now. It will not be shown again.</p>
         <div class="key-box" id="apiKeyBox">—</div>
-        <br>
         <button class="copy-btn" onclick="copyKey()">Copy API Key</button>
-        <div class="user-id-display" id="userIdDisplay"></div>
+        <div class="role-summary" id="roleSummary"></div>
         <br>
         <a href="/static/index.html" class="proceed-btn" onclick="saveSession()">Enter FORGE Agent →</a>
     </div>
-
 </div>
 
 <script>
 const API = 'http://127.0.0.1:8000';
 let generatedKey = '';
 let generatedUserId = '';
+let wantsSeller = false;
+let wantsBuyer  = false;
+let marketplaceIntent = null;
+
+function toggleRole(role) {
+    if (role === 'seller') {
+        wantsSeller = !wantsSeller;
+        document.getElementById('roleCardSeller').classList.toggle('selected', wantsSeller);
+        document.getElementById('marketplaceIntent').classList.toggle('visible', wantsSeller);
+        if (!wantsSeller) marketplaceIntent = null;
+    } else {
+        wantsBuyer = !wantsBuyer;
+        document.getElementById('roleCardBuyer').classList.toggle('selected', wantsBuyer);
+    }
+    checkAttestations();
+}
+
+function setIntent(val) {
+    marketplaceIntent = val;
+    document.getElementById('intentYes').classList.toggle('selected', val === 'yes');
+    document.getElementById('intentNo').classList.toggle('selected', val === 'no');
+}
 
 function checkAttestations() {
     const allChecked =
         document.getElementById('attest_owner').checked &&
         document.getElementById('attest_no_pii').checked &&
         document.getElementById('attest_appropriate').checked;
-    document.getElementById('registerBtn').disabled = !allChecked;
+    const sellerOk = !wantsSeller || marketplaceIntent !== null;
+    document.getElementById('registerBtn').disabled = !(allChecked && sellerOk);
 }
 
 async function register() {
@@ -321,14 +240,12 @@ async function register() {
     const phone    = document.getElementById('phone').value.trim();
     const org      = document.getElementById('organization').value.trim();
     const useCase  = document.getElementById('use_case').value.trim();
+    const status   = document.getElementById('regStatus');
 
-    const status = document.getElementById('regStatus');
+    if (!fullName) { status.className='status error'; status.textContent='Full name is required.'; return; }
+    if (!email)    { status.className='status error'; status.textContent='Email address is required.'; return; }
 
-    if (!fullName) { status.className = 'status error'; status.textContent = 'Full name is required.'; return; }
-    if (!email)    { status.className = 'status error'; status.textContent = 'Email address is required.'; return; }
-
-    status.className = 'status info';
-    status.textContent = 'Registering your account...';
+    status.className='status info'; status.textContent='Registering your account...';
     document.getElementById('registerBtn').disabled = true;
 
     try {
@@ -336,25 +253,49 @@ async function register() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                full_name:          fullName,
-                email:              email,
-                phone:              phone,
-                organization:       org,
-                use_case:           useCase,
-                attest_owner:       true,
-                attest_no_pii:      true,
-                attest_appropriate: true
+                full_name: fullName, email, phone,
+                organization: org, use_case: useCase,
+                attest_owner: true, attest_no_pii: true, attest_appropriate: true
             })
         });
-
         const data = await res.json();
         if (!res.ok) throw new Error(data.detail || 'Registration failed');
 
         generatedKey    = data.api_key;
         generatedUserId = data.user_id;
 
+        // If seller, call become-seller endpoint
+        if (wantsSeller) {
+            await fetch(API + '/auth/become-seller?user_id=' + data.user_id, { method: 'POST' });
+        }
+
+        // If buyer, register as buyer automatically
+        if (wantsBuyer) {
+            const buyerRes = await fetch(API + '/marketplace/buyers/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    buyer_name: fullName, organization: org, email,
+                    user_id: data.user_id
+                })
+            });
+            const buyerData = await buyerRes.json();
+            if (buyerRes.ok) {
+                localStorage.setItem('forge_buyer_id', buyerData.buyer_id);
+                localStorage.setItem('forge_buyer_name', buyerData.buyer_name);
+            }
+        }
+
+        // Build role summary
+        let roles = [];
+        if (wantsSeller) roles.push('Seller' + (marketplaceIntent === 'yes' ? ' (Marketplace enabled)' : ' (Certification only)'));
+        if (wantsBuyer)  roles.push('Buyer');
+        if (!wantsSeller && !wantsBuyer) roles.push('User');
+
         document.getElementById('apiKeyBox').textContent = data.api_key;
-        document.getElementById('userIdDisplay').textContent = 'User ID: ' + data.user_id;
+        document.getElementById('roleSummary').innerHTML =
+            `User ID: <span style="color:#c9a84c;">${data.user_id}</span><br>` +
+            `Role: <span style="color:#c9a84c;">${roles.join(', ')}</span>`;
 
         document.getElementById('registerCard').style.display = 'none';
         document.getElementById('apiKeyDisplay').style.display = 'block';
@@ -375,8 +316,12 @@ function copyKey() {
 }
 
 function saveSession() {
-    localStorage.setItem('forge_api_key', generatedKey);
-    localStorage.setItem('forge_user_id', generatedUserId);
+    localStorage.setItem('forge_api_key',    generatedKey);
+    localStorage.setItem('forge_user_id',    generatedUserId);
+    localStorage.setItem('forge_user_name',  document.getElementById('full_name').value.trim());
+    localStorage.setItem('forge_is_admin',   '0');
+    localStorage.setItem('forge_is_seller',  wantsSeller ? '1' : '0');
+    localStorage.setItem('forge_is_buyer',   wantsBuyer  ? '1' : '0');
 }
 </script>
 </body>

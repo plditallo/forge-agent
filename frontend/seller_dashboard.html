@@ -18,7 +18,7 @@
         }
         header h1 { font-size: 1.6rem; color: #c9a84c; letter-spacing: 2px; }
         header p { font-size: 0.85rem; color: #888; margin-top: 2px; }
-        .nav-links { display: flex; gap: 12px; }
+        .nav-links { display: flex; gap: 12px; align-items: center; }
         .nav-link { color: #c9a84c; text-decoration: none; font-size: 0.9rem; border: 1px solid #c9a84c; padding: 6px 16px; border-radius: 4px; }
         .nav-link:hover { background: #c9a84c; color: #0f1117; }
         .nav-link.active { background: #c9a84c; color: #0f1117; }
@@ -36,7 +36,7 @@
         .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 
         .rev-table { width: 100%; border-collapse: collapse; }
-        .rev-table th { text-align: left; font-size: 0.7rem; color: #888; text-transform: uppercase; padding: 8px 12px; border-bottom: 1px solid #2a2d3a; letter-spacing: 0.5px; }
+        .rev-table th { text-align: left; font-size: 0.7rem; color: #888; text-transform: uppercase; padding: 8px 12px; border-bottom: 1px solid #2a2d3a; }
         .rev-table td { padding: 12px; border-bottom: 1px solid #1a1d27; font-size: 0.85rem; }
         .rev-table tr:hover td { background: #1e2130; }
 
@@ -45,38 +45,22 @@
         .dataset-bar-name { font-size: 0.82rem; color: #ccc; }
         .dataset-bar-val { font-size: 0.82rem; color: #c9a84c; font-weight: 700; }
         .bar-bg { height: 8px; background: #0f1117; border-radius: 4px; overflow: hidden; }
-        .bar-fill { height: 100%; background: linear-gradient(90deg, #c9a84c, #e0c068); border-radius: 4px; transition: width 0.6s; }
+        .bar-fill { height: 100%; background: linear-gradient(90deg, #c9a84c, #e0c068); border-radius: 4px; }
 
-        .buyer-card {
-            background: #0f1117;
-            border: 1px solid #2a2d3a;
-            border-radius: 6px;
-            padding: 16px;
-            margin-bottom: 12px;
-        }
+        .buyer-card { background: #0f1117; border: 1px solid #2a2d3a; border-radius: 6px; padding: 16px; margin-bottom: 12px; }
         .buyer-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .buyer-card-name { font-size: 0.9rem; font-weight: 700; color: #fff; }
         .buyer-card-total { font-size: 1rem; font-weight: 700; color: #c9a84c; }
         .buyer-card-meta { font-size: 0.75rem; color: #888; }
 
-        .trend-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-        .trend-label { font-size: 0.75rem; color: #888; width: 90px; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .trend-bar-bg { flex: 1; height: 20px; background: #0f1117; border-radius: 3px; overflow: hidden; }
-        .trend-bar-fill { height: 100%; background: #c9a84c; border-radius: 3px; }
-        .trend-val { font-size: 0.75rem; color: #c9a84c; width: 70px; text-align: right; }
+        .cspr-badge { display: inline-block; background: #1a2a1a; border: 1px solid #55a055; color: #55a055; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: 700; }
+
+        .admin-notice { background: #2a1a1a; border: 1px solid #e05555; border-radius: 6px; padding: 14px 18px; margin-bottom: 24px; font-size: 0.85rem; color: #e05555; display: none; }
+        .admin-notice.visible { display: block; }
 
         .empty { text-align: center; color: #555; padding: 40px; }
-
-        .cspr-badge {
-            display: inline-block;
-            background: #1a2a1a;
-            border: 1px solid #55a055;
-            color: #55a055;
-            font-size: 0.7rem;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-weight: 700;
-        }
+        .no-access { text-align: center; color: #888; padding: 60px; font-size: 0.9rem; }
+        .no-access a { color: #c9a84c; }
     </style>
 </head>
 <body>
@@ -84,7 +68,7 @@
 <header>
     <div>
         <h1>⚒ FORGE SELLER DASHBOARD</h1>
-        <p>Revenue Tracking — Bauhaus Technology & Graphic Holdings LLC</p>
+        <p id="sellerSubtitle">Revenue Tracking</p>
     </div>
     <div class="nav-links">
         <a href="/static/index.html" class="nav-link">+ Assess</a>
@@ -95,88 +79,111 @@
     </div>
 </header>
 
-<div class="container">
-
-    <div class="stats-grid">
-        <div class="stat-box">
-            <div class="val" id="statRevenue">—</div>
-            <div class="lbl">Total Revenue (CSPR)</div>
-        </div>
-        <div class="stat-box">
-            <div class="val" id="statRecords">—</div>
-            <div class="lbl">Records Delivered</div>
-        </div>
-        <div class="stat-box">
-            <div class="val" id="statImports">—</div>
-            <div class="lbl">Total Transactions</div>
-        </div>
-        <div class="stat-box">
-            <div class="val" id="statBuyers">—</div>
-            <div class="lbl">Active Buyers</div>
-        </div>
+<div class="container" id="mainContent">
+    <div class="no-access" id="noAccessMsg" style="display:none">
+        You are not registered as a seller. <a href="/static/register.html">Register</a> and opt in to sell data.
     </div>
-
-    <div class="two-col">
-
-        <!-- Revenue by Dataset -->
-        <div class="card">
-            <h2>Revenue by Dataset</h2>
-            <div id="datasetRevenue"><div class="empty">No revenue yet.</div></div>
-        </div>
-
-        <!-- Revenue by Buyer -->
-        <div class="card">
-            <h2>Revenue by Buyer</h2>
-            <div id="buyerRevenue"><div class="empty">No buyers yet.</div></div>
-        </div>
-
-    </div>
-
-    <!-- Transaction volume chart -->
-    <div class="card">
-        <h2>Transaction Ledger</h2>
-        <div id="transactionLedger"><div class="empty">No transactions yet.</div></div>
-    </div>
-
 </div>
 
 <script>
 const API = 'http://127.0.0.1:8000';
 
 async function init() {
-    try {
-        const [revenueRes, txRes] = await Promise.all([
-            fetch(API + '/marketplace/seller/revenue'),
-            fetch(API + '/marketplace/transactions')
-        ]);
+    const isAdmin  = localStorage.getItem('forge_is_admin')  === '1';
+    const isSeller = localStorage.getItem('forge_is_seller') === '1';
+    const userName = localStorage.getItem('forge_user_name') || '';
+    const userId   = localStorage.getItem('forge_user_id')   || '';
 
-        const revenue = await revenueRes.json();
-        const txs     = await txRes.json();
-
-        renderStats(revenue);
-        renderDatasetRevenue(revenue.by_dataset);
-        renderBuyerRevenue(revenue.by_buyer);
-        renderTransactionLedger(txs);
-    } catch (err) {
-        console.error('Failed to load seller data:', err);
-    }
-}
-
-function renderStats(revenue) {
-    document.getElementById('statRevenue').textContent  = revenue.total_revenue.toFixed(4);
-    document.getElementById('statRecords').textContent  = revenue.total_records.toLocaleString();
-    document.getElementById('statImports').textContent  = revenue.total_imports;
-    document.getElementById('statBuyers').textContent   = revenue.by_buyer.length;
-}
-
-function renderDatasetRevenue(datasets) {
-    if (!datasets || datasets.length === 0) {
-        document.getElementById('datasetRevenue').innerHTML = '<div class="empty">No dataset revenue yet.</div>';
+    if (!isAdmin && !isSeller) {
+        document.getElementById('noAccessMsg').style.display = 'block';
         return;
     }
 
-    const maxRev = Math.max(...datasets.map(d => d.total_revenue));
+    if (isAdmin) {
+        document.getElementById('sellerSubtitle').textContent = 'All Sellers — Admin View';
+        document.getElementById('mainContent').innerHTML = `
+            <div class="admin-notice visible">
+                🔐 Admin view — showing revenue across all sellers and datasets.
+            </div>
+            <div id="dashContent"></div>`;
+        await loadDashboard(null, true);
+    } else {
+        document.getElementById('sellerSubtitle').textContent = userName + ' — Your Revenue';
+        document.getElementById('mainContent').innerHTML = '<div id="dashContent"></div>';
+        await loadDashboard(userId, false);
+    }
+}
 
+async function loadDashboard(userId, isAdmin) {
+    const [revenueRes, txRes] = await Promise.all([
+        fetch(API + '/marketplace/seller/revenue'),
+        fetch(API + '/marketplace/transactions')
+    ]);
+
+    let revenue = await revenueRes.json();
+    let txs     = await txRes.json();
+
+    // Filter by seller if not admin
+    if (!isAdmin && userId) {
+        const listingsRes = await fetch(API + '/marketplace/listings');
+        const listings    = await listingsRes.json();
+        const myListingIds = listings
+            .filter(l => l.seller_user_id === userId)
+            .map(l => l.listing_id);
+
+        txs = txs.filter(t => myListingIds.includes(t.listing_id));
+
+        // Recalculate revenue for this seller only
+        const myImportsRes = await fetch(API + '/marketplace/seller/revenue');
+        const allRevenue   = await myImportsRes.json();
+
+        revenue = {
+            total_revenue: txs.reduce((s, t) => s + (t.amount || 0), 0),
+            total_records: txs.reduce((s, t) => s + (t.records_delivered || 0), 0),
+            total_imports: txs.length,
+            by_buyer:      allRevenue.by_buyer,
+            by_dataset:    allRevenue.by_dataset.filter(d =>
+                listings.filter(l => l.seller_user_id === userId).some(l => l.dataset_name === d.dataset_name)
+            )
+        };
+    }
+
+    const content = document.getElementById('dashContent');
+    content.innerHTML = `
+        <div class="stats-grid">
+            <div class="stat-box"><div class="val">${revenue.total_revenue.toFixed(4)}</div><div class="lbl">Total Revenue (CSPR)</div></div>
+            <div class="stat-box"><div class="val">${revenue.total_records.toLocaleString()}</div><div class="lbl">Records Delivered</div></div>
+            <div class="stat-box"><div class="val">${revenue.total_imports}</div><div class="lbl">Total Transactions</div></div>
+            <div class="stat-box"><div class="val">${revenue.by_buyer.length}</div><div class="lbl">Active Buyers</div></div>
+        </div>
+
+        <div class="two-col">
+            <div class="card">
+                <h2>Revenue by Dataset</h2>
+                <div id="datasetRevenue"></div>
+            </div>
+            <div class="card">
+                <h2>Revenue by Buyer</h2>
+                <div id="buyerRevenue"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Transaction Ledger</h2>
+            <div id="txLedger"></div>
+        </div>`;
+
+    renderDatasets(revenue.by_dataset);
+    renderBuyers(revenue.by_buyer);
+    renderTransactions(txs);
+}
+
+function renderDatasets(datasets) {
+    if (!datasets || !datasets.length) {
+        document.getElementById('datasetRevenue').innerHTML = '<div class="empty">No dataset revenue yet.</div>';
+        return;
+    }
+    const maxRev = Math.max(...datasets.map(d => d.total_revenue));
     document.getElementById('datasetRevenue').innerHTML = datasets.map(d => `
         <div class="dataset-bar">
             <div class="dataset-bar-header">
@@ -190,18 +197,15 @@ function renderDatasetRevenue(datasets) {
                 <span style="font-size:0.7rem; color:#555;">${d.import_count} transaction${d.import_count !== 1 ? 's' : ''}</span>
                 <span style="font-size:0.7rem; color:#555;">${d.total_records.toLocaleString()} records delivered</span>
             </div>
-        </div>
-    `).join('');
+        </div>`).join('');
 }
 
-function renderBuyerRevenue(buyers) {
-    if (!buyers || buyers.length === 0) {
-        document.getElementById('buyerRevenue').innerHTML = '<div class="empty">No buyer revenue yet.</div>';
+function renderBuyers(buyers) {
+    if (!buyers || !buyers.length) {
+        document.getElementById('buyerRevenue').innerHTML = '<div class="empty">No buyers yet.</div>';
         return;
     }
-
     const sorted = [...buyers].sort((a, b) => b.total_spent - a.total_spent);
-
     document.getElementById('buyerRevenue').innerHTML = sorted.map(b => `
         <div class="buyer-card">
             <div class="buyer-card-header">
@@ -213,34 +217,24 @@ function renderBuyerRevenue(buyers) {
                 ${b.total_records.toLocaleString()} records &nbsp;·&nbsp;
                 Last: ${formatDate(b.last_import)}
             </div>
-        </div>
-    `).join('');
+        </div>`).join('');
 }
 
-function renderTransactionLedger(txs) {
-    if (!txs || txs.length === 0) {
-        document.getElementById('transactionLedger').innerHTML = '<div class="empty">No transactions yet.</div>';
+function renderTransactions(txs) {
+    if (!txs || !txs.length) {
+        document.getElementById('txLedger').innerHTML = '<div class="empty">No transactions yet.</div>';
         return;
     }
-
-    document.getElementById('transactionLedger').innerHTML = `
+    document.getElementById('txLedger').innerHTML = `
         <table class="rev-table">
-            <thead>
-                <tr>
-                    <th>TX ID</th>
-                    <th>Buyer</th>
-                    <th>Listing</th>
-                    <th>Amount</th>
-                    <th>Records</th>
-                    <th>Time</th>
-                    <th>Casper Hash</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
+            <thead><tr>
+                <th>TX ID</th><th>Buyer</th><th>Listing</th>
+                <th>Amount</th><th>Records</th><th>Time</th><th>Hash</th><th>Status</th>
+            </tr></thead>
             <tbody>
                 ${txs.map(t => `
                     <tr>
-                        <td style="color:#555; font-size:0.75rem;">#${t.id}</td>
+                        <td style="color:#555;">#${t.id}</td>
                         <td>${t.buyer_name || t.buyer_id}</td>
                         <td style="color:#888; font-size:0.75rem;">Listing #${t.listing_id}</td>
                         <td style="color:#c9a84c; font-weight:700;">${t.amount} ${t.currency}</td>
@@ -249,16 +243,10 @@ function renderTransactionLedger(txs) {
                         <td style="font-family:monospace; font-size:0.68rem; color:#c9a84c;">
                             ${t.casper_tx_hash ? t.casper_tx_hash.substring(0,16)+'...' : '—'}
                         </td>
-                        <td>
-                            <span style="background:#1a2a1a; border:1px solid #55a055; color:#55a055; font-size:0.68rem; padding:2px 8px; border-radius:10px;">
-                                ${t.status}
-                            </span>
-                        </td>
-                    </tr>
-                `).join('')}
+                        <td><span class="cspr-badge">${t.status}</span></td>
+                    </tr>`).join('')}
             </tbody>
-        </table>
-    `;
+        </table>`;
 }
 
 function formatDate(iso) {
@@ -270,5 +258,7 @@ function formatDate(iso) {
 
 init();
 </script>
+    <script src="/static/shared_header.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', initForgeSession);</script>
 </body>
 </html>
