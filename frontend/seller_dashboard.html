@@ -61,6 +61,21 @@
         .empty { text-align: center; color: #555; padding: 40px; }
         .no-access { text-align: center; color: #888; padding: 60px; font-size: 0.9rem; }
         .no-access a { color: #c9a84c; }
+
+        .tx-filter-bar { display: flex; gap: 10px; margin-bottom: 14px; align-items: center; flex-wrap: wrap; }
+        .tx-filter-bar input, .tx-filter-bar select {
+            background: #0f1117; border: 1px solid #2a2d3a; border-radius: 4px;
+            padding: 6px 10px; color: #e0e0e0; font-size: 0.82rem;
+        }
+        .tx-filter-bar input:focus, .tx-filter-bar select:focus { outline: none; border-color: #c9a84c; }
+        .tx-meta { font-size: 0.75rem; color: #555; margin-bottom: 10px; }
+        .pagination { display: flex; gap: 8px; margin-top: 12px; align-items: center; }
+        .page-btn { background: #0f1117; border: 1px solid #2a2d3a; color: #888; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+        .page-btn:hover { border-color: #c9a84c; color: #c9a84c; }
+        .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .page-info { font-size: 0.78rem; color: #555; }
+        .btn-sm-outline { background: none; border: 1px solid #444; color: #888; border-radius: 4px; padding: 5px 12px; font-size: 0.78rem; cursor: pointer; }
+        .btn-sm-outline:hover { border-color: #888; color: #ccc; }
     </style>
 </head>
 <body>
@@ -220,19 +235,90 @@ function renderBuyers(buyers) {
         </div>`).join('');
 }
 
+let allTxs = [];
+let filteredTxs = [];
+let txPage = 1;
+const TX_PAGE_SIZE = 10;
+
 function renderTransactions(txs) {
-    if (!txs || !txs.length) {
-        document.getElementById('txLedger').innerHTML = '<div class="empty">No transactions yet.</div>';
+    allTxs = txs;
+    filteredTxs = [...txs];
+    txPage = 1;
+
+    // Get unique buyers and listings for filters
+    const buyers   = [...new Set(txs.map(t => t.buyer_name || t.buyer_id))].filter(Boolean);
+    const listings = [...new Set(txs.map(t => t.listing_id))];
+
+    document.getElementById('txLedger').innerHTML = `
+        <div class="tx-filter-bar">
+            <input type="text" id="txBuyerFilter" placeholder="Filter by buyer..." oninput="applyTxFilters()">
+            <select id="txListingFilter" onchange="applyTxFilters()">
+                <option value="">All listings</option>
+                ${listings.map(id => `<option value="${id}">Listing #${id}</option>`).join('')}
+            </select>
+            <span class="tx-meta" id="txMeta"></span>
+            <button class="btn-sm-outline" onclick="clearTxFilters()">Clear</button>
+        </div>
+        <div id="txTableContainer"></div>
+        <div class="pagination" id="txPagination" style="display:none">
+            <button class="page-btn" id="txPrevBtn" onclick="txChangePage(-1)">← Prev</button>
+            <span class="page-info" id="txPageInfo"></span>
+            <button class="page-btn" id="txNextBtn" onclick="txChangePage(1)">Next →</button>
+        </div>`;
+
+    renderTxPage();
+}
+
+function applyTxFilters() {
+    const buyerF   = document.getElementById('txBuyerFilter').value.toLowerCase();
+    const listingF = document.getElementById('txListingFilter').value;
+    filteredTxs = allTxs.filter(t => {
+        const mb = !buyerF   || (t.buyer_name || t.buyer_id || '').toLowerCase().includes(buyerF);
+        const ml = !listingF || String(t.listing_id) === listingF;
+        return mb && ml;
+    });
+    txPage = 1;
+    renderTxPage();
+}
+
+function clearTxFilters() {
+    document.getElementById('txBuyerFilter').value = '';
+    document.getElementById('txListingFilter').value = '';
+    filteredTxs = [...allTxs];
+    txPage = 1;
+    renderTxPage();
+}
+
+function txChangePage(delta) {
+    const totalPages = Math.ceil(filteredTxs.length / TX_PAGE_SIZE);
+    const newPage = txPage + delta;
+    if (newPage >= 1 && newPage <= totalPages) { txPage = newPage; renderTxPage(); }
+}
+
+function renderTxPage() {
+    const total      = allTxs.length;
+    const filtered   = filteredTxs.length;
+    const totalPages = Math.ceil(filtered / TX_PAGE_SIZE);
+    const start      = (txPage - 1) * TX_PAGE_SIZE;
+    const page       = filteredTxs.slice(start, start + TX_PAGE_SIZE);
+
+    const meta = document.getElementById('txMeta');
+    if (meta) meta.textContent = `${filtered} of ${total} transaction${total !== 1 ? 's' : ''}${filtered < total ? ' (filtered)' : ''}`;
+
+    if (!page.length) {
+        document.getElementById('txTableContainer').innerHTML = '<div class="empty">No matching transactions.</div>';
+        document.getElementById('txPagination').style.display = 'none';
         return;
     }
-    document.getElementById('txLedger').innerHTML = `
+
+    document.getElementById('txTableContainer').innerHTML = `
         <table class="rev-table">
             <thead><tr>
                 <th>TX ID</th><th>Buyer</th><th>Listing</th>
                 <th>Amount</th><th>Records</th><th>Time</th><th>Hash</th><th>Status</th>
             </tr></thead>
             <tbody>
-                ${txs.map(t => `
+                ${page.map(t => `
                     <tr>
                         <td style="color:#555;">#${t.id}</td>
                         <td>${t.buyer_name || t.buyer_id}</td>
@@ -247,6 +333,15 @@ function renderTransactions(txs) {
                     </tr>`).join('')}
             </tbody>
         </table>`;
+
+    if (totalPages > 1) {
+        document.getElementById('txPagination').style.display = 'flex';
+        document.getElementById('txPageInfo').textContent = `Page ${txPage} of ${totalPages}`;
+        document.getElementById('txPrevBtn').disabled = txPage <= 1;
+        document.getElementById('txNextBtn').disabled = txPage >= totalPages;
+    } else {
+        document.getElementById('txPagination').style.display = 'none';
+    }
 }
 
 function formatDate(iso) {

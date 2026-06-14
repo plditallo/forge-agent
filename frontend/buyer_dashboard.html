@@ -148,7 +148,7 @@
 
 <script>
 const API = 'http://127.0.0.1:8000';
-const isAdmin = new URLSearchParams(window.location.search).get('mode') === 'admin';
+const isAdmin = new URLSearchParams(window.location.search).get('mode') === 'admin' || localStorage.getItem('forge_is_admin') === '1';
 let activeBuyerId   = localStorage.getItem('forge_buyer_id');
 let activeBuyerName = localStorage.getItem('forge_buyer_name');
 
