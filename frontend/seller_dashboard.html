@@ -142,24 +142,51 @@ async function loadDashboard(userId, isAdmin) {
     if (!isAdmin && userId) {
         const listingsRes = await fetch(API + '/marketplace/listings');
         const listings    = await listingsRes.json();
-        const myListingIds = listings
-            .filter(l => l.seller_user_id === userId)
-            .map(l => l.listing_id);
+        const myListings  = listings.filter(l => l.seller_user_id === userId);
+        const myListingIds = myListings.map(l => l.listing_id);
+        const myDatasetNames = new Set(myListings.map(l => l.dataset_name));
 
         txs = txs.filter(t => myListingIds.includes(t.listing_id));
 
-        // Recalculate revenue for this seller only
-        const myImportsRes = await fetch(API + '/marketplace/seller/revenue');
-        const allRevenue   = await myImportsRes.json();
+        // Build buyer revenue only from this seller's transactions
+        const buyerMap = {};
+        txs.forEach(t => {
+            const key = t.buyer_id;
+            if (!buyerMap[key]) {
+                buyerMap[key] = {
+                    buyer_id:      t.buyer_id,
+                    buyer_name:    t.buyer_name || t.buyer_id,
+                    total_spent:   0,
+                    total_records: 0,
+                    import_count:  0,
+                    last_import:   null
+                };
+            }
+            buyerMap[key].total_spent   += t.amount || 0;
+            buyerMap[key].total_records += t.records_delivered || 0;
+            buyerMap[key].import_count  += 1;
+            buyerMap[key].last_import    = t.transacted_at;
+        });
+
+        // Build dataset revenue only for this seller's datasets
+        const datasetMap = {};
+        txs.forEach(t => {
+            const listing = myListings.find(l => l.listing_id === t.listing_id);
+            const name = listing ? listing.dataset_name : 'Listing #' + t.listing_id;
+            if (!datasetMap[name]) {
+                datasetMap[name] = { dataset_name: name, total_revenue: 0, total_records: 0, import_count: 0 };
+            }
+            datasetMap[name].total_revenue += t.amount || 0;
+            datasetMap[name].total_records += t.records_delivered || 0;
+            datasetMap[name].import_count  += 1;
+        });
 
         revenue = {
             total_revenue: txs.reduce((s, t) => s + (t.amount || 0), 0),
             total_records: txs.reduce((s, t) => s + (t.records_delivered || 0), 0),
             total_imports: txs.length,
-            by_buyer:      allRevenue.by_buyer,
-            by_dataset:    allRevenue.by_dataset.filter(d =>
-                listings.filter(l => l.seller_user_id === userId).some(l => l.dataset_name === d.dataset_name)
-            )
+            by_buyer:      Object.values(buyerMap),
+            by_dataset:    Object.values(datasetMap)
         };
     }
 
