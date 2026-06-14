@@ -35,15 +35,25 @@
         .role-card {
             background: #0f1117; border: 2px solid #2a2d3a;
             border-radius: 6px; padding: 16px; cursor: pointer;
-            transition: border-color 0.2s;
+            transition: all 0.2s; position: relative;
         }
         .role-card:hover { border-color: #c9a84c; }
-        .role-card.selected { border-color: #c9a84c; background: #1e2130; }
-        .role-card input[type="checkbox"] { display: none; }
+        .role-card.selected {
+            border-color: #c9a84c; background: #1e2130;
+            box-shadow: 0 0 0 1px #c9a84c;
+        }
+        /* role-card checkboxes removed - state tracked in JS vars */
         .role-card .role-icon { font-size: 1.5rem; margin-bottom: 8px; }
         .role-card .role-title { font-size: 0.88rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
         .role-card .role-desc { font-size: 0.75rem; color: #888; line-height: 1.4; }
         .role-card.selected .role-title { color: #c9a84c; }
+        .role-card .check-mark {
+            display: none; position: absolute; top: 10px; right: 10px;
+            background: #c9a84c; color: #0f1117; border-radius: 50%;
+            width: 20px; height: 20px; font-size: 0.7rem; font-weight: 700;
+            align-items: center; justify-content: center;
+        }
+        .role-card.selected .check-mark { display: flex; }
 
         /* Marketplace intent */
         .marketplace-intent {
@@ -135,18 +145,18 @@
         <div class="role-section">
             <h3>How will you use FORGE Agent?</h3>
             <div class="role-cards">
-                <label class="role-card" id="roleCardSeller" onclick="toggleRole('seller')">
-                    <input type="checkbox" id="wantsSeller">
+                <div class="role-card" id="roleCardSeller" onclick="toggleRole('seller')">
+                    <div class="check-mark">✓</div>
                     <div class="role-icon">📤</div>
                     <div class="role-title">I want to certify & sell data</div>
                     <div class="role-desc">Upload datasets, receive FORGE certification, and list in the marketplace to earn CSPR.</div>
-                </label>
-                <label class="role-card" id="roleCardBuyer" onclick="toggleRole('buyer')">
-                    <input type="checkbox" id="wantsBuyer">
+                </div>
+                <div class="role-card" id="roleCardBuyer" onclick="toggleRole('buyer')">
+                    <div class="check-mark">✓</div>
                     <div class="role-icon">📥</div>
                     <div class="role-title">I want to buy certified data</div>
                     <div class="role-desc">Browse FORGE-certified datasets, purchase via x402 micropayments, and access data via API.</div>
-                </label>
+                </div>
             </div>
         </div>
 
