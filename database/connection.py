@@ -1,30 +1,43 @@
 import os
-import pyodbc
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv
 
-# Update these values to match your SQL Server instance
-SERVER = os.getenv("DB_SERVER", "LAPTOP-T4KOEIRP")
-DATABASE = os.getenv("DB_NAME", "forge_agent")
-DRIVER = "ODBC Driver 17 for SQL Server"
+load_dotenv()
 
-# Windows Authentication (no username/password needed)
-CONNECTION_STRING = (
-    f"DRIVER={{{DRIVER}}};"
-    f"SERVER={SERVER};"
-    f"DATABASE={DATABASE};"
-    #"Trusted_Connection=yes;"
-    f"UID={os.getenv('DB_USER', 'forge_user')};"
-    f"PWD={os.getenv('DB_PASSWORD', 'ForgeAgent2026!')};"
+DB_SERVER   = os.getenv("DB_SERVER", "localhost")
+DB_NAME     = os.getenv("DB_NAME", "forge_agent")
+DB_USER     = os.getenv("DB_USER", "forge_user")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "")
+DB_ENCRYPT  = os.getenv("DB_ENCRYPT", "False")
+
+# Build connection string — works for both local SQL Server and Azure SQL
+if DB_ENCRYPT == "True":
+    # Azure SQL connection string
+    connection_string = (
+        f"mssql+pyodbc://{DB_USER}:{DB_PASSWORD}@{DB_SERVER}/{DB_NAME}"
+        f"?driver=ODBC+Driver+17+for+SQL+Server"
+        f"&Encrypt=yes"
+        f"&TrustServerCertificate=no"
+        f"&Connection+Timeout=30"
+    )
+else:
+    # Local SQL Server connection string
+    connection_string = (
+        f"mssql+pyodbc://{DB_USER}:{DB_PASSWORD}@{DB_SERVER}/{DB_NAME}"
+        f"?driver=ODBC+Driver+17+for+SQL+Server"
+    )
+
+engine = create_engine(
+    connection_string,
+    echo=False,
+    pool_pre_ping=True,
+    pool_recycle=300,
+    pool_timeout=30,
+    connect_args={"connect_timeout": 30}
 )
 
-SQLALCHEMY_URL = (
-    f"mssql+pyodbc:///?odbc_connect={CONNECTION_STRING}"
-)
-
-engine = create_engine(SQLALCHEMY_URL, echo=False)
-SessionLocal = sessionmaker(bind=engine)
-
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def get_db():
     db = SessionLocal()
@@ -32,18 +45,3 @@ def get_db():
         yield db
     finally:
         db.close()
-
-
-def test_connection():
-    try:
-        with engine.connect() as conn:
-            conn.execute(text("SELECT 1"))
-        print("Database connection successful.")
-        return True
-    except Exception as e:
-        print(f"Database connection failed: {e}")
-        return False
-
-
-if __name__ == "__main__":
-    test_connection()
