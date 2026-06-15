@@ -188,7 +188,7 @@
 </div>
 
 <script>
-const API = 'http://127.0.0.1:8000';
+const API = window.location.origin;
 const METAL_ORDER = ['Coal','Iron','Bronze','Silver','Gold','Platinum','Diamond'];
 
 const isAdmin  = localStorage.getItem('forge_is_admin')  === '1';

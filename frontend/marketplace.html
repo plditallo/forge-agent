@@ -321,7 +321,7 @@
 </div>
 
 <script>
-const API = 'http://127.0.0.1:8000';
+const API = window.location.origin;
 let currentListing = null;
 let buyerId   = localStorage.getItem('forge_buyer_id');
 let buyerName = localStorage.getItem('forge_buyer_name');
