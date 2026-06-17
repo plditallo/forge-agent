@@ -206,7 +206,7 @@ DB_NAME=forge_agent
 DB_USER=forge_user
 DB_PASSWORD=your-password
 DB_ENCRYPT=False
-ADMIN_PASSWORD=ForgeAdmin2026!
+ADMIN_PASSWORD=your-forge-agent-admin-password
 CASPER_TESTNET_RPC=https://node.testnet.casper.network/rpc
 ```
 
