@@ -1,8 +1,7 @@
 # FORGE Agent
 ### AI-Powered Data Product Discovery, Assessment, and Monetization Platform
 
-**Built by Paula DiTallo**
-Founder & Innovator, Bauhaus Technology and Graphic Holdings LLC
+**Live Demo:** https://forge-agent-app.azurewebsites.net
 
 ---
 
@@ -22,15 +21,15 @@ Think of it as Six Sigma for data monetization. Like Six Sigma, FORGE defines qu
 
 The framework is built around a mining metaphor that maps directly to data maturity:
 
-| Level | Score | Description |
-|-------|-------|-------------|
-| Coal | 0–49 | Exists, but little value without extensive work |
-| Iron | 50–59 | Useful operationally, but difficult to monetize |
-| Bronze | 60–69 | Structured and partially governed |
-| Silver | 70–79 | Trusted business asset |
-| Gold | 80–89 | Product-ready data |
-| Platinum | 90–95 | Strategic enterprise asset |
-| Diamond | 96–100 | Unique, defensible, highly monetizable |
+| Level | Description |
+|-------|-------------|
+| Coal | Exists, but little value without extensive work |
+| Iron | Useful operationally, but difficult to monetize |
+| Bronze | Structured and partially governed |
+| Silver | Trusted business asset |
+| Gold | Product-ready data |
+| Platinum | Strategic enterprise asset |
+| Diamond | Unique, defensible, highly monetizable |
 
 Every level has a roadmap, not just a score.
 
@@ -57,40 +56,71 @@ Four additional monetization metrics — Uniqueness, Coverage, Historical Depth,
 
 ## FORGE Agent: The Full Ecosystem
 
-FORGE Agent is the operational implementation of the FORGE framework. It is not just an assessment tool — it is a complete data commercialization ecosystem.
+FORGE Agent is the operational implementation of the FORGE framework. It is a complete data commercialization ecosystem with role-based access, live blockchain anchoring, and x402 micropayments.
 
 ### Assessment Engine
-Upload a CSV or Excel file, complete a 13-question intake form, and receive a complete FORGE Data Assay Report in under 30 seconds. The AI scoring engine (Claude, Anthropic) evaluates each dimension and returns scores with full reasoning — defensible, not opaque.
+Upload a CSV or Excel file (up to 50MB), complete a 13-question intake form, and receive a complete FORGE Data Assay Report in under 60 seconds. The AI scoring engine (Claude, Anthropic) evaluates each dimension and returns scores with full reasoning — defensible, not opaque. Every upload is validated for content appropriateness before scoring begins.
 
 ### Certification Registry
-Every assessment generates a SHA-256 hash anchored to the Casper Network testnet. That hash is an immutable, timestamped proof that the assessment occurred. The registry page tracks a dataset's full certification history — every assessment run, every score change, every Casper hash — visualized as a progression timeline from Coal toward Diamond.
+Every assessment generates a SHA-256 hash anchored to the Casper Network testnet. That hash is an immutable, timestamped proof that the assessment occurred. The registry tracks a dataset's full certification history — every assessment run, every score change, every Casper hash — visualized as a progression timeline from Coal toward Diamond.
 
 ### Data Marketplace
-Certified data products are listed in the FORGE Marketplace with per-call, monthly, and annual pricing in CSPR. Buyers register once and access data through an x402-compliant payment flow:
+Certified data products are listed in the FORGE Marketplace with per-call, monthly, and annual pricing in CSPR. Live CSPR/fiat conversion across six currencies (USD, EUR, GBP, CAD, AUD, JPY) makes pricing accessible to any buyer. A built-in price calculator shows cost breakdowns and recommends the most economical pricing tier based on expected usage volume.
 
+Buyers access data through an x402-compliant payment flow:
 1. Buyer calls the data endpoint
 2. Server responds with HTTP 402 and payment terms
 3. Buyer provides payment authorization
 4. Casper records the transaction on-chain
 5. Data is delivered with a Casper transaction hash
 
-Every transaction is recorded, every Casper hash is stored, and the full ledger is visible in real time.
+### Role-Based Access Control
+Three distinct roles with appropriate visibility at every level:
+
+- **Seller** — registers, uploads datasets, receives FORGE certification, lists in marketplace, sees only their own revenue and buyers
+- **Buyer** — registers, browses certified datasets, purchases via x402 flow, sees only their own import history and costs
+- **Admin** — full platform visibility, user management, data browser, cannot purchase
+
+Users can hold multiple roles simultaneously. A seller can also be a buyer. Role badges appear in the header on every page.
 
 ### Buyer Dashboard
-Registered buyers see their complete import history — every dataset purchased, records delivered, cost per record, total spend, and the Casper hash for each transaction. Imported data is browsable record by record. Cost trends are visualized over time.
+Registered buyers see their complete import history — every dataset purchased, records delivered, cost per record, total spend, and the Casper hash for each transaction. Imported data is browsable record by record.
 
 ### Seller Dashboard
-Data sellers see revenue by dataset, revenue by buyer, total records delivered, and a complete transaction ledger with Casper hashes. The economic loop is fully closed and auditable.
+Data sellers see revenue by dataset, revenue by buyer, total records delivered, and a complete filterable, paginated transaction ledger with Casper hashes. Non-admin sellers see only data related to their own listings.
+
+### Admin Dashboard
+Platform administrators have full visibility: user management with API key tracking and activation/deactivation controls, error log, and a filtered SQL data browser across all tables.
+
+### Security
+- Claude-powered content validation on every upload — rejects inappropriate, offensive, or PII-heavy content before scoring
+- 50MB file size limit enforced at upload
+- Rate limiting: 5 uploads per hour per IP
+- API key authentication with attestation-gated registration
+- Three-checkbox attestation required at registration (data ownership, no PII, appropriate content)
 
 ---
 
 ## Live Demo Datasets
 
-| Dataset | Rating | Score | Description |
-|---------|--------|-------|-------------|
-| EPA Air Quality Monitor — OKC June 2023 | Gold | 89.0 | Daily air quality across 6 pollutants, 6 EPA monitoring stations, Oklahoma City |
-| Heartland Ag Supply Order History 2024 | Silver | 79.0 | Regional agricultural supply orders across Kansas, Missouri, and Iowa |
-| Arctic Express Delivery Records 2024 | Iron | ~54 | Refrigerated transport deliveries serving the OKC/Tulsa/Wichita seafood industry |
+| Dataset | Rating | Score | Records | Description |
+|---------|--------|-------|---------|-------------|
+| EPA Air Quality Monitor — Oklahoma & Kansas 2025-2026 | Gold | 88 | 25,296 | Daily air quality across 6 pollutants, 8 EPA stations, Oklahoma City / Tulsa / Wichita / Topeka |
+| EPA Air Quality Monitor — Oklahoma City May 2026 | Gold | 84 | 186 | Daily air quality sample, OKC, May 2026 |
+| MidAmerica Regional Respiratory Admissions 2025-2026 | Gold | 88 | 3,648 | Weekly aggregated hospital admissions by zip code, HIPAA compliant |
+| Heartland Commercial Building Permits 2025-2026 | Gold | 81 | 500 | Commercial permit activity across OKC / Tulsa / Wichita corridor |
+| Heartland Ag Supply Order History 2025-2026 | Gold | 82 | 200 | Agricultural supply orders across Kansas, Missouri, and Iowa |
+| Arctic Express Refrigerated Delivery Records 2025-2026 | Coal | 39 | 120 | Refrigerated logistics — demonstrates low-scoring dataset path to improvement |
+
+---
+
+## Demo Personas
+
+**Dr. Sarah Chen** — MidAmerica Health Analytics LLC
+Purchases EPA air quality data and respiratory admissions data to correlate air quality events with hospital ER visits. Public health use case.
+
+**Marcus Webb** — Heartland Site Solutions Inc.
+Purchases EPA air quality data and commercial permit data to score development sites for industrial and medical facility suitability.
 
 ---
 
@@ -101,11 +131,13 @@ Data sellers see revenue by dataset, revenue by buyer, total records delivered, 
 | Agent / Scoring | Anthropic Claude API (claude-opus-4-6) |
 | Backend API | Python, FastAPI |
 | Data Ingestion | Pandas, openpyxl |
-| Database | SQL Server, SQLAlchemy ORM |
+| Database | Azure SQL Database (Serverless), SQLAlchemy ORM |
 | Blockchain | Casper Network testnet (pycspr), SHA-256 hash anchoring |
 | Payment Protocol | x402 HTTP-native micropayment flow |
-| Frontend | HTML, CSS, JavaScript (5 pages) |
-| Environment | Python 3.10, virtualenv |
+| Price Feed | CoinGecko API (live CSPR/fiat conversion) |
+| Frontend | HTML, CSS, JavaScript (7 pages) |
+| Deployment | Azure App Service (Linux, Python 3.10) |
+| Security | Claude content validation, rate limiting, API key auth |
 
 ---
 
@@ -114,25 +146,31 @@ Data sellers see revenue by dataset, revenue by buyer, total records delivered, 
 ```
 forge-agent/
 ├── ai/
-│   ├── profiler.py           # File ingestion and column profiling
+│   ├── profiler.py           # File ingestion, column profiling, Claude content validation
 │   └── scorer.py             # FORGE scoring agent (Claude API)
 ├── api/
 │   └── main.py               # FastAPI — all endpoints
 ├── casper/
 │   └── recorder.py           # Casper testnet hash anchoring
 ├── database/
-│   ├── connection.py         # SQL Server connection
+│   ├── connection.py         # Azure SQL / local SQL Server connection
 │   ├── models.py             # SQLAlchemy ORM models
-│   └── schema.sql            # Database schema
+│   └── schema.sql            # Database schema reference
 ├── frontend/
 │   ├── index.html            # Assessment workflow
 │   ├── registry.html         # Certification registry
-│   ├── marketplace.html      # Data product marketplace
+│   ├── marketplace.html      # Data product marketplace with price calculator
 │   ├── buyer_dashboard.html  # Buyer import & cost tracking
-│   └── seller_dashboard.html # Seller revenue analytics
+│   ├── seller_dashboard.html # Seller revenue analytics
+│   ├── register.html         # User registration with role selection
+│   ├── login.html            # API key login
+│   ├── admin.html            # Admin dashboard
+│   └── shared_header.js     # Role-aware session manager (injected on every page)
 ├── data/
-│   ├── epa_air_quality_okc_june2023_sample.csv
-│   ├── epa_air_quality_ok_ks_2022_2023.csv
+│   ├── epa_air_quality_ok_ks_2025_2026.csv
+│   ├── epa_air_quality_okc_sample.csv
+│   ├── midamerica_respiratory_admissions.csv
+│   ├── heartland_commercial_permits.csv
 │   ├── heartland_ag_orders.csv
 │   └── arctic_express_deliveries.csv
 ├── requirements.txt
@@ -141,11 +179,11 @@ forge-agent/
 
 ---
 
-## Running the Project
+## Running Locally
 
 **Prerequisites**
 - Python 3.10+
-- SQL Server (Express or higher)
+- SQL Server Express (or Azure SQL)
 - ODBC Driver 17 for SQL Server
 - Anthropic API key
 
@@ -161,18 +199,22 @@ pip install -r requirements.txt
 
 Create a `.env` file in the project root:
 
-```
+```env
 ANTHROPIC_API_KEY=your-key-here
 DB_SERVER=your-server\SQLEXPRESS
 DB_NAME=forge_agent
 DB_USER=forge_user
 DB_PASSWORD=your-password
+DB_ENCRYPT=False
+ADMIN_PASSWORD=ForgeAdmin2026!
 CASPER_TESTNET_RPC=https://node.testnet.casper.network/rpc
-CASPER_PRIVATE_KEY=your-casper-private-key
-CASPER_PUBLIC_KEY=your-casper-public-key
 ```
 
-Create the database in SQL Server and run `database/schema.sql`.
+Create the database tables:
+
+```python
+python -c "from database.connection import engine; from database.models import Base; Base.metadata.create_all(bind=engine)"
+```
 
 **Start the server**
 
@@ -180,15 +222,24 @@ Create the database in SQL Server and run `database/schema.sql`.
 uvicorn api.main:app --reload
 ```
 
-Open `http://127.0.0.1:8000/static/index.html`
-
-**All pages:**
+**Pages**
 - Assessment: `/static/index.html`
 - Registry: `/static/registry.html`
 - Marketplace: `/static/marketplace.html`
 - Buyer Dashboard: `/static/buyer_dashboard.html`
 - Seller Dashboard: `/static/seller_dashboard.html`
+- Register: `/static/register.html`
+- Login: `/static/login.html`
+- Admin: `/static/admin.html`
 - API Docs: `/docs`
+
+---
+
+## Live Deployment
+
+**URL:** https://forge-agent-app.azurewebsites.net
+
+Deployed on Azure App Service (Linux, Python 3.10, Free tier) backed by Azure SQL Database (Serverless, General Purpose).
 
 ---
 
@@ -198,13 +249,11 @@ FORGE Agent is the entry point to a larger ecosystem:
 
 **FORGE Framework** — The methodology and scoring standard. The body of knowledge that defines what certified data looks like at every level from Coal to Diamond.
 
-**FORGE Certification** — A formal credentialing process. Organizations achieve recognized certification levels for individual data assets or their entire portfolio — like Six Sigma belt levels.
+**FORGE Certification** — A formal credentialing process. Organizations achieve recognized certification levels for individual data assets or their entire portfolio.
 
 **FORGE Registry** — A decentralized, on-chain registry of certified data products on the Casper Network. Buyers verify certification. Sellers prove provenance. Trust is built in.
 
 **FORGE Marketplace** — Certified data products, discoverable and transactable. x402 micropayment support enables per-call API access — machine-to-machine commerce for data at the speed agents operate.
-
-The hackathon submission is the certification engine, the registry, and the marketplace — all working together, all anchored to Casper.
 
 ---
 
@@ -214,10 +263,11 @@ The FORGE Registry requires a trust layer that is immutable, verifiable, and ind
 
 Every assessment hash recorded on Casper testnet in this submission is a proof of concept for what becomes a production registry — where any buyer can verify that a dataset is genuinely FORGE-certified, and any seller can prove provenance without relying on a centralized authority.
 
+Steel is forged in fire. So is trusted data.
+
 ---
 
 ## About the Builder
-
 
 **Paula DiTallo** is the Founder and Innovator at Bauhaus Technology and Graphic Holdings LLC, a consulting and product development firm focused on data strategy, monetization, and enterprise data management. Paula is the author of [*Security Without Accountability: The LAG Framework for Web 3.0 Governance*](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6232958), [*Algorithmic Infrastructures and the Temporal Reconfiguration of Accountability in Digital Governance*](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6253460), [*Forging Data into Value: The FORGE Model for Data Productization in Mid-Market Firms*](https://www.researchgate.net/publication/404151942_Forging_Data_into_Value_The_FORGE_Model_for_Data_Productization_in_Mid-Market_Firms), and [*The Future of IT Leadership: The Rise of the Fractional CXO*](https://www.amazon.com/Future-Leadership-Rise-Fractional-CXO-ebook/dp/B0GX3F7NY3/ref=sr_1_1?). Paula DiTallo brings deep expertise in data governance, product design, and enterprise architecture to the FORGE project.
 
@@ -226,10 +276,10 @@ Every assessment hash recorded on Casper testnet in this submission is a proof o
 ## Links
 
 - GitHub: https://github.com/plditallo/forge-agent
+- Live Demo: https://forge-agent-app.azurewebsites.net
 - Casper Network Testnet: https://testnet.cspr.live
-- Casper AI Toolkit: https://www.casper.network/ai
 
 ---
 
-*Submitted to the Casper Agentic Buildathon 2026 — Qualification Round*
+*Submitted to the Casper Agentic Buildathon 2026*
 *June 2026*
