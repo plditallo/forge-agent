@@ -201,7 +201,7 @@ Create a `.env` file in the project root:
 
 ```env
 ANTHROPIC_API_KEY=your-key-here
-DB_SERVER=your-server\SQLEXPRESS
+DB_SERVER=your-server
 DB_NAME=forge_agent
 DB_USER=forge_user
 DB_PASSWORD=your-password
