@@ -7,7 +7,7 @@
 
 ## The Problem
 
-Most companies have no idea what data assets they possess, which assets have market value, what legal restrictions exist, or how to price access. Without a framework to assess, classify, and prepare data for commercial use, it stays buried — generating cost instead of revenue.
+Most companies have no idea what data assets they possess, which assets have market value, what legal restrictions exist, or how to price access. Without a framework to assess, classify, and prepare data for commercial use, it stays buried generating cost instead of revenue.
 
 This is not a technology problem. It is a methodology problem.
 
@@ -15,7 +15,7 @@ This is not a technology problem. It is a methodology problem.
 
 ## The FORGE Framework
 
-FORGE is a data readiness methodology — a structured, repeatable process for transforming raw organizational data into certified, commercially viable data products.
+FORGE is a data readiness methodology utilizing a structured, repeatable process for transforming raw organizational data into certified, commercially viable data products.
 
 Think of it as Six Sigma for data monetization. Like Six Sigma, FORGE defines quality levels, certification tiers, and a progression path. Like TOEFL, it provides a recognized, verifiable credential that signals readiness to external parties. An organization does not simply "have good data." Under FORGE, they can prove it.
 
@@ -50,7 +50,7 @@ Every dataset entering the FORGE process receives a Data Assay across eight weig
 | Business Relevance | 10% | Revenue potential, strategic alignment |
 | Sustainability & Risk | 10% | Key-person dependency, backup processes |
 
-Four additional monetization metrics — Uniqueness, Coverage, Historical Depth, and Enrichment Potential — assess market value independent of quality.
+Four additional monetization metrics: Uniqueness, Coverage, Historical Depth, and Enrichment Potential assess market value independent of quality.
 
 ---
 
@@ -59,10 +59,10 @@ Four additional monetization metrics — Uniqueness, Coverage, Historical Depth,
 FORGE Agent is the operational implementation of the FORGE framework. It is a complete data commercialization ecosystem with role-based access, live blockchain anchoring, and x402 micropayments.
 
 ### Assessment Engine
-Upload a CSV or Excel file (up to 50MB), complete a 13-question intake form, and receive a complete FORGE Data Assay Report in under 60 seconds. The AI scoring engine (Claude, Anthropic) evaluates each dimension and returns scores with full reasoning — defensible, not opaque. Every upload is validated for content appropriateness before scoring begins.
+Upload a CSV or Excel file (up to 50MB), complete a 13-question intake form, and receive a complete FORGE Data Assay Report in under 60 seconds. The AI scoring engine (Claude, Anthropic) evaluates each dimension and returns scores with full defensible reasoning, not opaque. Every upload is validated for content appropriateness before scoring begins.
 
 ### Certification Registry
-Every assessment generates a SHA-256 hash anchored to the Casper Network testnet. That hash is an immutable, timestamped proof that the assessment occurred. The registry tracks a dataset's full certification history — every assessment run, every score change, every Casper hash — visualized as a progression timeline from Coal toward Diamond.
+Every assessment generates a SHA-256 hash anchored to the Casper Network testnet. That hash is an immutable, timestamped proof that the assessment occurred. The registry tracks a dataset's full certification history, every assessment run, every score change, and every Casper hash represents a progression timeline from Coal toward Diamond.
 
 ### Data Marketplace
 Certified data products are listed in the FORGE Marketplace with per-call, monthly, and annual pricing in CSPR. Live CSPR/fiat conversion across six currencies (USD, EUR, GBP, CAD, AUD, JPY) makes pricing accessible to any buyer. A built-in price calculator shows cost breakdowns and recommends the most economical pricing tier based on expected usage volume.
@@ -253,7 +253,7 @@ FORGE Agent is the entry point to a larger ecosystem:
 
 **FORGE Registry** — A decentralized, on-chain registry of certified data products on the Casper Network. Buyers verify certification. Sellers prove provenance. Trust is built in.
 
-**FORGE Marketplace** — Certified data products, discoverable and transactable. x402 micropayment support enables per-call API access — machine-to-machine commerce for data at the speed agents operate.
+**FORGE Marketplace** — Certified data products, discoverable and transactable. x402 micropayment support enables per-call API access, machine-to-machine commerce for data at the speed agents operate.
 
 ---
 
@@ -261,7 +261,7 @@ FORGE Agent is the entry point to a larger ecosystem:
 
 The FORGE Registry requires a trust layer that is immutable, verifiable, and independent of any single organization. Casper's focus on real-world assets, its x402 micropayment protocol, and its enterprise-grade architecture make it the natural home for FORGE certification records and data product transactions.
 
-Every assessment hash recorded on Casper testnet in this submission is a proof of concept for what becomes a production registry — where any buyer can verify that a dataset is genuinely FORGE-certified, and any seller can prove provenance without relying on a centralized authority.
+Every assessment hash recorded on Casper testnet in this submission is a proof of concept for what becomes a production registry where any buyer can verify that a dataset is genuinely FORGE-certified, and any seller can prove provenance without relying on a centralized authority.
 
 Steel is forged in fire. So is trusted data.
 
