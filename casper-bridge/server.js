@@ -50,7 +50,11 @@ const CHAIN_NAME = process.env.CASPER_CHAIN_NAME || "casper-test";
 // should not be committed to the repo regardless of deployment target.
 // CASPER_SECRET_KEY_PEM takes priority; CASPER_SECRET_KEY_PATH remains
 // supported for local development continuity.
-const SECRET_KEY_PEM_ENV = process.env.CASPER_SECRET_KEY_PEM;
+const SECRET_KEY_PEM_B64_ENV = process.env.CASPER_SECRET_KEY_PEM_B64;
+const SECRET_KEY_PEM_ENV = SECRET_KEY_PEM_B64_ENV
+  ? Buffer.from(SECRET_KEY_PEM_B64_ENV, "base64").toString("utf8")
+  : process.env.CASPER_SECRET_KEY_PEM;
+
 const SECRET_KEY_PATH = process.env.CASPER_SECRET_KEY_PATH
   ? path.resolve(process.env.CASPER_SECRET_KEY_PATH)
   : path.join(__dirname, "keys", "secret_key.pem");
@@ -69,9 +73,32 @@ const MIN_BALANCE_BUFFER_CSPR = PAYMENT_AMOUNT_CSPR * 2;
 const BRIDGE_API_KEY = process.env.CASPER_BRIDGE_API_KEY;
 
 function loadPrivateKey() {
-  const pemContent = SECRET_KEY_PEM_ENV
-    ? SECRET_KEY_PEM_ENV.replace(/\\n/g, "\n") // App Settings often escape newlines
-    : fs.readFileSync(SECRET_KEY_PATH, "utf8");
+  let pemContent;
+  if (SECRET_KEY_PEM_ENV) {
+    pemContent = SECRET_KEY_PEM_ENV.replace(/\\n/g, "\n");
+
+    // Azure App Settings (both CLI and Portal) have proven unreliable at
+    // preserving real newlines in multi-line values -- the PEM frequently
+    // arrives as a single space-separated line instead. Detect that case
+    // and reconstruct proper PEM formatting: header, base64 body lines,
+    // footer, each on its own line.
+    if (!pemContent.includes("\n")) {
+      const headerMatch = pemContent.match(/-----BEGIN [A-Z ]+-----/);
+      const footerMatch = pemContent.match(/-----END [A-Z ]+-----/);
+      if (headerMatch && footerMatch) {
+        const header = headerMatch[0];
+        const footer = footerMatch[0];
+        const body = pemContent
+          .slice(header.length, pemContent.length - footer.length)
+          .trim()
+          .split(/\s+/)
+          .join("\n");
+        pemContent = `${header}\n${body}\n${footer}\n`;
+      }
+    }
+  } else {
+    pemContent = fs.readFileSync(SECRET_KEY_PATH, "utf8");
+  }
   return PrivateKey.fromPem(pemContent, KeyAlgorithm.SECP256K1);
 }
 
