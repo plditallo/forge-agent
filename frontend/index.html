@@ -458,6 +458,15 @@
             color: rgba(201,168,76,0.3);
             margin-top: 6px;
         }
+        @keyframes sectionRevealPulse {
+            0%   { box-shadow: 0 0 0 0 rgba(201,168,76,0.55); }
+            70%  { box-shadow: 0 0 0 14px rgba(201,168,76,0); }
+            100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+        }
+        .section-revealed {
+            animation: sectionRevealPulse 1.8s ease-out 1;
+            border-color: #c9a84c !important;
+        }
     </style>
 </head>
 <body>
@@ -488,7 +497,14 @@
     <!-- Step 1: Upload -->
     <div id="uploadSection" class="card">
         <p style="font-size:1.1rem; color:#c9a84c; font-weight:600; margin-bottom:6px; letter-spacing:0.03em;">Ready to certify your data?</p>
-        <h2 style="margin-bottom:6px;">Step 1 — Upload Data Asset</h2>
+        <h2 style="margin-bottom:6px; display:flex; align-items:center; gap:8px;">
+            Step 1 — Upload Data Asset
+            <span
+                class="info-tooltip-trigger"
+                title="FORGE Agent reviews every upload against the content policy you agreed to at registration. Files containing sensitive personal identifiers (Social Security numbers, account or card numbers, passwords), offensive or hateful content, or content not suited to a professional data marketplace will be declined. This keeps the FORGE registry trustworthy for every buyer and seller."
+                style="display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; border:1px solid #c9a84c; color:#c9a84c; font-size:0.72rem; font-style:italic; font-family:Georgia,serif; cursor:help; flex-shrink:0;"
+            >i</span>
+        </h2>
         <p style="font-size:0.85rem; color:rgba(201,168,76,0.5); margin-bottom:20px;">Upload the dataset you want assessed for commercial readiness.</p>
 
         <div class="upload-area" id="uploadArea" title="Your dataset is a structured file containing business records your organization has collected over time. This could be sales transactions, operational logs, customer records, delivery data, inventory history, or any tabular data your business runs on. FORGE will analyze its structure, completeness, and commercial potential, then certify it on a scale from Coal to Diamond. CSV and Excel files up to 50MB are supported.">
@@ -701,6 +717,20 @@
     <div id="report" class="card">
         <h2>FORGE Data Assay Report</h2>
 
+        <div id="claimBanner" style="display:none; background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.45); border-radius:8px; padding:16px 20px; margin-bottom:24px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+                <div style="flex:1; min-width:240px;">
+                    <strong style="color:#c9a84c;">This certification isn't saved to an account yet.</strong>
+                    <div style="color:rgba(255,255,255,0.65); font-size:0.88rem; margin-top:4px;">
+                        Register now to claim this assessment and list it in the FORGE marketplace — it takes under a minute.
+                    </div>
+                </div>
+                <button onclick="claimAndRegister()" style="background:#c9a84c; color:#1a1408; border:none; border-radius:6px; padding:10px 20px; font-weight:600; cursor:pointer; white-space:nowrap;">
+                    Register &amp; Claim →
+                </button>
+            </div>
+        </div>
+
         <div style="display:flex; align-items:flex-end; gap:24px; margin-bottom:24px;">
             <div>
                 <div class="score-display" id="reportScore">--</div>
@@ -795,12 +825,31 @@
         try {
             const res = await fetch(API + '/upload', { method: 'POST', body: formData });
             const data = await res.json();
-            if (!res.ok) throw new Error(data.detail || 'Upload failed');
+            if (!res.ok) {
+                // Defensive: handle both a plain string detail (current backend
+                // behavior) and, just in case, an older/unexpected object shape,
+                // so a rejection never renders as the literal text "[object Object]".
+                let detailText = data && data.detail;
+                if (typeof detailText !== 'string') {
+                    detailText = (detailText && (detailText.reason || detailText.error)) || 'Upload failed.';
+                }
+                throw new Error(detailText);
+            }
 
             fileProfile = data.profile;
-            showStatus('File profiled: ' + data.profile.row_count + ' rows, ' + data.profile.column_count + ' columns detected.', 'success');
-            document.getElementById('intakeSection').style.display = 'block';
+            showStatus('File profiled: ' + data.profile.row_count + ' rows, ' + data.profile.column_count + ' columns detected. Scroll down to complete the intake questionnaire.', 'success');
+
+            const intakeSection = document.getElementById('intakeSection');
+            intakeSection.style.display = 'block';
             setStep(2);
+
+            // Make the newly-revealed section impossible to miss: scroll it
+            // into view and apply a brief highlight pulse, since simply
+            // toggling display:block gives no visual cue if the user has
+            // scrolled past the top of the page.
+            intakeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            intakeSection.classList.add('section-revealed');
+            setTimeout(() => intakeSection.classList.remove('section-revealed'), 1800);
 
             const nameField = document.getElementById('dataset_name');
             if (!nameField.value) {
@@ -808,7 +857,7 @@
             }
 
         } catch (err) {
-            showStatus('Upload failed: ' + err.message, 'error');
+            showStatus(err.message, 'error');
         }
     }
 
@@ -859,11 +908,43 @@
         }
     }
 
+    function claimAndRegister() {
+        // The pending claim is already stashed in localStorage by renderReport.
+        // register.html checks for it after a successful registration and
+        // automatically creates the marketplace listing on the new user's behalf.
+        window.location.href = '/static/register.html?claim=1';
+    }
+
     function renderReport(data) {
-        document.getElementById('report').style.display = 'block';
+        const reportEl = document.getElementById('report');
+        reportEl.style.display = 'block';
         document.getElementById('uploadSection').style.display = 'none';
         document.getElementById('intakeSection').style.display = 'none';
         setStep(3);
+
+        reportEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        reportEl.classList.add('section-revealed');
+        setTimeout(() => reportEl.classList.remove('section-revealed'), 1800);
+
+        // If the user isn't logged in, this assessment exists in the database
+        // but has no owner and can't be listed in the marketplace. Show a
+        // banner offering to register and immediately claim it, and stash
+        // what's needed to create the listing once they do.
+        const isLoggedIn = !!localStorage.getItem('forge_user_id');
+        const banner = document.getElementById('claimBanner');
+        if (!isLoggedIn) {
+            banner.style.display = 'block';
+            const businessRelevanceText = (data.score_reasoning && data.score_reasoning.business_relevance) || '';
+            localStorage.setItem('forge_pending_claim', JSON.stringify({
+                assessment_id:  data.assessment_id,
+                dataset_name:   data.dataset_name,
+                description:    businessRelevanceText,
+                row_count:      (fileProfile && fileProfile.row_count) || null,
+                file_size_mb:   (fileProfile && fileProfile.file_size_mb) || null
+            }));
+        } else {
+            banner.style.display = 'none';
+        }
 
         document.getElementById('reportScore').textContent = data.weighted_score.toFixed(1);
         document.getElementById('reportDataset').textContent = data.dataset_name;

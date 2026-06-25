@@ -1,0 +1,221 @@
+respondent_id,job_title,company_size_band,industry,region,annual_budget_data_governance_usd,data_governance_awareness_1_10,pain_point_severity_1_10,purchase_appetite_score_1_10,typical_decision_cycle_days,primary_purchase_driver,open_to_fractional_data_consulting,survey_wave
+RESP-1000,Head of Data,1-10 employees,Nonprofit,Southwest,2663,7,10,7.6,46,Regulatory compliance pressure,Yes,2026-Q2
+RESP-1001,IT Director,51-100 employees,Logistics,Midwest,84812,3,6,4.2,48,Internal data quality problems,No,2026-Q2
+RESP-1002,Operations Director,26-50 employees,Technology/SaaS,Northeast,23505,2,7,3.3,46,Customer trust / vendor requirement,Yes,2026-Q2
+RESP-1003,IT Manager,1-10 employees,Healthcare,West,4235,4,10,4.9,40,Regulatory compliance pressure,No,2026-Q2
+RESP-1004,Head of Data,101-250 employees,Manufacturing,West,29171,10,9,3.7,10,Customer trust / vendor requirement,No,2026-Q2
+RESP-1005,Operations Director,11-25 employees,Manufacturing,Midwest,5153,1,3,2.0,67,Internal data quality problems,Maybe,2026-Q2
+RESP-1006,Head of Data,26-50 employees,Healthcare,Northeast,25721,2,5,2.4,60,Customer trust / vendor requirement,Yes,2026-Q2
+RESP-1007,CIO,11-25 employees,Logistics,Northeast,7283,7,10,5.9,14,Competitive pressure,No,2026-Q2
+RESP-1008,Operations Director,51-100 employees,Financial Services,West,44647,8,10,6.3,27,Competitive pressure,Maybe,2026-Q2
+RESP-1009,Head of Data,26-50 employees,Construction,Southwest,6798,5,7,4.7,34,Internal data quality problems,Yes,2026-Q2
+RESP-1010,IT Director,1-10 employees,Real Estate,South,1837,1,7,1.0,62,Recent data incident or near-miss,Yes,2026-Q2
+RESP-1011,Operations Director,51-100 employees,Healthcare,Midwest,45303,5,6,1.7,29,Customer trust / vendor requirement,No,2026-Q2
+RESP-1012,IT Director,101-250 employees,Technology/SaaS,South,136239,9,10,7.0,10,Data monetization opportunity,Maybe,2026-Q2
+RESP-1013,VP of Technology,1-10 employees,Logistics,Northeast,3313,3,9,4.0,42,Regulatory compliance pressure,Yes,2026-Q2
+RESP-1014,CTO,11-25 employees,Retail/E-commerce,Midwest,6906,5,10,4.3,38,Competitive pressure,Maybe,2026-Q2
+RESP-1015,VP of Technology,101-250 employees,Financial Services,West,114611,8,6,1.6,53,Internal data quality problems,Yes,2026-Q2
+RESP-1016,VP of Technology,11-25 employees,Nonprofit,Midwest,9570,5,8,3.3,62,Data monetization opportunity,Maybe,2026-Q2
+RESP-1017,CIO,11-25 employees,Retail/E-commerce,Midwest,9118,7,3,2.7,49,Recent data incident or near-miss,Maybe,2026-Q2
+RESP-1018,Operations Director,51-100 employees,Logistics,South,41871,3,8,4.2,44,Regulatory compliance pressure,Maybe,2026-Q2
+RESP-1019,Owner/Principal,26-50 employees,Professional Services,West,26114,1,10,4.5,51,Competitive pressure,Yes,2026-Q2
+RESP-1020,IT Manager,1-10 employees,Healthcare,South,2436,4,8,6.7,44,Competitive pressure,No,2026-Q2
+RESP-1021,Owner/Principal,1-10 employees,Professional Services,Northeast,5147,1,7,2.6,50,Regulatory compliance pressure,No,2026-Q2
+RESP-1022,Owner/Principal,51-100 employees,Construction,Midwest,11263,9,2,5.2,10,Regulatory compliance pressure,Maybe,2026-Q2
+RESP-1023,VP of Technology,26-50 employees,Financial Services,Midwest,22009,3,10,3.7,55,Data monetization opportunity,Maybe,2026-Q2
+RESP-1024,VP of Technology,26-50 employees,Technology/SaaS,Midwest,9977,6,6,3.6,46,Internal data quality problems,Yes,2026-Q2
+RESP-1025,IT Director,1-10 employees,Retail/E-commerce,Midwest,3263,10,7,7.2,32,Customer trust / vendor requirement,Yes,2026-Q2
+RESP-1026,CTO,1-10 employees,Professional Services,Midwest,1907,2,9,4.4,44,Regulatory compliance pressure,Maybe,2026-Q2
+RESP-1027,Owner/Principal,51-100 employees,Manufacturing,West,50059,6,10,2.0,40,Competitive pressure,Maybe,2026-Q2
+RESP-1028,Head of Data,26-50 employees,Nonprofit,Midwest,16165,4,7,3.1,27,Internal data quality problems,Yes,2026-Q2
+RESP-1029,CTO,26-50 employees,Real Estate,West,22027,4,6,5.5,39,Regulatory compliance pressure,No,2026-Q2
+RESP-1030,IT Director,51-100 employees,Nonprofit,Northeast,33445,10,7,3.9,48,Regulatory compliance pressure,Maybe,2026-Q2
+RESP-1031,VP of Technology,11-25 employees,Retail/E-commerce,Northeast,10278,3,8,4.1,32,Competitive pressure,Maybe,2026-Q2
+RESP-1032,IT Director,11-25 employees,Healthcare,Midwest,2744,8,1,3.7,37,Customer trust / vendor requirement,Yes,2026-Q2
+RESP-1033,IT Manager,11-25 employees,Manufacturing,Southwest,11153,4,6,1.7,35,Regulatory compliance pressure,No,2026-Q2
+RESP-1034,CIO,11-25 employees,Retail/E-commerce,Northeast,7975,3,10,4.5,41,Recent data incident or near-miss,Maybe,2026-Q2
+RESP-1035,IT Manager,101-250 employees,Real Estate,Midwest,68703,4,9,4.9,35,Data monetization opportunity,No,2026-Q2
+RESP-1036,CIO,11-25 employees,Technology/SaaS,Southwest,1873,4,10,4.7,34,Data monetization opportunity,No,2026-Q2
+RESP-1037,Operations Director,101-250 employees,Financial Services,Northeast,105940,3,4,5.0,15,Internal data quality problems,Yes,2026-Q2
+RESP-1038,Owner/Principal,101-250 employees,Manufacturing,Southwest,83093,3,7,3.4,26,Data monetization opportunity,No,2026-Q2
+RESP-1039,Head of Data,1-10 employees,Financial Services,Northeast,3532,3,6,4.0,23,Data monetization opportunity,No,2026-Q2
+RESP-1040,Owner/Principal,1-10 employees,Retail/E-commerce,Midwest,2579,6,6,2.9,33,Regulatory compliance pressure,Maybe,2026-Q2
+RESP-1041,VP of Technology,1-10 employees,Manufacturing,Midwest,1698,3,3,3.2,33,Data monetization opportunity,Yes,2026-Q2
+RESP-1042,CIO,1-10 employees,Manufacturing,Midwest,3740,6,8,4.4,42,Data monetization opportunity,Maybe,2026-Q2
+RESP-1043,VP of Technology,1-10 employees,Logistics,South,3204,5,8,6.3,45,Regulatory compliance pressure,No,2026-Q2
+RESP-1044,IT Manager,11-25 employees,Nonprofit,Northeast,7293,9,10,5.3,16,Recent data incident or near-miss,No,2026-Q2
+RESP-1045,CIO,11-25 employees,Financial Services,South,8995,2,4,3.4,48,Internal data quality problems,Yes,2026-Q2
+RESP-1046,Operations Director,1-10 employees,Real Estate,Midwest,3138,4,6,3.2,10,Customer trust / vendor requirement,No,2026-Q2
+RESP-1047,Head of Data,1-10 employees,Professional Services,Northeast,4149,3,7,5.4,34,Data monetization opportunity,Maybe,2026-Q2
+RESP-1048,IT Director,11-25 employees,Financial Services,Southwest,9228,4,10,5.6,43,Internal data quality problems,Maybe,2026-Q2
+RESP-1049,Operations Director,1-10 employees,Nonprofit,Midwest,2860,5,10,4.5,40,Internal data quality problems,Maybe,2026-Q2
+RESP-1050,Head of Data,1-10 employees,Healthcare,South,1848,2,7,5.5,34,Regulatory compliance pressure,Maybe,2026-Q2
+RESP-1051,CIO,1-10 employees,Professional Services,Midwest,2012,6,8,5.5,50,Data monetization opportunity,No,2026-Q2
+RESP-1052,Owner/Principal,51-100 employees,Construction,Southwest,38859,7,3,2.8,15,Customer trust / vendor requirement,No,2026-Q2
+RESP-1053,IT Director,1-10 employees,Professional Services,South,3260,4,7,3.9,49,Regulatory compliance pressure,No,2026-Q2
+RESP-1054,Head of Data,26-50 employees,Nonprofit,Midwest,18609,7,10,4.6,36,Internal data quality problems,Maybe,2026-Q2
+RESP-1055,CIO,1-10 employees,Construction,Northeast,2747,2,8,4.7,37,Competitive pressure,Yes,2026-Q2
+RESP-1056,IT Director,26-50 employees,Construction,West,16549,2,5,3.6,26,Internal data quality problems,Yes,2026-Q2
+RESP-1057,IT Manager,51-100 employees,Professional Services,South,38028,3,6,3.3,47,Data monetization opportunity,No,2026-Q2
+RESP-1058,IT Director,51-100 employees,Real Estate,Midwest,33983,1,3,1.0,39,Customer trust / vendor requirement,No,2026-Q2
+RESP-1059,IT Manager,1-10 employees,Healthcare,South,2367,5,4,4.8,47,Competitive pressure,Yes,2026-Q2
+RESP-1060,CTO,26-50 employees,Healthcare,South,16229,1,8,3.5,28,Customer trust / vendor requirement,Maybe,2026-Q2
+RESP-1061,Head of Data,11-25 employees,Construction,Southwest,9370,1,8,5.0,32,Internal data quality problems,Maybe,2026-Q2
+RESP-1062,Owner/Principal,1-10 employees,Financial Services,Southwest,3556,8,6,8.1,40,Regulatory compliance pressure,Yes,2026-Q2
+RESP-1063,Owner/Principal,101-250 employees,Retail/E-commerce,Midwest,58030,9,5,2.9,10,Data monetization opportunity,Maybe,2026-Q2
+RESP-1064,IT Director,1-10 employees,Retail/E-commerce,West,5187,2,5,3.5,77,Regulatory compliance pressure,No,2026-Q2
+RESP-1065,IT Director,11-25 employees,Nonprofit,Southwest,11443,2,8,3.8,41,Internal data quality problems,Maybe,2026-Q2
+RESP-1066,CIO,51-100 employees,Real Estate,South,35307,8,7,5.3,18,Competitive pressure,No,2026-Q2
+RESP-1067,Head of Data,11-25 employees,Construction,West,6484,5,8,5.9,44,Competitive pressure,Yes,2026-Q2
+RESP-1068,CTO,101-250 employees,Construction,South,42147,4,5,1.9,10,Data monetization opportunity,Maybe,2026-Q2
+RESP-1069,IT Director,11-25 employees,Nonprofit,Southwest,13697,4,4,4.6,56,Internal data quality problems,Maybe,2026-Q2
+RESP-1070,CIO,11-25 employees,Healthcare,Southwest,4064,2,9,5.1,58,Regulatory compliance pressure,Yes,2026-Q2
+RESP-1071,CIO,11-25 employees,Construction,West,13314,4,7,2.9,56,Data monetization opportunity,No,2026-Q2
+RESP-1072,IT Director,1-10 employees,Healthcare,Northeast,1609,3,1,3.4,62,Regulatory compliance pressure,Maybe,2026-Q2
+RESP-1073,IT Director,51-100 employees,Nonprofit,Southwest,38001,4,7,3.1,40,Internal data quality problems,No,2026-Q2
+RESP-1074,VP of Technology,1-10 employees,Real Estate,Midwest,3440,3,8,4.7,61,Competitive pressure,No,2026-Q2
+RESP-1075,Owner/Principal,11-25 employees,Nonprofit,Southwest,10547,5,3,2.9,24,Data monetization opportunity,No,2026-Q2
+RESP-1076,Head of Data,11-25 employees,Financial Services,West,5938,4,8,4.9,59,Regulatory compliance pressure,No,2026-Q2
+RESP-1077,Operations Director,101-250 employees,Retail/E-commerce,South,28181,6,10,2.7,33,Competitive pressure,Maybe,2026-Q2
+RESP-1078,CTO,11-25 employees,Construction,West,7862,3,9,5.1,30,Data monetization opportunity,Maybe,2026-Q2
+RESP-1079,IT Director,11-25 employees,Manufacturing,South,6759,2,9,3.9,47,Data monetization opportunity,No,2026-Q2
+RESP-1080,IT Director,51-100 employees,Retail/E-commerce,Midwest,35874,8,7,6.0,21,Internal data quality problems,No,2026-Q2
+RESP-1081,Owner/Principal,51-100 employees,Professional Services,Southwest,27865,3,2,1.7,30,Competitive pressure,No,2026-Q2
+RESP-1082,IT Director,51-100 employees,Manufacturing,South,23922,4,6,2.8,10,Competitive pressure,Yes,2026-Q2
+RESP-1083,IT Director,51-100 employees,Retail/E-commerce,Northeast,34694,3,4,3.0,32,Data monetization opportunity,No,2026-Q2
+RESP-1084,Operations Director,1-10 employees,Financial Services,West,2053,3,6,3.0,47,Customer trust / vendor requirement,Yes,2026-Q2
+RESP-1085,Owner/Principal,51-100 employees,Healthcare,Southwest,55454,2,10,4.5,42,Data monetization opportunity,Yes,2026-Q2
+RESP-1086,VP of Technology,11-25 employees,Manufacturing,Midwest,6349,8,9,6.3,26,Data monetization opportunity,Yes,2026-Q2
+RESP-1087,VP of Technology,11-25 employees,Technology/SaaS,Northeast,9843,7,5,4.8,35,Recent data incident or near-miss,Yes,2026-Q2
+RESP-1088,CIO,11-25 employees,Professional Services,South,8644,3,5,2.5,34,Internal data quality problems,Maybe,2026-Q2
+RESP-1089,CTO,1-10 employees,Technology/SaaS,Northeast,2243,1,7,4.7,38,Data monetization opportunity,No,2026-Q2
+RESP-1090,Owner/Principal,26-50 employees,Logistics,Southwest,8794,7,3,3.4,29,Regulatory compliance pressure,Yes,2026-Q2
+RESP-1091,IT Director,1-10 employees,Retail/E-commerce,West,4407,6,3,3.6,26,Competitive pressure,Yes,2026-Q2
+RESP-1092,IT Director,26-50 employees,Healthcare,West,23424,2,3,1.3,42,Regulatory compliance pressure,Yes,2026-Q2
+RESP-1093,Owner/Principal,11-25 employees,Retail/E-commerce,Midwest,6251,9,4,1.9,26,Customer trust / vendor requirement,Yes,2026-Q2
+RESP-1094,CIO,1-10 employees,Nonprofit,Northeast,1050,5,10,3.6,14,Internal data quality problems,No,2026-Q2
+RESP-1095,VP of Technology,1-10 employees,Nonprofit,South,3645,6,9,3.7,45,Competitive pressure,Yes,2026-Q2
+RESP-1096,IT Manager,1-10 employees,Healthcare,South,1531,9,9,7.0,22,Recent data incident or near-miss,Yes,2026-Q2
+RESP-1097,CTO,1-10 employees,Logistics,South,779,5,10,5.0,31,Customer trust / vendor requirement,No,2026-Q2
+RESP-1098,CTO,51-100 employees,Construction,West,13292,3,10,5.4,30,Data monetization opportunity,Maybe,2026-Q2
+RESP-1099,CTO,11-25 employees,Nonprofit,South,9819,1,1,1.0,61,Recent data incident or near-miss,Yes,2026-Q2
+RESP-1100,Head of Data,1-10 employees,Technology/SaaS,West,2884,7,1,3.7,52,Data monetization opportunity,Maybe,2026-Q2
+RESP-1101,Head of Data,26-50 employees,Technology/SaaS,Northeast,14443,5,6,3.9,54,Data monetization opportunity,Yes,2026-Q2
+RESP-1102,VP of Technology,1-10 employees,Retail/E-commerce,Northeast,2850,3,8,3.7,26,Recent data incident or near-miss,Maybe,2026-Q2
+RESP-1103,IT Director,1-10 employees,Professional Services,South,5724,4,9,4.0,60,Data monetization opportunity,Maybe,2026-Q2
+RESP-1104,CIO,101-250 employees,Healthcare,West,77495,9,8,3.6,34,Data monetization opportunity,No,2026-Q2
+RESP-1105,CIO,1-10 employees,Manufacturing,South,3564,6,7,6.2,40,Data monetization opportunity,Yes,2026-Q2
+RESP-1106,VP of Technology,101-250 employees,Professional Services,Midwest,96099,1,6,2.3,50,Data monetization opportunity,No,2026-Q2
+RESP-1107,IT Director,51-100 employees,Technology/SaaS,Midwest,54665,4,6,2.4,14,Customer trust / vendor requirement,Yes,2026-Q2
+RESP-1108,IT Manager,1-10 employees,Real Estate,South,3407,3,9,2.3,31,Regulatory compliance pressure,No,2026-Q2
+RESP-1109,VP of Technology,51-100 employees,Logistics,South,23737,3,1,3.1,53,Internal data quality problems,No,2026-Q2
+RESP-1110,CTO,26-50 employees,Financial Services,Midwest,23413,8,6,4.3,46,Recent data incident or near-miss,Maybe,2026-Q2
+RESP-1111,IT Manager,1-10 employees,Financial Services,Midwest,2803,9,9,6.1,26,Competitive pressure,Maybe,2026-Q2
+RESP-1112,CIO,1-10 employees,Nonprofit,Southwest,3165,6,6,4.0,51,Customer trust / vendor requirement,Yes,2026-Q2
+RESP-1113,IT Director,11-25 employees,Professional Services,West,4554,5,2,3.5,18,Internal data quality problems,No,2026-Q2
+RESP-1114,CIO,101-250 employees,Professional Services,Midwest,107551,2,4,1.1,38,Customer trust / vendor requirement,Maybe,2026-Q2
+RESP-1115,VP of Technology,51-100 employees,Financial Services,Midwest,27272,2,8,1.9,36,Data monetization opportunity,Maybe,2026-Q2
+RESP-1116,IT Manager,51-100 employees,Manufacturing,Southwest,67693,2,10,4.4,10,Data monetization opportunity,Maybe,2026-Q2
+RESP-1117,Operations Director,51-100 employees,Nonprofit,Northeast,39323,3,6,4.3,23,Customer trust / vendor requirement,Maybe,2026-Q2
+RESP-1118,VP of Technology,1-10 employees,Construction,South,5800,1,2,1.1,44,Competitive pressure,No,2026-Q2
+RESP-1119,VP of Technology,11-25 employees,Logistics,South,8180,8,9,5.9,24,Customer trust / vendor requirement,Maybe,2026-Q2
+RESP-1120,Owner/Principal,1-10 employees,Construction,South,2918,3,5,1.9,24,Recent data incident or near-miss,Yes,2026-Q2
+RESP-1121,CTO,1-10 employees,Retail/E-commerce,South,3642,4,9,3.8,44,Customer trust / vendor requirement,Maybe,2026-Q2
+RESP-1122,CTO,26-50 employees,Retail/E-commerce,Midwest,19688,1,8,3.9,12,Regulatory compliance pressure,Yes,2026-Q2
+RESP-1123,Owner/Principal,11-25 employees,Healthcare,West,7758,6,10,7.5,31,Internal data quality problems,Yes,2026-Q2
+RESP-1124,Head of Data,11-25 employees,Construction,South,8558,1,8,6.4,48,Regulatory compliance pressure,No,2026-Q2
+RESP-1125,CTO,26-50 employees,Financial Services,South,18377,6,2,1.5,20,Regulatory compliance pressure,Maybe,2026-Q2
+RESP-1126,CIO,26-50 employees,Financial Services,South,18933,5,5,3.1,46,Regulatory compliance pressure,Maybe,2026-Q2
+RESP-1127,IT Director,11-25 employees,Nonprofit,Southwest,8957,8,8,5.6,44,Competitive pressure,Yes,2026-Q2
+RESP-1128,IT Manager,51-100 employees,Logistics,Southwest,37985,1,8,3.9,43,Regulatory compliance pressure,No,2026-Q2
+RESP-1129,CIO,1-10 employees,Construction,West,1654,2,10,5.4,63,Customer trust / vendor requirement,Maybe,2026-Q2
+RESP-1130,IT Manager,1-10 employees,Financial Services,Southwest,2254,3,9,6.7,10,Competitive pressure,Yes,2026-Q2
+RESP-1131,Owner/Principal,101-250 employees,Logistics,West,142301,3,3,2.9,23,Data monetization opportunity,Maybe,2026-Q2
+RESP-1132,Operations Director,11-25 employees,Logistics,Southwest,9587,10,5,4.2,41,Competitive pressure,No,2026-Q2
+RESP-1133,Operations Director,51-100 employees,Financial Services,West,43279,2,6,1.0,44,Data monetization opportunity,Yes,2026-Q2
+RESP-1134,Owner/Principal,26-50 employees,Retail/E-commerce,South,23487,8,3,2.9,25,Recent data incident or near-miss,Yes,2026-Q2
+RESP-1135,Owner/Principal,11-25 employees,Professional Services,Southwest,8740,2,6,4.0,17,Customer trust / vendor requirement,No,2026-Q2
+RESP-1136,Operations Director,11-25 employees,Manufacturing,South,14139,5,6,4.8,43,Data monetization opportunity,Maybe,2026-Q2
+RESP-1137,IT Manager,1-10 employees,Healthcare,Southwest,1302,1,10,2.8,59,Customer trust / vendor requirement,Yes,2026-Q2
+RESP-1138,IT Manager,11-25 employees,Nonprofit,Northeast,8054,6,7,3.6,40,Regulatory compliance pressure,Maybe,2026-Q2
+RESP-1139,CIO,11-25 employees,Healthcare,West,4914,4,6,3.8,21,Internal data quality problems,Maybe,2026-Q2
+RESP-1140,IT Director,1-10 employees,Manufacturing,West,4598,2,9,8.2,30,Customer trust / vendor requirement,Yes,2026-Q2
+RESP-1141,CIO,1-10 employees,Construction,South,3661,7,10,4.6,23,Data monetization opportunity,Yes,2026-Q2
+RESP-1142,IT Director,11-25 employees,Retail/E-commerce,Midwest,8999,6,8,3.5,57,Data monetization opportunity,Maybe,2026-Q2
+RESP-1143,IT Director,1-10 employees,Manufacturing,West,3207,4,9,7.1,28,Competitive pressure,No,2026-Q2
+RESP-1144,CTO,11-25 employees,Real Estate,Southwest,2675,5,6,3.4,35,Regulatory compliance pressure,Yes,2026-Q2
+RESP-1145,Operations Director,26-50 employees,Financial Services,Midwest,21780,7,8,4.6,24,Regulatory compliance pressure,No,2026-Q2
+RESP-1146,CTO,26-50 employees,Technology/SaaS,Southwest,14768,4,5,3.9,44,Recent data incident or near-miss,Maybe,2026-Q2
+RESP-1147,CIO,51-100 employees,Professional Services,South,16332,4,6,3.1,14,Recent data incident or near-miss,No,2026-Q2
+RESP-1148,Operations Director,26-50 employees,Professional Services,Midwest,24066,9,10,7.4,12,Internal data quality problems,No,2026-Q2
+RESP-1149,VP of Technology,1-10 employees,Technology/SaaS,Midwest,3912,3,7,3.6,25,Internal data quality problems,No,2026-Q2
+RESP-1150,Owner/Principal,11-25 employees,Professional Services,West,9148,4,4,4.8,59,Recent data incident or near-miss,Yes,2026-Q2
+RESP-1151,IT Manager,1-10 employees,Real Estate,Midwest,1116,8,8,6.5,45,Regulatory compliance pressure,Yes,2026-Q2
+RESP-1152,IT Director,26-50 employees,Manufacturing,West,12600,7,8,6.0,38,Competitive pressure,Yes,2026-Q2
+RESP-1153,VP of Technology,26-50 employees,Financial Services,West,15160,2,5,1.0,44,Customer trust / vendor requirement,No,2026-Q2
+RESP-1154,IT Director,101-250 employees,Technology/SaaS,South,104472,6,6,2.2,37,Customer trust / vendor requirement,No,2026-Q2
+RESP-1155,IT Director,1-10 employees,Financial Services,Northeast,3862,5,8,3.5,35,Data monetization opportunity,Maybe,2026-Q2
+RESP-1156,IT Manager,26-50 employees,Technology/SaaS,Northeast,17954,6,5,3.1,27,Customer trust / vendor requirement,Yes,2026-Q2
+RESP-1157,Head of Data,1-10 employees,Professional Services,Southwest,1430,2,6,3.2,51,Recent data incident or near-miss,Yes,2026-Q2
+RESP-1158,IT Director,1-10 employees,Nonprofit,Midwest,3347,3,8,3.5,33,Competitive pressure,No,2026-Q2
+RESP-1159,VP of Technology,1-10 employees,Manufacturing,Midwest,1941,1,7,3.2,40,Regulatory compliance pressure,Yes,2026-Q2
+RESP-1160,Head of Data,1-10 employees,Nonprofit,Southwest,1592,2,3,2.0,42,Customer trust / vendor requirement,Maybe,2026-Q2
+RESP-1161,CIO,11-25 employees,Logistics,Northeast,9395,10,5,3.2,46,Recent data incident or near-miss,Maybe,2026-Q2
+RESP-1162,CIO,11-25 employees,Logistics,South,10323,5,7,5.8,48,Recent data incident or near-miss,No,2026-Q2
+RESP-1163,VP of Technology,1-10 employees,Real Estate,South,1869,7,3,6.6,19,Regulatory compliance pressure,Maybe,2026-Q2
+RESP-1164,Owner/Principal,51-100 employees,Professional Services,South,46731,6,7,4.2,21,Customer trust / vendor requirement,No,2026-Q2
+RESP-1165,Operations Director,11-25 employees,Professional Services,Southwest,11326,8,6,3.4,69,Regulatory compliance pressure,Yes,2026-Q2
+RESP-1166,Head of Data,11-25 employees,Financial Services,West,7471,4,9,2.7,44,Regulatory compliance pressure,Maybe,2026-Q2
+RESP-1167,CTO,51-100 employees,Nonprofit,Southwest,66798,9,5,4.6,31,Data monetization opportunity,Yes,2026-Q2
+RESP-1168,IT Director,1-10 employees,Real Estate,Midwest,4931,7,8,6.4,75,Internal data quality problems,Yes,2026-Q2
+RESP-1169,IT Director,101-250 employees,Nonprofit,Midwest,127353,4,8,2.9,12,Recent data incident or near-miss,Maybe,2026-Q2
+RESP-1170,VP of Technology,11-25 employees,Nonprofit,Northeast,10061,5,7,2.5,11,Data monetization opportunity,Maybe,2026-Q2
+RESP-1171,CIO,11-25 employees,Logistics,Midwest,4085,7,6,3.5,25,Customer trust / vendor requirement,Yes,2026-Q2
+RESP-1172,CTO,11-25 employees,Nonprofit,Southwest,7546,7,7,3.3,53,Regulatory compliance pressure,Maybe,2026-Q2
+RESP-1173,CIO,11-25 employees,Retail/E-commerce,Northeast,4379,6,6,5.4,43,Data monetization opportunity,No,2026-Q2
+RESP-1174,IT Manager,1-10 employees,Technology/SaaS,Southwest,2858,5,7,4.5,22,Customer trust / vendor requirement,Yes,2026-Q2
+RESP-1175,Owner/Principal,101-250 employees,Retail/E-commerce,West,51421,3,9,2.9,10,Customer trust / vendor requirement,No,2026-Q2
+RESP-1176,Owner/Principal,1-10 employees,Retail/E-commerce,Southwest,3852,1,6,3.3,45,Regulatory compliance pressure,Maybe,2026-Q2
+RESP-1177,Head of Data,11-25 employees,Construction,Southwest,7186,3,1,1.2,49,Data monetization opportunity,Yes,2026-Q2
+RESP-1178,CIO,1-10 employees,Retail/E-commerce,West,3820,1,7,2.9,39,Regulatory compliance pressure,Maybe,2026-Q2
+RESP-1179,CTO,26-50 employees,Real Estate,Northeast,20842,2,9,4.6,54,Competitive pressure,Yes,2026-Q2
+RESP-1180,VP of Technology,11-25 employees,Technology/SaaS,Southwest,4944,1,10,3.4,31,Customer trust / vendor requirement,No,2026-Q2
+RESP-1181,IT Manager,1-10 employees,Technology/SaaS,Northeast,4050,1,10,3.0,77,Regulatory compliance pressure,Maybe,2026-Q2
+RESP-1182,IT Manager,26-50 employees,Financial Services,West,23764,6,7,5.2,55,Regulatory compliance pressure,Yes,2026-Q2
+RESP-1183,Owner/Principal,1-10 employees,Healthcare,South,2687,5,10,5.6,49,Recent data incident or near-miss,Maybe,2026-Q2
+RESP-1184,Operations Director,1-10 employees,Real Estate,West,6930,3,2,2.5,59,Recent data incident or near-miss,Maybe,2026-Q2
+RESP-1185,Owner/Principal,51-100 employees,Healthcare,Southwest,49994,5,8,4.4,38,Internal data quality problems,Maybe,2026-Q2
+RESP-1186,IT Manager,51-100 employees,Manufacturing,Northeast,48995,7,7,4.5,30,Customer trust / vendor requirement,Maybe,2026-Q2
+RESP-1187,Operations Director,51-100 employees,Logistics,South,34242,4,5,2.1,27,Internal data quality problems,No,2026-Q2
+RESP-1188,IT Manager,11-25 employees,Healthcare,West,11703,3,7,3.5,13,Regulatory compliance pressure,No,2026-Q2
+RESP-1189,Head of Data,1-10 employees,Real Estate,Southwest,4722,10,8,5.2,38,Recent data incident or near-miss,No,2026-Q2
+RESP-1190,CIO,11-25 employees,Nonprofit,Southwest,3402,2,1,2.2,28,Internal data quality problems,No,2026-Q2
+RESP-1191,VP of Technology,1-10 employees,Technology/SaaS,Northeast,2142,5,5,3.0,65,Data monetization opportunity,Maybe,2026-Q2
+RESP-1192,VP of Technology,51-100 employees,Professional Services,Northeast,48117,5,9,1.9,47,Customer trust / vendor requirement,No,2026-Q2
+RESP-1193,Owner/Principal,26-50 employees,Healthcare,South,19963,3,7,3.1,10,Customer trust / vendor requirement,Maybe,2026-Q2
+RESP-1194,Operations Director,11-25 employees,Retail/E-commerce,Northeast,7155,8,9,6.6,22,Internal data quality problems,Maybe,2026-Q2
+RESP-1195,IT Director,26-50 employees,Professional Services,Southwest,12104,1,10,5.2,26,Regulatory compliance pressure,No,2026-Q2
+RESP-1196,Head of Data,11-25 employees,Professional Services,West,8704,5,7,3.9,70,Customer trust / vendor requirement,Maybe,2026-Q2
+RESP-1197,IT Manager,1-10 employees,Construction,West,2462,8,6,4.3,49,Customer trust / vendor requirement,No,2026-Q2
+RESP-1198,Operations Director,1-10 employees,Technology/SaaS,Northeast,1839,2,7,3.2,33,Internal data quality problems,Yes,2026-Q2
+RESP-1199,CTO,11-25 employees,Professional Services,Northeast,9236,4,8,3.3,22,Data monetization opportunity,Yes,2026-Q2
+RESP-1200,IT Director,51-100 employees,Construction,South,34709,9,7,6.3,16,Data monetization opportunity,No,2026-Q2
+RESP-1201,Operations Director,11-25 employees,Real Estate,Southwest,2929,4,9,4.9,30,Regulatory compliance pressure,Yes,2026-Q2
+RESP-1202,IT Manager,11-25 employees,Manufacturing,Northeast,4849,4,10,4.5,43,Regulatory compliance pressure,Yes,2026-Q2
+RESP-1203,IT Manager,11-25 employees,Technology/SaaS,Midwest,8888,1,4,1.8,25,Regulatory compliance pressure,No,2026-Q2
+RESP-1204,CIO,26-50 employees,Logistics,West,15167,3,9,3.7,65,Customer trust / vendor requirement,No,2026-Q2
+RESP-1205,CIO,1-10 employees,Manufacturing,Midwest,2051,7,2,1.0,38,Regulatory compliance pressure,No,2026-Q2
+RESP-1206,Operations Director,11-25 employees,Healthcare,South,6036,1,10,4.5,23,Data monetization opportunity,Maybe,2026-Q2
+RESP-1207,Operations Director,26-50 employees,Manufacturing,Midwest,20115,2,1,1.0,40,Customer trust / vendor requirement,Yes,2026-Q2
+RESP-1208,Head of Data,1-10 employees,Financial Services,South,4233,8,10,5.7,26,Competitive pressure,Maybe,2026-Q2
+RESP-1209,CTO,1-10 employees,Logistics,Midwest,3888,6,1,2.5,32,Regulatory compliance pressure,Yes,2026-Q2
+RESP-1210,VP of Technology,1-10 employees,Logistics,West,2907,6,7,4.7,38,Internal data quality problems,Maybe,2026-Q2
+RESP-1211,Head of Data,51-100 employees,Retail/E-commerce,West,33268,5,8,3.9,15,Customer trust / vendor requirement,No,2026-Q2
+RESP-1212,CIO,26-50 employees,Technology/SaaS,Northeast,23130,4,1,1.0,57,Recent data incident or near-miss,Maybe,2026-Q2
+RESP-1213,VP of Technology,26-50 employees,Logistics,Midwest,25044,7,8,4.6,41,Regulatory compliance pressure,Maybe,2026-Q2
+RESP-1214,IT Manager,1-10 employees,Professional Services,West,3719,2,8,3.9,97,Competitive pressure,Yes,2026-Q2
+RESP-1215,Owner/Principal,26-50 employees,Manufacturing,Northeast,13123,4,8,5.0,53,Data monetization opportunity,Maybe,2026-Q2
+RESP-1216,CTO,26-50 employees,Construction,South,23515,7,10,5.0,31,Regulatory compliance pressure,No,2026-Q2
+RESP-1217,IT Manager,101-250 employees,Nonprofit,Midwest,43268,8,9,6.5,36,Data monetization opportunity,Maybe,2026-Q2
+RESP-1218,Operations Director,51-100 employees,Technology/SaaS,Midwest,51928,6,9,6.1,38,Internal data quality problems,Maybe,2026-Q2
+RESP-1219,IT Manager,51-100 employees,Healthcare,Southwest,29706,3,8,2.8,46,Customer trust / vendor requirement,Maybe,2026-Q2

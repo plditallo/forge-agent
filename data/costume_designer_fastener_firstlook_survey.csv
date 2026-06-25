@@ -1,0 +1,241 @@
+respondent_id,city,production_context,fastener_category_of_interest,discovery_channel,first_look_interest_score_1_10,willing_to_preorder_before_general_release,lead_time_tolerance_days,typical_order_quantity_units,price_sensitivity_1_10,survey_wave
+COST-2000,London,Couture/Fashion House,Decorative Buttons,Sales Rep In-Person Showing,10.0,Depends on price,28,2242,8,2026-Q2
+COST-2001,Los Angeles,Themed Entertainment (parks/shows),Snap Fasteners,Trade Show First Look,8.2,No,77,2409,1,2026-Q2
+COST-2002,New York City,Film/TV Wardrobe,Novelty/Costume-Specific Fasteners,Sales Rep In-Person Showing,8.9,Yes,40,780,5,2026-Q2
+COST-2003,New York City,Independent Designer Studio,Vintage-Reproduction Hardware,Sales Rep In-Person Showing,8.5,Depends on price,21,1254,1,2026-Q2
+COST-2004,London,Couture/Fashion House,Decorative Buttons,Sales Rep In-Person Showing,5.8,No,66,1052,6,2026-Q2
+COST-2005,Paris,Independent Designer Studio,Functional Zippers,Referral from Other Designer,7.5,Yes,29,393,5,2026-Q2
+COST-2006,Rome,Theatrical/Stage Production,Functional Zippers,Trade Show First Look,7.2,Yes,38,808,7,2026-Q2
+COST-2007,Paris,Costume Rental House,Functional Zippers,Sales Rep In-Person Showing,5.6,No,34,50,7,2026-Q2
+COST-2008,New York City,Costume Rental House,Hook-and-Eye Closures,Distributor Email Preview,6.0,Depends on price,44,213,5,2026-Q2
+COST-2009,New York City,Themed Entertainment (parks/shows),Decorative Buttons,Sales Rep In-Person Showing,9.4,No,46,919,5,2026-Q2
+COST-2010,Paris,Costume Rental House,Novelty/Costume-Specific Fasteners,Trade Show First Look,7.0,Yes,43,1000,8,2026-Q2
+COST-2011,Los Angeles,Film/TV Wardrobe,Decorative Buttons,Distributor Email Preview,7.7,Depends on price,38,3519,7,2026-Q2
+COST-2012,New York City,Independent Designer Studio,Snap Fasteners,Distributor Email Preview,8.1,No,46,346,3,2026-Q2
+COST-2013,Paris,Burlesque/Cabaret Production,Novelty/Costume-Specific Fasteners,Online B2B Catalog Early Access,6.7,Depends on price,33,1336,6,2026-Q2
+COST-2014,London,Film/TV Wardrobe,Functional Zippers,Referral from Other Designer,8.2,Depends on price,20,92,7,2026-Q2
+COST-2015,Los Angeles,Opera/Ballet Wardrobe Department,Novelty/Costume-Specific Fasteners,Trade Show First Look,9.2,Depends on price,39,162,6,2026-Q2
+COST-2016,Rome,Opera/Ballet Wardrobe Department,Functional Zippers,Trade Show First Look,8.6,Yes,33,2450,7,2026-Q2
+COST-2017,Los Angeles,Independent Designer Studio,Decorative Buttons,Trade Show First Look,6.6,No,14,973,2,2026-Q2
+COST-2018,London,Theatrical/Stage Production,Novelty/Costume-Specific Fasteners,Sales Rep In-Person Showing,6.7,No,19,489,8,2026-Q2
+COST-2019,Los Angeles,Opera/Ballet Wardrobe Department,Decorative Buttons,Distributor Showroom Visit,8.4,Yes,59,764,7,2026-Q2
+COST-2020,New York City,Theatrical/Stage Production,Vintage-Reproduction Hardware,Sales Rep In-Person Showing,10.0,Depends on price,34,895,6,2026-Q2
+COST-2021,Los Angeles,Opera/Ballet Wardrobe Department,Snap Fasteners,Distributor Email Preview,9.0,Depends on price,34,750,6,2026-Q2
+COST-2022,Los Angeles,Burlesque/Cabaret Production,Functional Zippers,Trade Show First Look,6.1,No,39,1625,5,2026-Q2
+COST-2023,Los Angeles,Independent Designer Studio,Snap Fasteners,Distributor Email Preview,6.3,No,63,91,5,2026-Q2
+COST-2024,Los Angeles,Film/TV Wardrobe,Hook-and-Eye Closures,Trade Show First Look,8.9,Depends on price,51,919,5,2026-Q2
+COST-2025,Paris,Film/TV Wardrobe,Decorative Buttons,Distributor Showroom Visit,7.8,No,64,280,6,2026-Q2
+COST-2026,Los Angeles,Independent Designer Studio,Novelty/Costume-Specific Fasteners,Online B2B Catalog Early Access,7.0,No,43,1011,8,2026-Q2
+COST-2027,London,Themed Entertainment (parks/shows),Vintage-Reproduction Hardware,Sales Rep In-Person Showing,7.4,Depends on price,58,1851,8,2026-Q2
+COST-2028,Paris,Opera/Ballet Wardrobe Department,Snap Fasteners,Distributor Email Preview,8.7,Depends on price,45,1495,7,2026-Q2
+COST-2029,New York City,Costume Rental House,Novelty/Costume-Specific Fasteners,Distributor Email Preview,7.4,Yes,26,952,5,2026-Q2
+COST-2030,Rome,Opera/Ballet Wardrobe Department,Vintage-Reproduction Hardware,Distributor Email Preview,6.8,Depends on price,32,2084,6,2026-Q2
+COST-2031,Rome,Couture/Fashion House,Vintage-Reproduction Hardware,Distributor Email Preview,7.7,Depends on price,7,429,3,2026-Q2
+COST-2032,Paris,Couture/Fashion House,Decorative Buttons,Distributor Showroom Visit,5.3,Depends on price,44,186,6,2026-Q2
+COST-2033,Paris,Film/TV Wardrobe,Vintage-Reproduction Hardware,Trade Show First Look,8.1,Depends on price,65,50,5,2026-Q2
+COST-2034,Los Angeles,Theatrical/Stage Production,Snap Fasteners,Online B2B Catalog Early Access,10.0,No,18,319,4,2026-Q2
+COST-2035,Paris,Themed Entertainment (parks/shows),Decorative Buttons,Trade Show First Look,6.1,Depends on price,24,911,7,2026-Q2
+COST-2036,New York City,Costume Rental House,Vintage-Reproduction Hardware,Trade Show First Look,5.9,No,25,452,6,2026-Q2
+COST-2037,New York City,Costume Rental House,Hook-and-Eye Closures,Distributor Showroom Visit,8.4,No,69,566,3,2026-Q2
+COST-2038,London,Couture/Fashion House,Functional Zippers,Referral from Other Designer,8.6,Yes,30,227,8,2026-Q2
+COST-2039,Rome,Burlesque/Cabaret Production,Functional Zippers,Online B2B Catalog Early Access,8.3,Yes,60,437,8,2026-Q2
+COST-2040,Los Angeles,Couture/Fashion House,Decorative Buttons,Sales Rep In-Person Showing,7.5,Yes,42,1147,6,2026-Q2
+COST-2041,London,Burlesque/Cabaret Production,Vintage-Reproduction Hardware,Distributor Showroom Visit,9.8,Yes,42,952,3,2026-Q2
+COST-2042,Los Angeles,Burlesque/Cabaret Production,Novelty/Costume-Specific Fasteners,Distributor Showroom Visit,8.1,Yes,79,455,5,2026-Q2
+COST-2043,Los Angeles,Couture/Fashion House,Vintage-Reproduction Hardware,Trade Show First Look,8.5,Depends on price,63,822,6,2026-Q2
+COST-2044,London,Theatrical/Stage Production,Functional Zippers,Sales Rep In-Person Showing,8.7,Yes,59,378,5,2026-Q2
+COST-2045,Los Angeles,Theatrical/Stage Production,Vintage-Reproduction Hardware,Distributor Showroom Visit,7.2,Depends on price,51,513,2,2026-Q2
+COST-2046,Las Vegas,Theatrical/Stage Production,Functional Zippers,Distributor Showroom Visit,10.0,Depends on price,51,857,6,2026-Q2
+COST-2047,Paris,Burlesque/Cabaret Production,Functional Zippers,Online B2B Catalog Early Access,6.5,Depends on price,21,245,8,2026-Q2
+COST-2048,New York City,Costume Rental House,Novelty/Costume-Specific Fasteners,Referral from Other Designer,4.3,Depends on price,81,614,8,2026-Q2
+COST-2049,Las Vegas,Theatrical/Stage Production,Decorative Buttons,Trade Show First Look,9.0,Yes,50,1364,6,2026-Q2
+COST-2050,Paris,Couture/Fashion House,Novelty/Costume-Specific Fasteners,Distributor Email Preview,8.0,Depends on price,40,741,5,2026-Q2
+COST-2051,Los Angeles,Burlesque/Cabaret Production,Novelty/Costume-Specific Fasteners,Distributor Email Preview,9.5,Yes,34,2181,4,2026-Q2
+COST-2052,London,Couture/Fashion House,Hook-and-Eye Closures,Distributor Email Preview,5.4,Depends on price,28,1169,6,2026-Q2
+COST-2053,Rome,Film/TV Wardrobe,Vintage-Reproduction Hardware,Referral from Other Designer,6.4,Depends on price,27,2182,6,2026-Q2
+COST-2054,Las Vegas,Independent Designer Studio,Novelty/Costume-Specific Fasteners,Online B2B Catalog Early Access,8.0,Depends on price,40,179,4,2026-Q2
+COST-2055,Rome,Themed Entertainment (parks/shows),Functional Zippers,Sales Rep In-Person Showing,8.2,No,35,1366,8,2026-Q2
+COST-2056,New York City,Independent Designer Studio,Vintage-Reproduction Hardware,Sales Rep In-Person Showing,4.7,No,36,964,5,2026-Q2
+COST-2057,Rome,Independent Designer Studio,Functional Zippers,Trade Show First Look,7.7,Yes,81,1258,4,2026-Q2
+COST-2058,Los Angeles,Costume Rental House,Decorative Buttons,Trade Show First Look,8.7,No,47,1358,8,2026-Q2
+COST-2059,Los Angeles,Film/TV Wardrobe,Decorative Buttons,Distributor Showroom Visit,3.8,No,53,459,6,2026-Q2
+COST-2060,Los Angeles,Burlesque/Cabaret Production,Hook-and-Eye Closures,Sales Rep In-Person Showing,7.5,Depends on price,32,5297,3,2026-Q2
+COST-2061,Los Angeles,Themed Entertainment (parks/shows),Functional Zippers,Trade Show First Look,8.5,No,42,1265,7,2026-Q2
+COST-2062,Las Vegas,Burlesque/Cabaret Production,Novelty/Costume-Specific Fasteners,Sales Rep In-Person Showing,8.9,No,28,113,5,2026-Q2
+COST-2063,Las Vegas,Film/TV Wardrobe,Novelty/Costume-Specific Fasteners,Sales Rep In-Person Showing,9.2,Depends on price,49,997,3,2026-Q2
+COST-2064,Los Angeles,Themed Entertainment (parks/shows),Hook-and-Eye Closures,Distributor Showroom Visit,9.1,No,53,112,10,2026-Q2
+COST-2065,London,Opera/Ballet Wardrobe Department,Vintage-Reproduction Hardware,Distributor Email Preview,8.0,Depends on price,49,1208,7,2026-Q2
+COST-2066,Rome,Opera/Ballet Wardrobe Department,Vintage-Reproduction Hardware,Sales Rep In-Person Showing,6.9,No,76,704,6,2026-Q2
+COST-2067,Las Vegas,Film/TV Wardrobe,Decorative Buttons,Online B2B Catalog Early Access,10.0,Yes,75,112,7,2026-Q2
+COST-2068,London,Couture/Fashion House,Hook-and-Eye Closures,Distributor Showroom Visit,8.0,Depends on price,45,560,6,2026-Q2
+COST-2069,Rome,Costume Rental House,Functional Zippers,Distributor Showroom Visit,6.8,Depends on price,54,3424,6,2026-Q2
+COST-2070,Rome,Theatrical/Stage Production,Decorative Buttons,Sales Rep In-Person Showing,9.0,Depends on price,36,2061,6,2026-Q2
+COST-2071,Paris,Burlesque/Cabaret Production,Snap Fasteners,Referral from Other Designer,5.9,No,35,1785,6,2026-Q2
+COST-2072,New York City,Theatrical/Stage Production,Vintage-Reproduction Hardware,Referral from Other Designer,7.2,Depends on price,63,490,10,2026-Q2
+COST-2073,New York City,Themed Entertainment (parks/shows),Functional Zippers,Referral from Other Designer,9.7,Yes,23,1073,6,2026-Q2
+COST-2074,London,Couture/Fashion House,Snap Fasteners,Sales Rep In-Person Showing,7.8,Yes,18,2958,5,2026-Q2
+COST-2075,London,Costume Rental House,Vintage-Reproduction Hardware,Online B2B Catalog Early Access,6.1,No,31,257,5,2026-Q2
+COST-2076,Paris,Costume Rental House,Snap Fasteners,Trade Show First Look,6.4,Depends on price,39,2375,5,2026-Q2
+COST-2077,Rome,Independent Designer Studio,Hook-and-Eye Closures,Sales Rep In-Person Showing,7.0,No,43,468,9,2026-Q2
+COST-2078,New York City,Burlesque/Cabaret Production,Novelty/Costume-Specific Fasteners,Distributor Email Preview,9.8,Yes,47,621,5,2026-Q2
+COST-2079,Paris,Film/TV Wardrobe,Novelty/Costume-Specific Fasteners,Distributor Showroom Visit,6.9,Depends on price,48,619,7,2026-Q2
+COST-2080,Los Angeles,Burlesque/Cabaret Production,Decorative Buttons,Sales Rep In-Person Showing,8.7,Yes,64,396,5,2026-Q2
+COST-2081,New York City,Costume Rental House,Snap Fasteners,Distributor Email Preview,7.1,Depends on price,46,2299,6,2026-Q2
+COST-2082,Paris,Film/TV Wardrobe,Hook-and-Eye Closures,Sales Rep In-Person Showing,8.5,Depends on price,61,231,4,2026-Q2
+COST-2083,London,Themed Entertainment (parks/shows),Functional Zippers,Distributor Email Preview,6.8,Depends on price,52,96,6,2026-Q2
+COST-2084,Las Vegas,Themed Entertainment (parks/shows),Decorative Buttons,Distributor Showroom Visit,7.8,No,59,1844,9,2026-Q2
+COST-2085,Rome,Opera/Ballet Wardrobe Department,Vintage-Reproduction Hardware,Distributor Showroom Visit,8.1,Yes,45,1423,7,2026-Q2
+COST-2086,Los Angeles,Burlesque/Cabaret Production,Vintage-Reproduction Hardware,Trade Show First Look,9.9,Yes,32,669,8,2026-Q2
+COST-2087,Las Vegas,Opera/Ballet Wardrobe Department,Snap Fasteners,Distributor Showroom Visit,8.6,No,28,163,6,2026-Q2
+COST-2088,London,Theatrical/Stage Production,Novelty/Costume-Specific Fasteners,Sales Rep In-Person Showing,5.7,No,17,386,5,2026-Q2
+COST-2089,New York City,Independent Designer Studio,Hook-and-Eye Closures,Distributor Showroom Visit,8.1,No,31,458,9,2026-Q2
+COST-2090,Rome,Themed Entertainment (parks/shows),Hook-and-Eye Closures,Trade Show First Look,8.1,No,48,569,6,2026-Q2
+COST-2091,Paris,Costume Rental House,Novelty/Costume-Specific Fasteners,Distributor Showroom Visit,7.1,Depends on price,52,637,5,2026-Q2
+COST-2092,Paris,Film/TV Wardrobe,Novelty/Costume-Specific Fasteners,Online B2B Catalog Early Access,6.4,No,29,916,7,2026-Q2
+COST-2093,New York City,Couture/Fashion House,Functional Zippers,Trade Show First Look,6.9,No,20,3137,3,2026-Q2
+COST-2094,New York City,Burlesque/Cabaret Production,Vintage-Reproduction Hardware,Referral from Other Designer,8.7,Depends on price,29,597,6,2026-Q2
+COST-2095,Los Angeles,Costume Rental House,Functional Zippers,Distributor Showroom Visit,5.6,Depends on price,24,1635,8,2026-Q2
+COST-2096,Paris,Themed Entertainment (parks/shows),Vintage-Reproduction Hardware,Sales Rep In-Person Showing,7.2,No,42,317,8,2026-Q2
+COST-2097,London,Costume Rental House,Functional Zippers,Online B2B Catalog Early Access,4.4,Depends on price,56,454,7,2026-Q2
+COST-2098,London,Themed Entertainment (parks/shows),Decorative Buttons,Trade Show First Look,7.8,Depends on price,58,876,4,2026-Q2
+COST-2099,Los Angeles,Costume Rental House,Decorative Buttons,Sales Rep In-Person Showing,8.8,Depends on price,48,1110,3,2026-Q2
+COST-2100,New York City,Burlesque/Cabaret Production,Vintage-Reproduction Hardware,Trade Show First Look,9.2,Depends on price,46,855,5,2026-Q2
+COST-2101,New York City,Burlesque/Cabaret Production,Snap Fasteners,Trade Show First Look,8.6,Depends on price,37,960,7,2026-Q2
+COST-2102,Paris,Film/TV Wardrobe,Hook-and-Eye Closures,Distributor Email Preview,6.4,Depends on price,37,252,9,2026-Q2
+COST-2103,Paris,Couture/Fashion House,Snap Fasteners,Sales Rep In-Person Showing,7.1,Yes,31,880,4,2026-Q2
+COST-2104,Las Vegas,Couture/Fashion House,Novelty/Costume-Specific Fasteners,Distributor Email Preview,8.2,Depends on price,15,2040,7,2026-Q2
+COST-2105,Paris,Couture/Fashion House,Decorative Buttons,Referral from Other Designer,7.7,Yes,45,258,3,2026-Q2
+COST-2106,Rome,Opera/Ballet Wardrobe Department,Novelty/Costume-Specific Fasteners,Referral from Other Designer,6.1,Depends on price,15,468,7,2026-Q2
+COST-2107,Rome,Burlesque/Cabaret Production,Snap Fasteners,Referral from Other Designer,8.9,No,61,983,4,2026-Q2
+COST-2108,New York City,Film/TV Wardrobe,Hook-and-Eye Closures,Trade Show First Look,8.9,Depends on price,50,2517,4,2026-Q2
+COST-2109,New York City,Couture/Fashion House,Hook-and-Eye Closures,Distributor Showroom Visit,9.2,Depends on price,52,1209,10,2026-Q2
+COST-2110,Paris,Theatrical/Stage Production,Novelty/Costume-Specific Fasteners,Distributor Email Preview,5.7,Depends on price,37,1041,8,2026-Q2
+COST-2111,New York City,Couture/Fashion House,Hook-and-Eye Closures,Distributor Email Preview,6.6,No,42,108,5,2026-Q2
+COST-2112,Las Vegas,Burlesque/Cabaret Production,Hook-and-Eye Closures,Distributor Email Preview,9.0,Yes,66,5970,6,2026-Q2
+COST-2113,Rome,Burlesque/Cabaret Production,Decorative Buttons,Trade Show First Look,5.4,No,41,384,4,2026-Q2
+COST-2114,London,Themed Entertainment (parks/shows),Vintage-Reproduction Hardware,Sales Rep In-Person Showing,9.8,Depends on price,18,386,9,2026-Q2
+COST-2115,New York City,Burlesque/Cabaret Production,Hook-and-Eye Closures,Distributor Showroom Visit,7.6,Depends on price,58,702,6,2026-Q2
+COST-2116,New York City,Burlesque/Cabaret Production,Novelty/Costume-Specific Fasteners,Distributor Showroom Visit,8.1,Depends on price,86,4153,4,2026-Q2
+COST-2117,New York City,Burlesque/Cabaret Production,Hook-and-Eye Closures,Trade Show First Look,10.0,Depends on price,32,7013,8,2026-Q2
+COST-2118,Paris,Opera/Ballet Wardrobe Department,Decorative Buttons,Sales Rep In-Person Showing,7.3,Yes,14,250,6,2026-Q2
+COST-2119,London,Couture/Fashion House,Snap Fasteners,Sales Rep In-Person Showing,7.3,Depends on price,27,171,8,2026-Q2
+COST-2120,New York City,Couture/Fashion House,Vintage-Reproduction Hardware,Distributor Showroom Visit,6.4,No,36,149,5,2026-Q2
+COST-2121,Rome,Opera/Ballet Wardrobe Department,Hook-and-Eye Closures,Distributor Showroom Visit,8.4,Depends on price,38,319,8,2026-Q2
+COST-2122,New York City,Costume Rental House,Functional Zippers,Sales Rep In-Person Showing,8.3,Yes,51,3843,6,2026-Q2
+COST-2123,Rome,Theatrical/Stage Production,Hook-and-Eye Closures,Distributor Email Preview,6.7,No,52,1326,5,2026-Q2
+COST-2124,Rome,Theatrical/Stage Production,Functional Zippers,Distributor Email Preview,6.7,Depends on price,39,481,5,2026-Q2
+COST-2125,New York City,Couture/Fashion House,Functional Zippers,Distributor Email Preview,7.3,Yes,55,389,6,2026-Q2
+COST-2126,New York City,Costume Rental House,Novelty/Costume-Specific Fasteners,Sales Rep In-Person Showing,6.8,Yes,58,1187,2,2026-Q2
+COST-2127,New York City,Couture/Fashion House,Snap Fasteners,Sales Rep In-Person Showing,6.3,Depends on price,47,1361,3,2026-Q2
+COST-2128,Las Vegas,Film/TV Wardrobe,Vintage-Reproduction Hardware,Trade Show First Look,7.3,Yes,39,919,8,2026-Q2
+COST-2129,Rome,Couture/Fashion House,Decorative Buttons,Online B2B Catalog Early Access,7.0,No,40,978,4,2026-Q2
+COST-2130,London,Opera/Ballet Wardrobe Department,Snap Fasteners,Distributor Email Preview,5.1,No,65,261,5,2026-Q2
+COST-2131,Paris,Burlesque/Cabaret Production,Snap Fasteners,Online B2B Catalog Early Access,8.7,Yes,45,324,6,2026-Q2
+COST-2132,London,Burlesque/Cabaret Production,Hook-and-Eye Closures,Referral from Other Designer,6.8,Depends on price,34,235,5,2026-Q2
+COST-2133,London,Themed Entertainment (parks/shows),Decorative Buttons,Trade Show First Look,6.7,Depends on price,24,2421,8,2026-Q2
+COST-2134,Paris,Theatrical/Stage Production,Hook-and-Eye Closures,Sales Rep In-Person Showing,8.1,Yes,38,417,6,2026-Q2
+COST-2135,Los Angeles,Theatrical/Stage Production,Decorative Buttons,Referral from Other Designer,9.4,Yes,29,713,8,2026-Q2
+COST-2136,Los Angeles,Couture/Fashion House,Functional Zippers,Distributor Email Preview,5.5,Depends on price,41,416,9,2026-Q2
+COST-2137,Rome,Film/TV Wardrobe,Novelty/Costume-Specific Fasteners,Distributor Showroom Visit,5.9,No,73,424,5,2026-Q2
+COST-2138,London,Opera/Ballet Wardrobe Department,Novelty/Costume-Specific Fasteners,Online B2B Catalog Early Access,5.6,No,27,1617,6,2026-Q2
+COST-2139,Paris,Couture/Fashion House,Vintage-Reproduction Hardware,Distributor Showroom Visit,6.7,Depends on price,47,1673,7,2026-Q2
+COST-2140,New York City,Opera/Ballet Wardrobe Department,Snap Fasteners,Sales Rep In-Person Showing,9.2,Yes,20,2432,3,2026-Q2
+COST-2141,New York City,Themed Entertainment (parks/shows),Vintage-Reproduction Hardware,Trade Show First Look,9.1,Depends on price,83,686,5,2026-Q2
+COST-2142,Paris,Costume Rental House,Novelty/Costume-Specific Fasteners,Distributor Email Preview,5.5,No,13,776,6,2026-Q2
+COST-2143,Las Vegas,Costume Rental House,Decorative Buttons,Online B2B Catalog Early Access,7.4,Depends on price,21,718,8,2026-Q2
+COST-2144,Los Angeles,Couture/Fashion House,Novelty/Costume-Specific Fasteners,Distributor Showroom Visit,7.0,Yes,9,1087,5,2026-Q2
+COST-2145,Paris,Couture/Fashion House,Novelty/Costume-Specific Fasteners,Trade Show First Look,6.0,No,52,268,6,2026-Q2
+COST-2146,Paris,Theatrical/Stage Production,Novelty/Costume-Specific Fasteners,Distributor Showroom Visit,7.5,Yes,42,193,5,2026-Q2
+COST-2147,Los Angeles,Costume Rental House,Functional Zippers,Trade Show First Look,6.9,No,20,1020,6,2026-Q2
+COST-2148,New York City,Film/TV Wardrobe,Snap Fasteners,Sales Rep In-Person Showing,8.3,Depends on price,61,3743,4,2026-Q2
+COST-2149,New York City,Independent Designer Studio,Novelty/Costume-Specific Fasteners,Referral from Other Designer,6.5,Depends on price,67,648,5,2026-Q2
+COST-2150,New York City,Burlesque/Cabaret Production,Snap Fasteners,Distributor Showroom Visit,8.4,Depends on price,46,687,4,2026-Q2
+COST-2151,New York City,Couture/Fashion House,Decorative Buttons,Distributor Showroom Visit,8.4,Depends on price,44,193,5,2026-Q2
+COST-2152,New York City,Opera/Ballet Wardrobe Department,Decorative Buttons,Online B2B Catalog Early Access,8.3,Depends on price,7,1110,6,2026-Q2
+COST-2153,New York City,Film/TV Wardrobe,Vintage-Reproduction Hardware,Distributor Showroom Visit,10.0,Yes,26,293,7,2026-Q2
+COST-2154,Las Vegas,Couture/Fashion House,Snap Fasteners,Online B2B Catalog Early Access,5.3,Depends on price,17,492,6,2026-Q2
+COST-2155,Paris,Couture/Fashion House,Novelty/Costume-Specific Fasteners,Referral from Other Designer,9.4,Yes,31,362,5,2026-Q2
+COST-2156,Los Angeles,Independent Designer Studio,Hook-and-Eye Closures,Trade Show First Look,7.1,Depends on price,37,1066,5,2026-Q2
+COST-2157,New York City,Themed Entertainment (parks/shows),Hook-and-Eye Closures,Trade Show First Look,8.9,Yes,56,2849,6,2026-Q2
+COST-2158,Rome,Film/TV Wardrobe,Snap Fasteners,Online B2B Catalog Early Access,9.3,Yes,62,91,4,2026-Q2
+COST-2159,Paris,Themed Entertainment (parks/shows),Functional Zippers,Trade Show First Look,7.7,Depends on price,29,596,5,2026-Q2
+COST-2160,Paris,Film/TV Wardrobe,Decorative Buttons,Distributor Email Preview,9.3,No,15,577,9,2026-Q2
+COST-2161,New York City,Film/TV Wardrobe,Decorative Buttons,Referral from Other Designer,7.4,Depends on price,39,542,8,2026-Q2
+COST-2162,New York City,Theatrical/Stage Production,Decorative Buttons,Online B2B Catalog Early Access,7.5,Depends on price,86,451,7,2026-Q2
+COST-2163,Rome,Burlesque/Cabaret Production,Hook-and-Eye Closures,Trade Show First Look,8.7,Depends on price,65,595,3,2026-Q2
+COST-2164,Rome,Independent Designer Studio,Snap Fasteners,Online B2B Catalog Early Access,5.6,Depends on price,40,505,7,2026-Q2
+COST-2165,Rome,Theatrical/Stage Production,Snap Fasteners,Sales Rep In-Person Showing,9.1,Yes,7,420,6,2026-Q2
+COST-2166,London,Costume Rental House,Functional Zippers,Distributor Email Preview,5.7,No,58,105,5,2026-Q2
+COST-2167,New York City,Burlesque/Cabaret Production,Hook-and-Eye Closures,Sales Rep In-Person Showing,8.0,No,54,953,8,2026-Q2
+COST-2168,Paris,Burlesque/Cabaret Production,Functional Zippers,Distributor Showroom Visit,6.6,Depends on price,60,112,5,2026-Q2
+COST-2169,Los Angeles,Costume Rental House,Novelty/Costume-Specific Fasteners,Sales Rep In-Person Showing,7.7,Yes,64,3470,6,2026-Q2
+COST-2170,Rome,Burlesque/Cabaret Production,Functional Zippers,Online B2B Catalog Early Access,10.0,Depends on price,7,1158,7,2026-Q2
+COST-2171,Las Vegas,Costume Rental House,Snap Fasteners,Distributor Showroom Visit,6.3,No,56,299,6,2026-Q2
+COST-2172,New York City,Burlesque/Cabaret Production,Novelty/Costume-Specific Fasteners,Trade Show First Look,7.1,Depends on price,56,204,6,2026-Q2
+COST-2173,Las Vegas,Film/TV Wardrobe,Functional Zippers,Online B2B Catalog Early Access,10.0,Depends on price,48,433,7,2026-Q2
+COST-2174,Los Angeles,Themed Entertainment (parks/shows),Vintage-Reproduction Hardware,Distributor Showroom Visit,9.2,Depends on price,38,424,4,2026-Q2
+COST-2175,Los Angeles,Costume Rental House,Decorative Buttons,Referral from Other Designer,6.7,Yes,56,303,5,2026-Q2
+COST-2176,London,Opera/Ballet Wardrobe Department,Decorative Buttons,Distributor Showroom Visit,5.6,No,41,1186,2,2026-Q2
+COST-2177,New York City,Opera/Ballet Wardrobe Department,Vintage-Reproduction Hardware,Distributor Showroom Visit,8.6,Depends on price,39,412,4,2026-Q2
+COST-2178,Rome,Film/TV Wardrobe,Functional Zippers,Distributor Email Preview,8.6,Depends on price,46,73,5,2026-Q2
+COST-2179,London,Independent Designer Studio,Functional Zippers,Trade Show First Look,10.0,No,84,2521,6,2026-Q2
+COST-2180,Paris,Themed Entertainment (parks/shows),Snap Fasteners,Trade Show First Look,7.2,Depends on price,64,652,7,2026-Q2
+COST-2181,New York City,Burlesque/Cabaret Production,Functional Zippers,Distributor Showroom Visit,7.6,Depends on price,62,2654,5,2026-Q2
+COST-2182,London,Film/TV Wardrobe,Hook-and-Eye Closures,Trade Show First Look,8.0,Depends on price,36,3804,7,2026-Q2
+COST-2183,London,Costume Rental House,Vintage-Reproduction Hardware,Referral from Other Designer,5.2,No,47,445,5,2026-Q2
+COST-2184,Las Vegas,Independent Designer Studio,Vintage-Reproduction Hardware,Distributor Email Preview,8.1,No,37,1544,7,2026-Q2
+COST-2185,Las Vegas,Independent Designer Studio,Hook-and-Eye Closures,Sales Rep In-Person Showing,7.3,Depends on price,24,100,5,2026-Q2
+COST-2186,Paris,Burlesque/Cabaret Production,Decorative Buttons,Sales Rep In-Person Showing,7.3,Depends on price,32,2508,6,2026-Q2
+COST-2187,Los Angeles,Themed Entertainment (parks/shows),Decorative Buttons,Distributor Showroom Visit,9.1,Yes,23,521,8,2026-Q2
+COST-2188,Paris,Burlesque/Cabaret Production,Functional Zippers,Trade Show First Look,6.9,Depends on price,55,1248,5,2026-Q2
+COST-2189,London,Themed Entertainment (parks/shows),Vintage-Reproduction Hardware,Sales Rep In-Person Showing,8.0,Depends on price,23,424,7,2026-Q2
+COST-2190,London,Theatrical/Stage Production,Snap Fasteners,Trade Show First Look,8.8,Yes,40,337,6,2026-Q2
+COST-2191,London,Themed Entertainment (parks/shows),Decorative Buttons,Distributor Showroom Visit,8.0,No,31,1378,5,2026-Q2
+COST-2192,London,Film/TV Wardrobe,Vintage-Reproduction Hardware,Distributor Showroom Visit,6.9,Depends on price,32,362,8,2026-Q2
+COST-2193,New York City,Themed Entertainment (parks/shows),Vintage-Reproduction Hardware,Distributor Showroom Visit,9.9,Depends on price,67,571,7,2026-Q2
+COST-2194,Los Angeles,Burlesque/Cabaret Production,Vintage-Reproduction Hardware,Trade Show First Look,9.0,No,63,6087,4,2026-Q2
+COST-2195,New York City,Themed Entertainment (parks/shows),Vintage-Reproduction Hardware,Distributor Email Preview,9.2,Yes,61,735,5,2026-Q2
+COST-2196,Los Angeles,Independent Designer Studio,Snap Fasteners,Online B2B Catalog Early Access,8.8,Depends on price,62,724,5,2026-Q2
+COST-2197,Rome,Couture/Fashion House,Hook-and-Eye Closures,Sales Rep In-Person Showing,7.0,Depends on price,70,1718,7,2026-Q2
+COST-2198,Los Angeles,Themed Entertainment (parks/shows),Novelty/Costume-Specific Fasteners,Trade Show First Look,9.3,Depends on price,7,1053,9,2026-Q2
+COST-2199,Los Angeles,Costume Rental House,Decorative Buttons,Distributor Email Preview,8.5,No,38,1105,3,2026-Q2
+COST-2200,New York City,Burlesque/Cabaret Production,Decorative Buttons,Distributor Showroom Visit,8.8,Depends on price,64,697,7,2026-Q2
+COST-2201,Las Vegas,Film/TV Wardrobe,Vintage-Reproduction Hardware,Sales Rep In-Person Showing,9.2,Depends on price,27,617,10,2026-Q2
+COST-2202,Rome,Opera/Ballet Wardrobe Department,Hook-and-Eye Closures,Distributor Showroom Visit,7.9,Depends on price,74,608,3,2026-Q2
+COST-2203,London,Costume Rental House,Hook-and-Eye Closures,Online B2B Catalog Early Access,6.1,Depends on price,40,565,3,2026-Q2
+COST-2204,New York City,Themed Entertainment (parks/shows),Snap Fasteners,Trade Show First Look,7.4,Yes,59,383,9,2026-Q2
+COST-2205,Rome,Independent Designer Studio,Novelty/Costume-Specific Fasteners,Distributor Email Preview,7.9,Depends on price,71,1352,5,2026-Q2
+COST-2206,Las Vegas,Burlesque/Cabaret Production,Snap Fasteners,Distributor Showroom Visit,6.6,No,51,80,6,2026-Q2
+COST-2207,New York City,Independent Designer Studio,Vintage-Reproduction Hardware,Sales Rep In-Person Showing,8.5,No,52,1115,3,2026-Q2
+COST-2208,London,Couture/Fashion House,Functional Zippers,Distributor Email Preview,6.1,No,27,292,7,2026-Q2
+COST-2209,Rome,Themed Entertainment (parks/shows),Hook-and-Eye Closures,Referral from Other Designer,10.0,Depends on price,22,275,8,2026-Q2
+COST-2210,Rome,Couture/Fashion House,Novelty/Costume-Specific Fasteners,Distributor Showroom Visit,6.8,Depends on price,33,656,7,2026-Q2
+COST-2211,London,Theatrical/Stage Production,Decorative Buttons,Trade Show First Look,6.8,Depends on price,36,2381,6,2026-Q2
+COST-2212,New York City,Burlesque/Cabaret Production,Hook-and-Eye Closures,Online B2B Catalog Early Access,8.6,No,32,460,6,2026-Q2
+COST-2213,Paris,Opera/Ballet Wardrobe Department,Functional Zippers,Distributor Showroom Visit,6.4,No,29,1365,7,2026-Q2
+COST-2214,New York City,Burlesque/Cabaret Production,Functional Zippers,Online B2B Catalog Early Access,8.2,Depends on price,30,1909,6,2026-Q2
+COST-2215,New York City,Film/TV Wardrobe,Functional Zippers,Distributor Showroom Visit,6.0,Depends on price,31,1425,3,2026-Q2
+COST-2216,Rome,Theatrical/Stage Production,Novelty/Costume-Specific Fasteners,Sales Rep In-Person Showing,6.8,Depends on price,69,3088,6,2026-Q2
+COST-2217,Paris,Burlesque/Cabaret Production,Decorative Buttons,Trade Show First Look,10.0,Yes,32,2231,5,2026-Q2
+COST-2218,Los Angeles,Opera/Ballet Wardrobe Department,Vintage-Reproduction Hardware,Referral from Other Designer,9.4,Depends on price,25,93,6,2026-Q2
+COST-2219,New York City,Themed Entertainment (parks/shows),Functional Zippers,Distributor Showroom Visit,9.0,Depends on price,68,258,4,2026-Q2
+COST-2220,London,Couture/Fashion House,Novelty/Costume-Specific Fasteners,Referral from Other Designer,7.5,Depends on price,61,1695,4,2026-Q2
+COST-2221,London,Burlesque/Cabaret Production,Snap Fasteners,Distributor Email Preview,5.7,No,56,2156,8,2026-Q2
+COST-2222,Paris,Costume Rental House,Hook-and-Eye Closures,Referral from Other Designer,7.0,Depends on price,62,772,5,2026-Q2
+COST-2223,Rome,Couture/Fashion House,Functional Zippers,Referral from Other Designer,6.3,No,37,584,5,2026-Q2
+COST-2224,New York City,Themed Entertainment (parks/shows),Decorative Buttons,Sales Rep In-Person Showing,9.4,Yes,80,3489,4,2026-Q2
+COST-2225,Los Angeles,Themed Entertainment (parks/shows),Functional Zippers,Trade Show First Look,9.7,No,77,1926,5,2026-Q2
+COST-2226,Los Angeles,Independent Designer Studio,Vintage-Reproduction Hardware,Distributor Showroom Visit,7.2,Depends on price,31,258,7,2026-Q2
+COST-2227,Las Vegas,Themed Entertainment (parks/shows),Snap Fasteners,Sales Rep In-Person Showing,7.3,Depends on price,27,656,9,2026-Q2
+COST-2228,Paris,Costume Rental House,Novelty/Costume-Specific Fasteners,Online B2B Catalog Early Access,6.2,No,30,50,6,2026-Q2
+COST-2229,London,Costume Rental House,Hook-and-Eye Closures,Distributor Email Preview,6.0,Depends on price,68,107,6,2026-Q2
+COST-2230,Rome,Film/TV Wardrobe,Hook-and-Eye Closures,Distributor Showroom Visit,6.7,Depends on price,69,338,9,2026-Q2
+COST-2231,Los Angeles,Couture/Fashion House,Vintage-Reproduction Hardware,Distributor Email Preview,6.7,Yes,54,781,10,2026-Q2
+COST-2232,Los Angeles,Costume Rental House,Decorative Buttons,Sales Rep In-Person Showing,5.5,No,24,866,7,2026-Q2
+COST-2233,Paris,Couture/Fashion House,Snap Fasteners,Online B2B Catalog Early Access,4.9,Depends on price,51,615,8,2026-Q2
+COST-2234,London,Couture/Fashion House,Hook-and-Eye Closures,Distributor Showroom Visit,6.3,No,55,194,5,2026-Q2
+COST-2235,London,Film/TV Wardrobe,Novelty/Costume-Specific Fasteners,Online B2B Catalog Early Access,7.5,Yes,44,469,6,2026-Q2
+COST-2236,Rome,Themed Entertainment (parks/shows),Vintage-Reproduction Hardware,Online B2B Catalog Early Access,5.8,Depends on price,61,621,3,2026-Q2
+COST-2237,Paris,Theatrical/Stage Production,Functional Zippers,Distributor Showroom Visit,6.8,Yes,68,422,6,2026-Q2
+COST-2238,London,Theatrical/Stage Production,Decorative Buttons,Referral from Other Designer,10.0,Depends on price,57,594,6,2026-Q2
+COST-2239,Las Vegas,Burlesque/Cabaret Production,Functional Zippers,Distributor Email Preview,7.1,Depends on price,53,695,4,2026-Q2

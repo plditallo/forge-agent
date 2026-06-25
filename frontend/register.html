@@ -216,6 +216,32 @@ let wantsSeller = false;
 let wantsBuyer  = false;
 let marketplaceIntent = null;
 
+// If arriving from index.html's "Register & Claim" banner, a pending
+// assessment is waiting in localStorage to be turned into a marketplace
+// listing right after registration. Force the Seller role on, since the
+// claim needs a seller_user_id to create that listing.
+const urlParams = new URLSearchParams(window.location.search);
+const isClaimMode = urlParams.get('claim') === '1';
+
+function initClaimMode() {
+    if (!isClaimMode) return;
+    const pendingClaim = localStorage.getItem('forge_pending_claim');
+    if (!pendingClaim) return;
+
+    // Auto-select the Seller card and the "list in marketplace" intent,
+    // same effect as the user clicking them manually.
+    toggleRole('seller');
+    setIntent('yes');
+
+    const banner = document.createElement('div');
+    banner.style.cssText = 'background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.45); border-radius:8px; padding:14px 18px; margin-bottom:20px; font-size:0.88rem; color:rgba(255,255,255,0.8);';
+    banner.innerHTML = '<strong style="color:#c9a84c;">Claiming your certification.</strong> Complete registration below and your dataset will be automatically listed in the marketplace.';
+    const card = document.getElementById('registerCard');
+    if (card) card.insertBefore(banner, card.firstChild);
+}
+
+document.addEventListener('DOMContentLoaded', initClaimMode);
+
 function toggleRole(role) {
     if (role === 'seller') {
         wantsSeller = !wantsSeller;
@@ -296,6 +322,43 @@ async function register() {
             }
         }
 
+        // If arriving via the "Register & Claim" flow, create the marketplace
+        // listing now using the assessment that was stashed before registering.
+        let claimResultMessage = '';
+        if (isClaimMode) {
+            const pendingClaimRaw = localStorage.getItem('forge_pending_claim');
+            if (pendingClaimRaw) {
+                try {
+                    const pendingClaim = JSON.parse(pendingClaimRaw);
+                    const listingRes = await fetch(API + '/marketplace/listings', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            assessment_id:  pendingClaim.assessment_id,
+                            dataset_name:   pendingClaim.dataset_name,
+                            description:    pendingClaim.description || '',
+                            price_per_call: 0.001,
+                            price_monthly:  20.0,
+                            price_annual:   200.0,
+                            currency:       'CSPR',
+                            row_count:      pendingClaim.row_count,
+                            file_size_mb:   pendingClaim.file_size_mb,
+                            seller_user_id: data.user_id,
+                            seller_name:    fullName
+                        })
+                    });
+                    if (listingRes.ok) {
+                        claimResultMessage = 'Your certified dataset has been listed in the marketplace.';
+                        localStorage.removeItem('forge_pending_claim');
+                    } else {
+                        claimResultMessage = 'Registration succeeded, but the marketplace listing could not be created automatically. You can list it manually from the Seller Dashboard.';
+                    }
+                } catch (claimErr) {
+                    claimResultMessage = 'Registration succeeded, but the marketplace listing could not be created automatically. You can list it manually from the Seller Dashboard.';
+                }
+            }
+        }
+
         // Build role summary
         let roles = [];
         if (wantsSeller) roles.push('Seller' + (marketplaceIntent === 'yes' ? ' (Marketplace enabled)' : ' (Certification only)'));
@@ -305,7 +368,8 @@ async function register() {
         document.getElementById('apiKeyBox').textContent = data.api_key;
         document.getElementById('roleSummary').innerHTML =
             `User ID: <span style="color:#c9a84c;">${data.user_id}</span><br>` +
-            `Role: <span style="color:#c9a84c;">${roles.join(', ')}</span>`;
+            `Role: <span style="color:#c9a84c;">${roles.join(', ')}</span>` +
+            (claimResultMessage ? `<br><span style="color:#c9a84c; display:block; margin-top:8px;">${claimResultMessage}</span>` : '');
 
         document.getElementById('registerCard').style.display = 'none';
         document.getElementById('apiKeyDisplay').style.display = 'block';

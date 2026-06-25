@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "casper-js-sdk": "^5.0.12",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  }
+}

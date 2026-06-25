@@ -1,0 +1,6 @@
+employee_id,full_name,department,social_security_number,hire_date,annual_salary
+E1001,Test Subject Alpha,Operations,000-00-0000,2023-01-15,62000
+E1002,Test Subject Beta,Finance,000-00-0001,2022-06-01,71000
+E1003,Test Subject Gamma,Sales,000-00-0002,2024-03-10,58000
+E1004,Test Subject Delta,IT,000-00-0003,2021-11-20,84000
+E1005,Test Subject Epsilon,HR,000-00-0004,2020-09-05,67000

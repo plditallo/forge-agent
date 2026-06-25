@@ -156,13 +156,23 @@ async def upload_file(request: Request, file: UploadFile = File(...)):
         validation = validate_content(profile)
         if not validation.get("approved", True):
             tmp_path.unlink(missing_ok=True)
+            # detail must be a plain string for clean display in the frontend's
+            # error message. Structured fields (reason, flags) are still
+            # included as a separate, parseable block for any UI that wants
+            # to render them individually, but the top-level detail itself
+            # is always a string so a naive "Upload failed: " + detail
+            # concatenation never produces "[object Object]".
+            reason = validation.get("reason") or "This file did not pass our content review."
             raise HTTPException(
                 status_code=422,
-                detail={
-                    "error": "Content validation failed",
-                    "reason": validation.get("reason"),
-                    "flags": validation.get("flags", [])
-                }
+                detail=(
+                    f"This dataset could not be accepted: {reason} "
+                    f"FORGE Agent's content policy — agreed to at registration — "
+                    f"prohibits sensitive personal identifiers (such as Social Security "
+                    f"or account numbers), offensive content, and content not suited to "
+                    f"a professional data marketplace. Please remove or anonymize the "
+                    f"flagged fields and try again."
+                )
             )
     except HTTPException:
         raise
@@ -243,7 +253,11 @@ async def assess(request: AssessRequest, db: Session = Depends(get_db)):
     )
 
     if casper_result["success"]:
-        assessment.casper_tx_hash = casper_result["assessment_hash"]
+        # Store the REAL Casper testnet transaction hash from record_certification,
+        # not the local-only assessment hash. assessment_hash (local SHA-256) is
+        # still available in casper_result for reference/audit but is not what
+        # gets persisted as casper_tx_hash going forward.
+        assessment.casper_tx_hash = casper_result["casper_tx_hash"]
         assessment.casper_recorded_at = datetime.utcnow()
         db.commit()
 
@@ -257,7 +271,11 @@ async def assess(request: AssessRequest, db: Session = Depends(get_db)):
         "recommended_actions":    result["recommended_actions"],
         "monetization_potential": result["monetization_potential"],
         "casper_hash":            casper_result.get("assessment_hash"),
-        "casper_chain":           casper_result.get("chain")
+        "casper_tx_hash":         casper_result.get("casper_tx_hash"),
+        "casper_explorer_url":    casper_result.get("explorer_url"),
+        "casper_success":         casper_result["success"],
+        "casper_error":           casper_result.get("friendly_message") if not casper_result["success"] else None,
+        "casper_error_category":  casper_result.get("error_category") if not casper_result["success"] else None
     }
 
 
