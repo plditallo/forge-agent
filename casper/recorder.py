@@ -1,7 +1,7 @@
 import hashlib
 import json
 import os
-import subprocess
+import requests
 from datetime import datetime, timezone
 from dotenv import load_dotenv
 
@@ -10,24 +10,22 @@ load_dotenv()
 TESTNET_RPC = os.getenv("CASPER_TESTNET_RPC", "https://node.testnet.casper.network/rpc")
 TESTNET_FAUCET = os.getenv("CASPER_TESTNET_FAUCET", "https://testnet.cspr.live/tools/faucet")
 
-# Path to the Node.js project that holds the deployed contract, the keys,
-# and the casper-js-sdk dependency. Adjust if your folder layout differs.
-CASPER_CONTRACT_DIR = os.getenv(
-    "CASPER_CONTRACT_DIR",
-    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "..", "forge-casper-contract")
-)
-CALL_CONTRACT_SCRIPT = os.path.join(CASPER_CONTRACT_DIR, "call_contract.js")
+# The Casper bridge service (Node.js + casper-js-sdk) that actually signs and
+# submits transactions to the Casper testnet. Calling it over HTTP rather than
+# via local subprocess means this works identically whether forge-agent is
+# running locally or deployed to Azure -- the bridge itself is the only thing
+# that needs Node.js / the Casper toolchain, not wherever this Python code runs.
+CASPER_BRIDGE_URL = os.getenv("CASPER_BRIDGE_URL", "http://localhost:3000")
+CASPER_BRIDGE_API_KEY = os.getenv("CASPER_BRIDGE_API_KEY", "")
 
 # The ForgeRegistry contract package hash, deployed 2026-06-21 to Casper testnet.
 # https://testnet.cspr.live/contract/160ad02bc56d6ec6b034139281bce4dee1757d69fdfdf69b81706fef66ccc260
 FORGE_REGISTRY_PACKAGE_HASH = "160ad02bc56d6ec6b034139281bce4dee1757d69fdfdf69b81706fef66ccc260"
 
-# Human-readable messages for each error category, intended for direct
-# display in the UI so a live-demo failure has a clear, specific explanation
-# rather than a raw exception string.
 ERROR_CATEGORY_MESSAGES = {
-    "missing_key_file": "Casper testnet wallet key file is missing on the server. Contact the administrator.",
+    "missing_key_file": "Casper testnet wallet key is not configured on the bridge service. Contact the administrator.",
     "network_unreachable": "Could not reach the Casper testnet node. This is usually temporary — please try again in a moment.",
+    "bridge_unreachable": "Could not reach the Casper bridge service. This is usually temporary — please try again in a moment.",
     "out_of_gas": "The on-chain transaction ran out of gas. This has been logged for review.",
     "insufficient_balance": "The Casper testnet wallet balance is too low to complete this on-chain transaction.",
     "unknown": "An unexpected error occurred while anchoring this assessment to the Casper testnet."
@@ -57,70 +55,51 @@ def build_assessment_record(assessment_id: int, dataset_name: str,
     }
 
 
-def call_forge_registry_contract(dataset_hash: str, score: int, tier: str, timeout: int = 120) -> dict:
+def call_forge_registry_contract(dataset_hash: str, score: int, tier: str, timeout: int = 60) -> dict:
     """
     Calls record_certification on the deployed ForgeRegistry contract on Casper
-    testnet by shelling out to call_contract.js (casper-js-sdk), since the
-    Rust/Python Casper toolchains have native Windows compilation issues that
-    casper-js-sdk (pure JS) does not share.
-
-    Returns a dict with at minimum a "success" boolean. On success, includes
-    "txHash" and "explorerUrl". On failure, includes "error".
+    testnet by calling the Casper bridge service (Node.js + casper-js-sdk) over
+    HTTP. The bridge handles all key management and chain interaction -- this
+    function just makes the request and normalizes the response shape.
     """
-    if not os.path.exists(CALL_CONTRACT_SCRIPT):
-        return {
-            "success": False,
-            "error": f"call_contract.js not found at {CALL_CONTRACT_SCRIPT}"
-        }
-
     try:
-        result = subprocess.run(
-            ["node", CALL_CONTRACT_SCRIPT, dataset_hash, str(score), tier],
-            cwd=CASPER_CONTRACT_DIR,
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-            encoding="utf-8",
-            errors="replace"
+        response = requests.post(
+            f"{CASPER_BRIDGE_URL}/record-certification",
+            json={"datasetHash": dataset_hash, "score": score, "tier": tier},
+            headers={
+                "Content-Type": "application/json",
+                "x-bridge-api-key": CASPER_BRIDGE_API_KEY
+            },
+            timeout=timeout
         )
-    except subprocess.TimeoutExpired:
+    except requests.exceptions.ConnectionError:
         return {
             "success": False,
-            "error": f"Casper contract call timed out after {timeout} seconds"
+            "error": f"Could not connect to Casper bridge service at {CASPER_BRIDGE_URL}",
+            "errorCategory": "bridge_unreachable"
         }
-    except FileNotFoundError:
+    except requests.exceptions.Timeout:
         return {
             "success": False,
-            "error": "node executable not found — is Node.js installed and on PATH?"
+            "error": f"Casper bridge service did not respond within {timeout} seconds",
+            "errorCategory": "bridge_unreachable"
         }
-
-    # The Node script writes diagnostic logs to stderr and exactly one JSON
-    # line to stdout. Parse the last non-empty stdout line as JSON.
-    #
-    # stdout/stderr can legitimately come back as None in edge cases (e.g.
-    # the subprocess was killed before producing output), so this guards
-    # against an AttributeError on .strip() rather than assuming a string.
-    stdout_text = result.stdout or ""
-    stderr_text = result.stderr or ""
-    stdout_lines = [line for line in stdout_text.strip().splitlines() if line.strip()]
-    if not stdout_lines:
+    except requests.exceptions.RequestException as e:
         return {
             "success": False,
-            "error": "No output from call_contract.js",
-            "stderr": stderr_text[-2000:] if stderr_text else None
+            "error": f"Error calling Casper bridge service: {str(e)}",
+            "errorCategory": "unknown"
         }
 
     try:
-        parsed = json.loads(stdout_lines[-1])
+        return response.json()
     except json.JSONDecodeError:
         return {
             "success": False,
-            "error": "Could not parse call_contract.js output as JSON",
-            "raw_stdout": stdout_lines[-1],
-            "stderr": stderr_text[-2000:] if stderr_text else None
+            "error": "Casper bridge service returned a non-JSON response",
+            "errorCategory": "unknown",
+            "raw_response": response.text[:500]
         }
-
-    return parsed
 
 
 def record_assessment_on_chain(assessment_id: int, dataset_name: str,
@@ -128,9 +107,10 @@ def record_assessment_on_chain(assessment_id: int, dataset_name: str,
                                 scores: dict) -> dict:
     """
     Records a FORGE assessment by calling record_certification on the live
-    ForgeRegistry smart contract deployed on Casper testnet. Falls back to a
-    local-only SHA-256 hash (with an explicit failure note) if the on-chain
-    call cannot complete, so the assessment flow never blocks on chain issues.
+    ForgeRegistry smart contract deployed on Casper testnet, via the Casper
+    bridge service. Falls back to a local-only SHA-256 hash (with an explicit
+    failure note) if the on-chain call cannot complete, so the assessment
+    flow never blocks on chain or bridge issues.
     """
     record = build_assessment_record(
         assessment_id, dataset_name, weighted_score, metal_rating, scores
@@ -162,8 +142,7 @@ def record_assessment_on_chain(assessment_id: int, dataset_name: str,
             "note": "Recorded via record_certification on the live ForgeRegistry contract (Casper testnet)"
         }
 
-    # On-chain call failed — log it clearly but don't block the assessment.
-    error = chain_result.get("error", "Unknown error calling Casper contract")
+    error = chain_result.get("error", "Unknown error calling Casper bridge service")
     error_category = chain_result.get("errorCategory", "unknown")
     is_low_balance = chain_result.get("lowBalance", False)
 
@@ -189,7 +168,7 @@ if __name__ == "__main__":
     # Quick test — this performs a REAL on-chain call and costs real testnet CSPR.
     result = record_assessment_on_chain(
         assessment_id=999,
-        dataset_name="Test Dataset — recorder.py standalone test",
+        dataset_name="Test Dataset — recorder.py HTTP bridge test",
         weighted_score=72.5,
         metal_rating="Silver",
         scores={"data_quality": 4, "reliability": 3}

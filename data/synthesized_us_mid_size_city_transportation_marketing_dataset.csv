@@ -1,0 +1,31 @@
+city,state,population_est,bus_service,rail_service,medical_van_providers_est,taxi_companies_est,uber_drivers_est,lyft_drivers_est,limo_services_est,avg_bus_fare_usd,avg_rail_fare_usd,taxi_base_fare_usd,taxi_per_mile_usd,avg_uber_lyft_trip_5mi_usd,avg_limo_hourly_usd,transit_access_score
+Madison,WI,850487,Excellent,None,13,102,577,493,21,2.52,,5.23,2.43,15.33,78,65
+Salt Lake City,UT,409258,Excellent,Streetcar,24,46,527,572,77,2.13,4.3,3.7,3.6,20.38,95,87
+Portland,OR,536778,Very Good,Limited,11,235,809,680,56,1.65,5.89,4.51,3.51,19.95,143,67
+Minneapolis,MN,576922,Excellent,Streetcar,14,200,860,886,16,1.57,3.41,3.72,2.42,12.49,87,84
+Pittsburgh,PA,471476,Very Good,Commuter Rail,10,134,847,748,42,2.55,5.23,3.18,3.25,17.01,106,70
+Buffalo,NY,664714,Very Good,Commuter Rail,25,216,569,611,15,1.84,2.63,3.79,2.7,12.16,147,80
+Richmond,VA,402955,Good,Light Rail,17,204,1059,907,25,1.87,4.75,3.66,3.18,22.47,126,83
+Raleigh,NC,409974,Excellent,Streetcar,20,63,216,247,27,2.44,5.67,4.06,2.4,14.72,134,93
+Kansas City,MO,443626,Good,None,8,214,666,737,51,1.67,,4.09,2.98,23.31,108,92
+Cleveland,OH,367330,Good,None,25,116,1159,1209,27,2.06,,3.4,3.73,22.84,75,80
+St. Louis,MO,692340,Excellent,None,16,246,749,670,38,2.82,,5.37,2.43,16.29,83,94
+Milwaukee,WI,311869,Excellent,Light Rail,22,82,662,669,62,2.95,6.22,4.89,3.33,19.69,126,83
+Sacramento,CA,639381,Good,Light Rail,8,103,580,478,10,2.38,3.42,3.55,2.41,18.47,104,64
+Tucson,AZ,212938,Very Good,None,21,100,690,736,35,2.31,,4.81,3.62,17.64,106,90
+Albuquerque,NM,606833,Excellent,None,8,208,1002,943,60,2.2,,4.82,3.31,23.76,87,63
+Rochester,NY,602179,Good,Commuter Rail,8,103,512,448,65,1.71,3.23,4.16,3.61,10.13,145,66
+Des Moines,IA,233045,Good,Streetcar,5,63,604,523,70,2.22,5.96,5.26,2.55,9.03,124,76
+Grand Rapids,MI,657110,Very Good,Light Rail,22,209,1116,961,45,1.83,2.73,4.84,2.39,13.7,81,90
+Spokane,WA,707276,Good,Limited,6,170,284,323,16,2.39,5.2,3.59,2.48,22.35,106,62
+Boise,ID,829468,Excellent,Light Rail,23,184,1190,1102,41,1.81,5.36,3.6,2.89,19.08,113,89
+Omaha,NE,511535,Excellent,None,19,199,324,268,35,2.26,,3.33,2.82,10.03,106,83
+Tulsa,OK,478830,Excellent,Light Rail,22,220,739,772,75,1.51,5.77,3.75,3.3,23.08,92,76
+Birmingham,AL,301035,Excellent,Streetcar,9,109,697,726,51,1.81,5.04,3.66,3.03,22.58,81,65
+Louisville,KY,845095,Very Good,Commuter Rail,6,40,803,890,41,1.74,4.27,4.76,3.14,10.68,94,94
+Columbus,OH,217778,Very Good,Streetcar,22,77,1000,850,47,2.05,6.23,5.43,2.36,14.37,106,66
+Cincinnati,OH,550858,Good,Light Rail,24,231,436,510,38,2.8,6.4,5.03,3.62,9.37,117,86
+Virginia Beach,VA,882448,Good,Limited,13,80,341,324,12,2.79,3.39,5.04,2.99,13.58,104,74
+Chattanooga,TN,204813,Good,Limited,17,124,690,790,43,2.03,4.54,4.7,3.57,13.97,78,67
+Greenville,SC,453903,Excellent,Streetcar,13,49,342,355,52,2.59,3.75,4.52,3.07,14.78,148,72
+Knoxville,TN,447095,Excellent,Light Rail,5,173,523,494,16,2.92,6.18,4.56,3.3,10.87,113,92
