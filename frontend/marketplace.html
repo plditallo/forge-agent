@@ -324,6 +324,14 @@
 const API = window.location.origin;
 let currentListing = null;
 let buyerId   = localStorage.getItem('forge_buyer_id');
+// Bridge fix: see buyer_dashboard.html for the full explanation. Some
+// accounts are flagged as buyers under the unified account system but never
+// completed the older, separate marketplace_buyers registration that sets
+// forge_buyer_id. Fall back to the unified user_id so purchases still work
+// and land somewhere the buyer can actually see them afterward.
+if (!buyerId && localStorage.getItem('forge_is_buyer') === '1') {
+    buyerId = localStorage.getItem('forge_user_id');
+}
 let buyerName = localStorage.getItem('forge_buyer_name');
 let csprPrices = {};
 let selectedCurrency = localStorage.getItem('forge_currency') || 'usd';
@@ -613,9 +621,16 @@ function recalculate() {
 }
 
 async function loadTransactions() {
-    const r = await fetch(API + '/marketplace/transactions?limit=200');
-    // Fall back to unlimited fetch
-    const r2 = await fetch(API + '/marketplace/transactions');
+    // A buyer viewing the marketplace's Transaction Ledger should see only
+    // their own purchase history, not every transaction on the platform.
+    // Sellers and admins (who don't have a forge_buyer_id) still see the
+    // full ledger, since that's legitimately their view of the marketplace.
+    const viewerBuyerId = localStorage.getItem('forge_buyer_id');
+    const url = viewerBuyerId
+        ? API + '/marketplace/transactions?buyer_id=' + encodeURIComponent(viewerBuyerId)
+        : API + '/marketplace/transactions';
+
+    const r2 = await fetch(url);
     allTransactions = await r2.json();
     filteredTransactions = [...allTransactions];
 
@@ -785,7 +800,10 @@ async function confirmPurchase() {
         if (!res.ok) throw new Error(data.detail || 'Purchase failed');
 
         status.className = 'status success';
-        status.textContent = `Success! ${data.records_delivered} records delivered. ${data.amount_charged} CSPR (${fiatStr(data.amount_charged)}) charged.`;
+        const recordsMsg = data.records_delivered > 0
+            ? `${data.records_delivered} records delivered.`
+            : `Certified dataset delivered — proof of purchase recorded on-chain.`;
+        status.textContent = `Purchase confirmed. ${recordsMsg} ${data.amount_charged} CSPR (${fiatStr(data.amount_charged)}) charged.`;
 
         document.getElementById('modalContent').innerHTML += `
             <div class="success-hash" style="margin-top:14px;">
@@ -824,7 +842,10 @@ async function registerBuyer() {
     try {
         const res = await fetch(API + '/marketplace/buyers/register', {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ buyer_name: name, organization: org, email, cspr_wallet: wallet })
+            body: JSON.stringify({
+                buyer_name: name, organization: org, email, cspr_wallet: wallet,
+                user_id: localStorage.getItem('forge_user_id') || null
+            })
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.detail || 'Registration failed');

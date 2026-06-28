@@ -152,6 +152,18 @@ const isAdmin = new URLSearchParams(window.location.search).get('mode') === 'adm
 let activeBuyerId   = localStorage.getItem('forge_buyer_id');
 let activeBuyerName = localStorage.getItem('forge_buyer_name');
 
+// Bridge fix: some accounts are marked as buyers (forge_is_buyer) under the
+// unified account system (forge_user_id) but never went through the older,
+// separate marketplace_buyers registration that sets forge_buyer_id. Rather
+// than incorrectly tell a real buyer "not registered," fall back to their
+// unified account ID so the dashboard and purchase flow still work. This is
+// a stopgap -- the two buyer-identity systems should be unified properly in
+// a later pass, not patched around indefinitely.
+if (!activeBuyerId && localStorage.getItem('forge_is_buyer') === '1') {
+    activeBuyerId   = localStorage.getItem('forge_user_id');
+    activeBuyerName = localStorage.getItem('forge_user_name');
+}
+
 async function init() {
     if (isAdmin) {
         await renderAdminMode();
@@ -301,7 +313,11 @@ async function showDetail(buyerId, apiImportId) {
         </div>
         <div class="meta-box"><div class="lbl">Dataset</div><div class="val">${data.dataset_name}</div></div>
         <div class="meta-box"><div class="lbl">Imported</div><div class="val">${formatDate(data.imported_at)}</div></div>
-        <div class="meta-box"><div class="lbl">⛓ Casper Transaction Hash</div><div class="val mono">${data.casper_tx_hash || '—'}</div></div>
+        <div class="meta-box">
+            <div class="lbl">⛓ Casper Transaction Hash</div>
+            <div class="val mono">${data.casper_tx_hash || '—'}</div>
+            ${data.casper_explorer_url ? `<div style="margin-top:6px;"><a href="${data.casper_explorer_url}" target="_blank" rel="noopener" style="color:#c9a84c;">View on Casper Testnet ↗</a></div>` : ''}
+        </div>
         <div style="margin-top:20px;">
             <div style="font-size:0.7rem; color:#888; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">
                 Delivered Records (${records.length} shown)

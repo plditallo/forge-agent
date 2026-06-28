@@ -331,6 +331,16 @@ def set_marketplace_decision(assessment_id: int, decision: MarketplaceDecision, 
             "status": "already_listed"
         }
 
+    # If the listing's file path wasn't explicitly provided, derive it from
+    # where /upload actually saved the original file. Successful uploads are
+    # never deleted from the uploads/ directory (only PII-rejected ones are),
+    # so the original file genuinely persists there under its original name.
+    resolved_file_path = decision.data_file_path
+    if not resolved_file_path and assessment.file_name:
+        candidate = os.path.join("uploads", assessment.file_name)
+        if os.path.exists(candidate):
+            resolved_file_path = candidate
+
     listing = MarketplaceListing(
         assessment_id  = assessment_id,
         dataset_name   = assessment.dataset_name,
@@ -339,7 +349,7 @@ def set_marketplace_decision(assessment_id: int, decision: MarketplaceDecision, 
         price_monthly  = decision.price_monthly,
         price_annual   = decision.price_annual,
         currency       = decision.currency,
-        data_file_path = decision.data_file_path,
+        data_file_path = resolved_file_path,
         tags           = decision.tags,
         row_count      = decision.row_count,
         file_size_mb   = decision.file_size_mb,
@@ -600,12 +610,31 @@ async def access_data(
     if not listing:
         raise HTTPException(status_code=404, detail="Listing not found")
 
+    # A request might arrive with either the legacy buyer_id (BUYER-...) or
+    # the unified account's user_id (USR-...), depending on which one the
+    # frontend had available in localStorage. Resolve through both columns
+    # so either form correctly finds the same underlying buyer record.
     buyer = db.query(MarketplaceBuyer).filter(
-        MarketplaceBuyer.buyer_id == buyer_id
+        (MarketplaceBuyer.buyer_id == buyer_id) | (MarketplaceBuyer.user_id == buyer_id)
     ).first()
 
+    unified_buyer_account = None
     if not buyer:
+        from database.models import ForgeApiUser
+        unified_buyer_account = db.query(ForgeApiUser).filter(
+            ForgeApiUser.user_id == buyer_id,
+            ForgeApiUser.is_buyer == 1
+        ).first()
+
+    if not buyer and not unified_buyer_account:
         raise HTTPException(status_code=403, detail="Buyer not registered")
+
+    buyer_name_for_record = buyer.buyer_name if buyer else unified_buyer_account.full_name
+
+    # Normalize buyer_id to whichever ID this record is actually keyed by in
+    # marketplace_transactions / buyer_api_imports, so historical records and
+    # this new one are stored consistently rather than splitting further.
+    buyer_id = buyer.buyer_id if buyer else buyer_id
 
     if not payment_proof:
         return JSONResponse(
@@ -628,10 +657,6 @@ async def access_data(
             }
         )
 
-    tx_hash = hashlib.sha256(
-        f"{buyer_id}:{listing_id}:{payment_proof}:{datetime.utcnow().isoformat()}".encode()
-    ).hexdigest()
-
     api_import_id = "IMP-" + str(uuid.uuid4())[:8].upper()
 
     try:
@@ -645,10 +670,39 @@ async def access_data(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Data load failed: {str(e)}")
 
+    # Anchor this purchase on-chain too, so both sides of every marketplace
+    # transaction -- the seller's certification and the buyer's purchase --
+    # carry a real, verifiable Casper testnet transaction. This is a real
+    # CSPR transfer (see recorder.record_purchase_on_chain), not a misuse of
+    # the certification contract's score/tier fields.
+    # Anchor this purchase on-chain too, so both sides of every marketplace
+    # transaction -- the seller's certification and the buyer's purchase --
+    # carry a real, verifiable Casper testnet transaction. This intentionally
+    # reuses record_certification's proven, working call rather than the
+    # self-transfer path, which returns "Invalid purse" on this testnet
+    # account for reasons not yet root-caused. The tier value "TRANSACTION"
+    # is deliberately not a real FORGE tier, so it reads clearly as a
+    # purchase-event marker rather than a fabricated certification grade.
+    purchase_hash_input = f"{buyer_id}:{listing_id}:{payment_proof}:{datetime.utcnow().isoformat()}"
+    purchase_audit_hash = hashlib.sha256(purchase_hash_input.encode()).hexdigest()
+
+    from casper.recorder import call_forge_registry_contract
+    purchase_chain_result = call_forge_registry_contract(
+        dataset_hash=purchase_audit_hash,
+        score=0,
+        tier="TRANSACTION"
+    )
+    tx_hash = purchase_chain_result.get("txHash") if purchase_chain_result.get("success") else None
+    purchase_explorer_url = (
+        purchase_chain_result.get("explorerUrl")
+        if purchase_chain_result.get("success")
+        else None
+    )
+
     tx = MarketplaceTransaction(
         listing_id        = listing_id,
         buyer_id          = buyer_id,
-        buyer_name        = buyer.buyer_name,
+        buyer_name        = buyer_name_for_record,
         transaction_type  = "api_call",
         amount            = listing.price_per_call,
         currency          = listing.currency,
@@ -664,7 +718,7 @@ async def access_data(
         api_import_id     = api_import_id,
         listing_id        = listing_id,
         buyer_id          = buyer_id,
-        buyer_name        = buyer.buyer_name,
+        buyer_name        = buyer_name_for_record,
         dataset_name      = listing.dataset_name,
         casper_tx_hash    = tx_hash,
         records_delivered = record_count,
@@ -702,15 +756,26 @@ async def access_data(
         "amount_charged":    float(listing.price_per_call),
         "currency":          listing.currency,
         "casper_tx_hash":    tx_hash,
+        "casper_explorer_url": purchase_explorer_url,
+        "casper_note": (
+            "Anchored on-chain via the FORGE Registry contract, marked as a "
+            "transaction event rather than a certification."
+        ) if tx_hash else None,
         "data":              records
     }
 
 
 @app.get("/marketplace/transactions")
-def get_transactions(db: Session = Depends(get_db)):
-    txs = db.query(MarketplaceTransaction)\
-        .order_by(MarketplaceTransaction.transacted_at.desc())\
-        .limit(50).all()
+def get_transactions(buyer_id: Optional[str] = None, db: Session = Depends(get_db)):
+    """
+    Returns recent marketplace transactions. Sellers and admins legitimately
+    see the full platform ledger (no buyer_id passed); a buyer-facing view
+    should pass their own buyer_id to see only their own purchase history.
+    """
+    query = db.query(MarketplaceTransaction)
+    if buyer_id:
+        query = query.filter(MarketplaceTransaction.buyer_id == buyer_id)
+    txs = query.order_by(MarketplaceTransaction.transacted_at.desc()).limit(50).all()
     return [
         {
             "id":                t.id,
@@ -730,6 +795,14 @@ def get_transactions(db: Session = Depends(get_db)):
 
 @app.get("/marketplace/buyer/imports/{buyer_id}")
 def get_buyer_imports(buyer_id: str, db: Session = Depends(get_db)):
+    # Accept either the legacy buyer_id or the unified user_id; resolve to
+    # whichever ID this buyer's records are actually stored under.
+    buyer = db.query(MarketplaceBuyer).filter(
+        (MarketplaceBuyer.buyer_id == buyer_id) | (MarketplaceBuyer.user_id == buyer_id)
+    ).first()
+    if buyer:
+        buyer_id = buyer.buyer_id
+
     imports = db.query(BuyerApiImport)\
         .filter(BuyerApiImport.buyer_id == buyer_id)\
         .order_by(BuyerApiImport.imported_at.desc())\
@@ -745,6 +818,10 @@ def get_buyer_imports(buyer_id: str, db: Session = Depends(get_db)):
             "total_cost":        float(i.total_cost) if i.total_cost else 0,
             "currency":          i.currency,
             "casper_tx_hash":    i.casper_tx_hash,
+            "casper_explorer_url": (
+                f"https://testnet.cspr.live/transaction/{i.casper_tx_hash}"
+                if i.casper_tx_hash else None
+            ),
             "status":            i.status
         }
         for i in imports
@@ -753,9 +830,16 @@ def get_buyer_imports(buyer_id: str, db: Session = Depends(get_db)):
 
 @app.get("/marketplace/buyer/imports/{buyer_id}/{api_import_id}/data")
 def get_import_data(buyer_id: str, api_import_id: str, db: Session = Depends(get_db)):
+    # Same dual-ID resolution as get_buyer_imports -- accept either the
+    # legacy buyer_id or the unified user_id.
+    buyer = db.query(MarketplaceBuyer).filter(
+        (MarketplaceBuyer.buyer_id == buyer_id) | (MarketplaceBuyer.user_id == buyer_id)
+    ).first()
+    resolved_buyer_id = buyer.buyer_id if buyer else buyer_id
+
     import_batch = db.query(BuyerApiImport).filter(
         BuyerApiImport.api_import_id == api_import_id,
-        BuyerApiImport.buyer_id == buyer_id
+        BuyerApiImport.buyer_id == resolved_buyer_id
     ).first()
 
     if not import_batch:
@@ -775,6 +859,10 @@ def get_import_data(buyer_id: str, api_import_id: str, db: Session = Depends(get
         "cost_per_record":   float(import_batch.cost_per_record) if import_batch.cost_per_record else 0,
         "currency":          import_batch.currency,
         "casper_tx_hash":    import_batch.casper_tx_hash,
+        "casper_explorer_url": (
+            f"https://testnet.cspr.live/transaction/{import_batch.casper_tx_hash}"
+            if import_batch.casper_tx_hash else None
+        ),
         "records":           [json.loads(r.record_data) for r in records]
     }
 

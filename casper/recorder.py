@@ -102,6 +102,104 @@ def call_forge_registry_contract(dataset_hash: str, score: int, tier: str, timeo
         }
 
 
+def call_forge_purchase_transfer(amount_motes: int = None) -> dict:
+    """
+    Records a marketplace purchase as a real CSPR transfer on Casper testnet
+    by calling the bridge's /record-purchase endpoint. This is intentionally
+    a plain transfer rather than a contract call -- it doesn't try to encode
+    "this was a purchase" into the certification contract's score/tier
+    fields, which would be misleading since a purchase isn't a certification.
+    """
+    body = {}
+    if amount_motes:
+        body["amountMotes"] = str(amount_motes)
+
+    try:
+        response = requests.post(
+            f"{CASPER_BRIDGE_URL}/record-purchase",
+            json=body,
+            headers={
+                "Content-Type": "application/json",
+                "x-bridge-api-key": CASPER_BRIDGE_API_KEY
+            },
+            timeout=60
+        )
+    except requests.exceptions.ConnectionError:
+        return {
+            "success": False,
+            "error": f"Could not connect to Casper bridge service at {CASPER_BRIDGE_URL}",
+            "errorCategory": "bridge_unreachable"
+        }
+    except requests.exceptions.Timeout:
+        return {
+            "success": False,
+            "error": "Casper bridge service did not respond in time",
+            "errorCategory": "bridge_unreachable"
+        }
+    except requests.exceptions.RequestException as e:
+        return {
+            "success": False,
+            "error": f"Error calling Casper bridge service: {str(e)}",
+            "errorCategory": "unknown"
+        }
+
+    try:
+        return response.json()
+    except json.JSONDecodeError:
+        return {
+            "success": False,
+            "error": "Casper bridge service returned a non-JSON response",
+            "errorCategory": "unknown",
+            "raw_response": response.text[:500]
+        }
+
+
+def record_purchase_on_chain(buyer_id: str, listing_id: int, payment_proof: str,
+                              amount_motes: int = None) -> dict:
+    """
+    Anchors a marketplace purchase on Casper testnet as a real CSPR transfer.
+    Falls back to a local-only SHA-256 audit hash if the on-chain call cannot
+    complete, so a purchase is never blocked by a chain/bridge issue.
+    """
+    audit_hash_input = f"{buyer_id}:{listing_id}:{payment_proof}:{datetime.now(timezone.utc).isoformat()}"
+    audit_hash = hashlib.sha256(audit_hash_input.encode()).hexdigest()
+
+    chain_result = call_forge_purchase_transfer(amount_motes=amount_motes)
+
+    if chain_result.get("success"):
+        tx_hash = chain_result.get("txHash")
+        print(f"FORGE purchase (listing #{listing_id}, buyer {buyer_id}) recorded on-chain: {tx_hash}")
+        return {
+            "success": True,
+            "audit_hash": audit_hash,
+            "casper_tx_hash": tx_hash,
+            "explorer_url": chain_result.get(
+                "explorerUrl",
+                f"https://testnet.cspr.live/transaction/{tx_hash}" if tx_hash else None
+            ),
+            "recorded_at": datetime.now(timezone.utc).isoformat(),
+            "note": "Recorded as a real CSPR transfer on Casper testnet"
+        }
+
+    error = chain_result.get("error", "Unknown error calling Casper bridge service")
+    error_category = chain_result.get("errorCategory", "unknown")
+    is_low_balance = chain_result.get("lowBalance", False)
+
+    print(f"WARNING: purchase on-chain recording failed [{error_category}]: {error}")
+
+    return {
+        "success": False,
+        "audit_hash": audit_hash,
+        "casper_tx_hash": None,
+        "recorded_at": datetime.now(timezone.utc).isoformat(),
+        "error": error,
+        "error_category": error_category,
+        "friendly_message": get_friendly_error_message(error_category),
+        "low_balance": is_low_balance,
+        "note": "On-chain recording failed; local audit hash computed but not anchored to Casper testnet"
+    }
+
+
 def record_assessment_on_chain(assessment_id: int, dataset_name: str,
                                 weighted_score: float, metal_rating: str,
                                 scores: dict) -> dict:

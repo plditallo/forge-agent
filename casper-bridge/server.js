@@ -29,6 +29,7 @@ const {
   PrivateKey,
   KeyAlgorithm,
   ContractCallBuilder,
+  NativeTransferBuilder,
   Args,
   CLValue,
   HttpHandler,
@@ -203,6 +204,94 @@ app.post("/record-certification", async (req, res) => {
     });
   } catch (err) {
     console.error("=== record-certification FAILED ===", err);
+    return res.json({
+      success: false,
+      error: err.message || String(err),
+      errorCategory: categorizeError(err),
+    });
+  }
+});
+
+// ---- /record-purchase ----
+// Records a marketplace purchase as a real, minimal CSPR transfer on Casper
+// testnet -- a self-transfer (the platform wallet to itself), since this
+// testnet sandbox only provides one funded wallet. This is intentionally
+// simple and honest: it proves a real transaction occurred at a real
+// amount and timestamp, without misusing the certification contract's
+// fields (score/tier) to describe something that isn't a certification.
+//
+// A production version would transfer to a separate buyer-funded or
+// platform-treasury address; that's a natural next step noted here rather
+// than something this testnet setup can demonstrate on its own.
+app.post("/record-purchase", async (req, res) => {
+  if (BRIDGE_API_KEY) {
+    const providedKey = req.headers["x-bridge-api-key"];
+    if (providedKey !== BRIDGE_API_KEY) {
+      return res.status(401).json({ success: false, error: "Invalid or missing bridge API key" });
+    }
+  }
+
+  const { amountMotes, memo } = req.body || {};
+  const transferAmount = amountMotes && Number(amountMotes) > 0 ? String(amountMotes) : "2500000000"; // 2.5 CSPR default
+  const transferId = memo ? null : Date.now(); // numeric transfer ID if no string memo supplied
+
+  try {
+    const privateKey = loadPrivateKey();
+
+    const rpcClientForBalance = new RpcClient(new HttpHandler(NODE_RPC_URL));
+    try {
+      const balanceResult = await rpcClientForBalance.queryLatestBalance(
+        PurseIdentifier.fromPublicKey(privateKey.publicKey)
+      );
+      const balanceCspr = Number(BigInt(balanceResult.balance.toString())) / 1_000_000_000;
+      const PURCHASE_MIN_BUFFER_CSPR = 1; // transfers are cheap; a small buffer is enough
+
+      if (balanceCspr < PURCHASE_MIN_BUFFER_CSPR) {
+        const msg =
+          `Insufficient testnet CSPR balance (${balanceCspr.toFixed(2)} CSPR) to record this purchase ` +
+          `on-chain. Testnet CSPR cannot be re-requested from the faucet for this account.`;
+        return res.json({ success: false, error: msg, errorCategory: "insufficient_balance", lowBalance: true });
+      }
+    } catch (balanceErr) {
+      console.error("Balance pre-check failed (continuing anyway):", balanceErr.message || balanceErr);
+    }
+
+    let builder = new NativeTransferBuilder()
+      .from(privateKey.publicKey)
+      .target(privateKey.publicKey) // self-transfer: same testnet sandbox wallet on both sides
+      .amount(transferAmount)
+      .chainName(CHAIN_NAME)
+      .payment(100_000_000); // 0.1 CSPR, standard transfer fee ceiling
+
+    if (transferId !== null) {
+      builder = builder.id(transferId);
+    }
+
+    const transaction = builder.build();
+    transaction.sign(privateKey);
+
+    const rpcClient = new RpcClient(new HttpHandler(NODE_RPC_URL));
+    await rpcClient.putTransaction(transaction);
+
+    const txHash = transaction.hash.toHex();
+    const confirmed = await rpcClient.waitForTransaction(transaction, 180_000);
+
+    const execResult =
+      confirmed?.executionInfo?.executionResult?.Version2 ||
+      confirmed?.execution_info?.execution_result?.Version2;
+    const errorMessage = execResult?.error_message ?? execResult?.errorMessage ?? null;
+
+    if (errorMessage) {
+      return res.json({ success: false, error: errorMessage, txHash });
+    }
+
+    return res.json({
+      success: true,
+      txHash: txHash,
+      explorerUrl: `https://testnet.cspr.live/transaction/${txHash}`,
+    });
+  } catch (err) {
+    console.error("=== record-purchase FAILED ===", err);
     return res.json({
       success: false,
       error: err.message || String(err),
