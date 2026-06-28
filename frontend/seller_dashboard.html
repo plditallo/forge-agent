@@ -213,11 +213,126 @@ async function loadDashboard(userId, isAdmin) {
         <div class="card">
             <h2>Transaction Ledger</h2>
             <div id="txLedger"></div>
+        </div>
+
+        <div class="card">
+            <h2>Your Certifications</h2>
+            <div id="yourCertifications"></div>
         </div>`;
 
     renderDatasets(revenue.by_dataset);
     renderBuyers(revenue.by_buyer);
     renderTransactions(txs);
+
+    await loadYourCertifications(isAdmin ? null : userId);
+}
+
+async function loadYourCertifications(userId) {
+    const container = document.getElementById('yourCertifications');
+    if (!container) return;
+
+    if (!userId) {
+        // Admin view -- not the focus of this section, keep it simple.
+        container.innerHTML = '<div class="empty">Switch to a specific seller to manage their certifications.</div>';
+        return;
+    }
+
+    try {
+        const res = await fetch(API + '/registry?viewer_user_id=' + encodeURIComponent(userId));
+        const all = await res.json();
+
+        // Only this seller's own work, regardless of listing status.
+        // The backend already includes "owned by me" assessments in this
+        // viewer-scoped call, but the public ones from other sellers may
+        // also come through if this account is an admin -- filter defensively.
+        const mine = all.filter(a =>
+            a.offered_for_sale === true || a.offered_for_sale === false || a.offered_for_sale === null
+        );
+
+        if (!mine.length) {
+            container.innerHTML = '<div class="empty">No certifications yet. Run an assessment to get started.</div>';
+            return;
+        }
+
+        container.innerHTML = `
+            <table class="rev-table">
+                <thead><tr>
+                    <th>Dataset</th><th>Tier</th><th>Score</th><th>Status</th><th>Casper Hash</th><th></th>
+                </tr></thead>
+                <tbody>
+                    ${mine.map(a => {
+                        let statusBadge, actionHtml;
+                        if (a.offered_for_sale === true) {
+                            statusBadge = '<span class="cspr-badge">Listed</span>';
+                            actionHtml = '<span style="color:#555; font-size:0.78rem;">—</span>';
+                        } else if (a.offered_for_sale === false) {
+                            statusBadge = '<span style="background:#2a2d3a; color:#999; font-size:0.7rem; padding:2px 8px; border-radius:10px;">Private</span>';
+                            actionHtml = `<button class="btn-sm-outline" onclick="listExistingAssessment(${a.assessment_id})">List now</button>`;
+                        } else {
+                            statusBadge = '<span style="background:#3a2d1a; color:#c9a84c; font-size:0.7rem; padding:2px 8px; border-radius:10px;">Undecided</span>';
+                            actionHtml = `<button class="btn-sm-outline" onclick="listExistingAssessment(${a.assessment_id})">List now</button>`;
+                        }
+                        return `
+                            <tr>
+                                <td>${a.dataset_name}</td>
+                                <td><span class="metal-pill metal-${a.metal_rating}">${a.metal_rating || '—'}</span></td>
+                                <td style="color:#c9a84c; font-weight:700;">${a.weighted_score !== null ? a.weighted_score.toFixed(1) : '—'}</td>
+                                <td>${statusBadge}</td>
+                                <td style="font-family:monospace; font-size:0.68rem; color:#c9a84c;">
+                                    ${a.casper_tx_hash ? a.casper_tx_hash.substring(0,16)+'...' : '—'}
+                                </td>
+                                <td>${actionHtml}</td>
+                            </tr>`;
+                    }).join('')}
+                </tbody>
+            </table>`;
+    } catch (err) {
+        container.innerHTML = '<div class="empty">Could not load your certifications right now.</div>';
+    }
+}
+
+async function listExistingAssessment(assessmentId) {
+    const userId   = localStorage.getItem('forge_user_id');
+    const userName = localStorage.getItem('forge_user_name');
+
+    try {
+        // Pull the stored reasoning so the listing gets real, sellable
+        // description text instead of going out blank.
+        let description = '';
+        try {
+            const detailRes = await fetch(API + '/assessments/' + assessmentId);
+            if (detailRes.ok) {
+                const detail = await detailRes.json();
+                description = (detail.score_reasoning && detail.score_reasoning.business_relevance) || '';
+            }
+        } catch (e) {
+            // Non-fatal -- proceed with an empty description rather than blocking the listing.
+        }
+
+        const res = await fetch(API + '/assessments/' + assessmentId + '/marketplace-decision', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                offer_for_sale:  true,
+                seller_user_id:  userId,
+                seller_name:     userName,
+                description:     description,
+                price_per_call:  0.001,
+                price_monthly:   20.0,
+                price_annual:    200.0,
+                currency:        'CSPR'
+            })
+        });
+        if (!res.ok) {
+            const err = await res.json();
+            throw new Error(err.detail || 'Could not list this dataset');
+        }
+        // Reload the whole dashboard so revenue, listings, and the
+        // certifications table all reflect the new listing immediately.
+        await init();
+    } catch (err) {
+        alert(err.message);
+    }
 }
 
 function renderDatasets(datasets) {

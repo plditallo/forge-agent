@@ -197,12 +197,16 @@ const userId   = localStorage.getItem('forge_user_id')   || '';
 
 async function loadRegistry() {
     try {
-        const res  = await fetch(API + '/registry');
+        const url = userId
+            ? API + '/registry?viewer_user_id=' + encodeURIComponent(userId)
+            : API + '/registry';
+        const res  = await fetch(url);
         let data   = await res.json();
 
-        // Non-admin sellers see only their own assessments
-        // For now all users see all assessments (registry is public by nature)
-        // Admins get the notice
+        // Visibility is now enforced server-side: anonymous and non-owning
+        // viewers see only assessments the seller has explicitly offered
+        // for sale (offered_for_sale == true). A logged-in seller also sees
+        // their own not-yet-decided or private assessments; admins see all.
         if (isAdmin) {
             document.getElementById('adminNotice').classList.add('visible');
         }
@@ -246,7 +250,10 @@ function renderTable(data) {
     const rows = data.map(a => `
         <tr onclick="showDetail(${a.assessment_id})">
             <td>${a.assessment_id}</td>
-            <td>${a.dataset_name}</td>
+            <td>
+                ${a.dataset_name}
+                ${a.offered_for_sale !== true ? '<span style="margin-left:8px; font-size:0.68rem; color:#888; background:#1a1d27; border:1px solid #2a2d3a; padding:1px 7px; border-radius:9px;">Private</span>' : ''}
+            </td>
             <td><span class="metal-pill metal-${a.metal_rating}">${a.metal_rating}</span></td>
             <td style="color:#c9a84c; font-weight:700;">${a.weighted_score !== null ? a.weighted_score.toFixed(1) : '—'}</td>
             <td>${a.industry_segment || '—'}</td>
@@ -273,7 +280,10 @@ async function showDetail(id) {
     const res = await fetch(API + '/assessments/' + id);
     const a   = await res.json();
 
-    const allRes  = await fetch(API + '/registry');
+    const historyUrl = userId
+        ? API + '/registry?viewer_user_id=' + encodeURIComponent(userId)
+        : API + '/registry';
+    const allRes  = await fetch(historyUrl);
     const all     = await allRes.json();
     const history = all
         .filter(x => x.dataset_name === a.dataset_name)

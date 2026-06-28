@@ -1,0 +1,11 @@
+city,state,population_est,independent_refrigerated_carriers_est,reefer_trucks_est,cold_storage_warehouses_est,food_distributors_est,pharma_distributors_est,avg_local_haul_rate_per_mile_usd,avg_regional_haul_rate_per_mile_usd,carrier_market_score
+Birmingham,AL,439563,27,227,22,16,3,5.23,2.34,97
+Montgomery,AL,160816,72,134,3,21,14,3.94,2.7,95
+Chattanooga,TN,545140,15,448,20,25,8,4.62,3.56,63
+Knoxville,TN,515949,14,138,3,81,5,3.53,2.46,67
+Augusta,GA,698646,47,311,23,33,4,4.46,3.7,83
+Savannah,GA,202163,78,389,4,82,2,4.58,3.34,94
+Greenville,SC,548363,48,263,20,68,12,3.56,4.09,75
+Columbia,SC,185831,81,178,18,73,11,4.93,2.82,64
+Mobile,AL,223800,73,239,7,106,11,3.09,3.32,62
+Huntsville,AL,181390,79,318,12,53,12,4.5,3.55,89

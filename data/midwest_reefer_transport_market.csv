@@ -1,0 +1,11 @@
+city,state,population_est,independent_refrigerated_carriers_est,reefer_trucks_est,cold_storage_warehouses_est,food_distributors_est,pharma_distributors_est,avg_local_haul_rate_per_mile_usd,avg_regional_haul_rate_per_mile_usd,carrier_market_score
+Des Moines,IA,173731,34,339,14,29,9,5.66,3.61,90
+Cedar Rapids,IA,228809,22,274,16,71,16,3.6,2.46,81
+Springfield,IL,377617,69,449,24,30,17,2.67,4.48,93
+Peoria,IL,479324,26,378,19,13,17,3.55,3.71,65
+Fort Wayne,IN,373799,74,212,7,55,8,4.3,4.05,81
+Evansville,IN,333876,32,437,9,114,13,4.97,2.67,93
+Toledo,OH,616719,53,399,2,13,9,4.11,2.58,98
+Akron,OH,461004,65,438,13,56,3,3.31,2.67,72
+Green Bay,WI,454143,34,272,21,88,1,4.13,3.73,65
+Duluth,MN,225728,57,425,24,106,7,4.13,2.55,81

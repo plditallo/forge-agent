@@ -731,6 +731,29 @@
             </div>
         </div>
 
+        <div id="sellDecisionPanel" style="display:none; background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.45); border-radius:8px; padding:16px 20px; margin-bottom:24px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+                <div style="flex:1; min-width:280px;">
+                    <strong style="color:#c9a84c;">Offer this dataset in the FORGE Marketplace?</strong>
+                    <div style="color:rgba(255,255,255,0.65); font-size:0.88rem; margin-top:4px;">
+                        This certification is yours either way. Choosing "Yes" makes it a public, sellable listing. Choosing "No" keeps it private — visible only to you.
+                    </div>
+                </div>
+                <div style="display:flex; gap:10px; flex-shrink:0;">
+                    <button onclick="setMarketplaceDecision(false)" style="background:transparent; color:rgba(255,255,255,0.7); border:1px solid rgba(255,255,255,0.25); border-radius:6px; padding:10px 20px; font-weight:600; cursor:pointer; white-space:nowrap;">
+                        No, keep private
+                    </button>
+                    <button onclick="setMarketplaceDecision(true)" style="background:#c9a84c; color:#1a1408; border:none; border-radius:6px; padding:10px 20px; font-weight:600; cursor:pointer; white-space:nowrap;">
+                        Yes, list it →
+                    </button>
+                </div>
+            </div>
+            <div id="sellDecisionStatus" style="margin-top:10px; font-size:0.85rem;"></div>
+        </div>
+
+        <div id="alreadyDecidedBanner" style="display:none; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.15); border-radius:8px; padding:14px 18px; margin-bottom:24px; font-size:0.88rem; color:rgba(255,255,255,0.7);">
+        </div>
+
         <div style="display:flex; align-items:flex-end; gap:24px; margin-bottom:24px;">
             <div>
                 <div class="score-display" id="reportScore">--</div>
@@ -894,7 +917,11 @@
             const res = await fetch(API + '/assess', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ file_profile: fileProfile, intake_answers: intake })
+                body: JSON.stringify({
+                    file_profile: fileProfile,
+                    intake_answers: intake,
+                    user_id: localStorage.getItem('forge_user_id') || null
+                })
             });
             const data = await res.json();
             if (!res.ok) throw new Error(data.detail || 'Assessment failed');
@@ -915,6 +942,50 @@
         window.location.href = '/static/register.html?claim=1';
     }
 
+    async function setMarketplaceDecision(offerForSale) {
+        const ctx = window._forgeSellDecisionContext;
+        const statusEl = document.getElementById('sellDecisionStatus');
+        if (!ctx) {
+            statusEl.textContent = 'Something went wrong — please refresh and try again.';
+            statusEl.style.color = '#e05555';
+            return;
+        }
+
+        statusEl.textContent = offerForSale ? 'Listing your dataset…' : 'Saving your choice…';
+        statusEl.style.color = 'rgba(255,255,255,0.6)';
+
+        try {
+            const res = await fetch(API + '/assessments/' + ctx.assessment_id + '/marketplace-decision', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    offer_for_sale:  offerForSale,
+                    seller_user_id:  localStorage.getItem('forge_user_id'),
+                    seller_name:     localStorage.getItem('forge_user_name'),
+                    description:     ctx.description,
+                    price_per_call:  0.001,
+                    price_monthly:   20.0,
+                    price_annual:    200.0,
+                    currency:        'CSPR',
+                    row_count:       ctx.row_count,
+                    file_size_mb:    ctx.file_size_mb
+                })
+            });
+            const result = await res.json();
+            if (!res.ok) throw new Error(result.detail || 'Could not save your decision');
+
+            document.getElementById('sellDecisionPanel').style.display = 'none';
+            const decidedBanner = document.getElementById('alreadyDecidedBanner');
+            decidedBanner.style.display = 'block';
+            decidedBanner.textContent = offerForSale
+                ? 'Your dataset has been listed in the FORGE Marketplace.'
+                : 'You chose to keep this certification private. You can change this anytime from your Seller Dashboard.';
+        } catch (err) {
+            statusEl.textContent = err.message;
+            statusEl.style.color = '#e05555';
+        }
+    }
+
     function renderReport(data) {
         const reportEl = document.getElementById('report');
         reportEl.style.display = 'block';
@@ -926,14 +997,25 @@
         reportEl.classList.add('section-revealed');
         setTimeout(() => reportEl.classList.remove('section-revealed'), 1800);
 
-        // If the user isn't logged in, this assessment exists in the database
-        // but has no owner and can't be listed in the marketplace. Show a
-        // banner offering to register and immediately claim it, and stash
-        // what's needed to create the listing once they do.
+        // Three possible states after an assessment completes:
+        //  1. Anonymous (not logged in) -- show the existing claim banner,
+        //     offering registration + auto-claim.
+        //  2. Logged in AND a seller -- show the new Yes/No "offer for sale"
+        //     decision panel, calling the new marketplace-decision endpoint.
+        //  3. Logged in but NOT a seller (e.g. buyer-only account) -- show
+        //     neither; nothing for them to decide here.
         const isLoggedIn = !!localStorage.getItem('forge_user_id');
-        const banner = document.getElementById('claimBanner');
+        const isSeller   = localStorage.getItem('forge_is_seller') === '1';
+        const claimBanner = document.getElementById('claimBanner');
+        const sellPanel    = document.getElementById('sellDecisionPanel');
+        const decidedBanner = document.getElementById('alreadyDecidedBanner');
+
+        claimBanner.style.display = 'none';
+        sellPanel.style.display = 'none';
+        decidedBanner.style.display = 'none';
+
         if (!isLoggedIn) {
-            banner.style.display = 'block';
+            claimBanner.style.display = 'block';
             const businessRelevanceText = (data.score_reasoning && data.score_reasoning.business_relevance) || '';
             localStorage.setItem('forge_pending_claim', JSON.stringify({
                 assessment_id:  data.assessment_id,
@@ -942,8 +1024,25 @@
                 row_count:      (fileProfile && fileProfile.row_count) || null,
                 file_size_mb:   (fileProfile && fileProfile.file_size_mb) || null
             }));
-        } else {
-            banner.style.display = 'none';
+        } else if (isSeller) {
+            if (data.offered_for_sale === true) {
+                decidedBanner.style.display = 'block';
+                decidedBanner.textContent = 'This dataset is already listed in the FORGE Marketplace.';
+            } else if (data.offered_for_sale === false) {
+                decidedBanner.style.display = 'block';
+                decidedBanner.textContent = 'You chose to keep this certification private. You can change this anytime from your Seller Dashboard.';
+            } else {
+                sellPanel.style.display = 'block';
+                // Stash everything needed to create the listing if they say yes.
+                const businessRelevanceText = (data.score_reasoning && data.score_reasoning.business_relevance) || '';
+                window._forgeSellDecisionContext = {
+                    assessment_id: data.assessment_id,
+                    dataset_name:  data.dataset_name,
+                    description:   businessRelevanceText,
+                    row_count:     (fileProfile && fileProfile.row_count) || null,
+                    file_size_mb:  (fileProfile && fileProfile.file_size_mb) || null
+                };
+            }
         }
 
         document.getElementById('reportScore').textContent = data.weighted_score.toFixed(1);

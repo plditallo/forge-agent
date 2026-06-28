@@ -55,6 +55,18 @@ class Assessment(Base):
     casper_tx_hash           = Column(String(255))
     casper_recorded_at       = Column(DateTime)
 
+    # Seller's explicit decision on whether this certification is offered
+    # for sale in the public marketplace/registry. NULL = not yet decided,
+    # 1 = yes (real marketplace_listings row exists/should exist),
+    # 0 = no, keep private (visible only to the seller and admin).
+    offered_for_sale         = Column(Boolean, nullable=True)
+
+    # Who actually ran this assessment, independent of whether it's been
+    # listed for sale. Needed so a logged-in seller can see their own
+    # not-yet-decided assessments in their private view even before any
+    # marketplace_listings row exists.
+    uploaded_by_user_id      = Column(String(50), nullable=True)
+
     files = relationship("AssessmentFile", back_populates="assessment")
 
 

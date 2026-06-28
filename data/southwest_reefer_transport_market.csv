@@ -1,0 +1,11 @@
+city,state,population_est,independent_refrigerated_carriers_est,reefer_trucks_est,cold_storage_warehouses_est,food_distributors_est,pharma_distributors_est,avg_local_haul_rate_per_mile_usd,avg_regional_haul_rate_per_mile_usd,carrier_market_score
+Albuquerque,NM,172103,19,163,17,99,3,2.79,3.85,96
+Santa Fe,NM,567288,44,391,14,95,12,2.67,3.25,70
+Amarillo,TX,222783,71,55,8,108,10,3.01,2.72,85
+Lubbock,TX,620625,18,110,16,61,18,3.49,2.44,87
+Midland,TX,676947,43,386,15,55,13,5.66,2.48,71
+Odessa,TX,258647,37,362,9,11,16,5.26,2.56,78
+Waco,TX,104292,26,239,19,57,11,5.65,3.83,92
+Abilene,TX,156615,66,424,23,112,18,3.86,3.1,66
+Las Cruces,NM,604913,59,56,8,18,7,4.01,2.37,98
+Flagstaff,AZ,155129,21,25,20,29,18,2.92,3.01,61

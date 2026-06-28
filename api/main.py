@@ -89,6 +89,7 @@ class IntakeAnswers(BaseModel):
 class AssessRequest(BaseModel):
     file_profile: dict
     intake_answers: IntakeAnswers
+    user_id: Optional[str] = None
 
 
 class ListingCreate(BaseModel):
@@ -237,7 +238,8 @@ async def assess(request: AssessRequest, db: Session = Depends(get_db)):
         metal_rating             = result["metal_rating"],
         monetization_potential   = json.dumps(result["monetization_potential"]),
         recommended_actions      = json.dumps(result["recommended_actions"]),
-        full_report              = json.dumps(result)
+        full_report              = json.dumps(result),
+        uploaded_by_user_id      = request.user_id
     )
 
     db.add(assessment)
@@ -275,7 +277,84 @@ async def assess(request: AssessRequest, db: Session = Depends(get_db)):
         "casper_explorer_url":    casper_result.get("explorer_url"),
         "casper_success":         casper_result["success"],
         "casper_error":           casper_result.get("friendly_message") if not casper_result["success"] else None,
-        "casper_error_category":  casper_result.get("error_category") if not casper_result["success"] else None
+        "casper_error_category":  casper_result.get("error_category") if not casper_result["success"] else None,
+        "offered_for_sale":       assessment.offered_for_sale
+    }
+
+
+class MarketplaceDecision(BaseModel):
+    offer_for_sale: bool
+    seller_user_id: str
+    seller_name: str
+    description: Optional[str] = None
+    price_per_call: Optional[float] = 0.001
+    price_monthly: Optional[float] = None
+    price_annual: Optional[float] = None
+    currency: Optional[str] = "CSPR"
+    data_file_path: Optional[str] = None
+    tags: Optional[str] = None
+    row_count: Optional[int] = None
+    file_size_mb: Optional[float] = None
+
+
+@app.post("/assessments/{assessment_id}/marketplace-decision")
+def set_marketplace_decision(assessment_id: int, decision: MarketplaceDecision, db: Session = Depends(get_db)):
+    """
+    Records a seller's explicit decision on whether a certified assessment
+    is offered for sale in the public marketplace/registry.
+
+    The certification itself (score, Casper hash) always exists and is
+    always visible to the seller and admin -- this decision only controls
+    whether it becomes a public, sellable marketplace listing.
+    """
+    assessment = db.query(Assessment).filter(Assessment.id == assessment_id).first()
+    if not assessment:
+        raise HTTPException(status_code=404, detail="Assessment not found")
+
+    assessment.offered_for_sale = decision.offer_for_sale
+    db.commit()
+
+    if not decision.offer_for_sale:
+        return {
+            "assessment_id": assessment_id,
+            "offered_for_sale": False,
+            "status": "kept_private"
+        }
+
+    # Yes -- create the real marketplace listing, same shape as create_listing()
+    existing = db.query(MarketplaceListing).filter(MarketplaceListing.assessment_id == assessment_id).first()
+    if existing:
+        return {
+            "assessment_id": assessment_id,
+            "offered_for_sale": True,
+            "listing_id": existing.id,
+            "status": "already_listed"
+        }
+
+    listing = MarketplaceListing(
+        assessment_id  = assessment_id,
+        dataset_name   = assessment.dataset_name,
+        description    = decision.description,
+        price_per_call = decision.price_per_call,
+        price_monthly  = decision.price_monthly,
+        price_annual   = decision.price_annual,
+        currency       = decision.currency,
+        data_file_path = decision.data_file_path,
+        tags           = decision.tags,
+        row_count      = decision.row_count,
+        file_size_mb   = decision.file_size_mb,
+        seller_user_id = decision.seller_user_id,
+        seller_name    = decision.seller_name
+    )
+    db.add(listing)
+    db.commit()
+    db.refresh(listing)
+
+    return {
+        "assessment_id": assessment_id,
+        "offered_for_sale": True,
+        "listing_id": listing.id,
+        "status": "listed"
     }
 
 
@@ -284,6 +363,8 @@ def get_assessment(assessment_id: int, db: Session = Depends(get_db)):
     assessment = db.query(Assessment).filter(Assessment.id == assessment_id).first()
     if not assessment:
         raise HTTPException(status_code=404, detail="Assessment not found")
+
+    full_report_data = json.loads(assessment.full_report) if assessment.full_report else {}
 
     return {
         "assessment_id":          assessment.id,
@@ -294,7 +375,8 @@ def get_assessment(assessment_id: int, db: Session = Depends(get_db)):
         "casper_tx_hash":         assessment.casper_tx_hash,
         "casper_recorded_at":     assessment.casper_recorded_at,
         "monetization_potential": json.loads(assessment.monetization_potential) if assessment.monetization_potential else None,
-        "recommended_actions":    json.loads(assessment.recommended_actions) if assessment.recommended_actions else None
+        "recommended_actions":    json.loads(assessment.recommended_actions) if assessment.recommended_actions else None,
+        "score_reasoning":        full_report_data.get("score_reasoning")
     }
 
 
@@ -315,8 +397,50 @@ def list_assessments(db: Session = Depends(get_db)):
 
 
 @app.get("/registry")
-def get_registry(db: Session = Depends(get_db)):
-    assessments = db.query(Assessment).order_by(Assessment.created_at.desc()).all()
+def get_registry(viewer_user_id: Optional[str] = None, db: Session = Depends(get_db)):
+    """
+    Public registry visibility rule:
+      - Anyone sees assessments where offered_for_sale == True (the seller has
+        explicitly agreed to make this certification public by listing it for sale).
+      - If viewer_user_id is provided and belongs to an admin, all assessments
+        are visible regardless of offered_for_sale.
+      - If viewer_user_id is provided and matches the assessment's own seller
+        (via a marketplace_listings row, or simply being the one who ran it --
+        tracked here by checking existing listings for that seller), their own
+        not-yet-decided or private assessments are also visible to them.
+
+    The certification itself (score, Casper hash) is never hidden from the
+    seller or admin -- this filter only controls what becomes part of the
+    public registry that other buyers and visitors can browse.
+    """
+    is_viewer_admin = False
+    if viewer_user_id:
+        from database.models import ForgeApiUser
+        viewer = db.query(ForgeApiUser).filter(ForgeApiUser.user_id == viewer_user_id).first()
+        if viewer and viewer.is_admin:
+            is_viewer_admin = True
+
+    query = db.query(Assessment)
+
+    if not is_viewer_admin:
+        if viewer_user_id:
+            # Public listings OR assessments this viewer owns themselves.
+            # Ownership for a not-yet-listed assessment is inferred from any
+            # existing listing under their user_id; for assessments with no
+            # listing at all yet (offered_for_sale IS NULL), the original
+            # assess-time user_id is used (see /assess's stored uploader).
+            query = query.filter(
+                (Assessment.offered_for_sale == True) |
+                (Assessment.id.in_(
+                    db.query(MarketplaceListing.assessment_id)
+                      .filter(MarketplaceListing.seller_user_id == viewer_user_id)
+                )) |
+                (Assessment.uploaded_by_user_id == viewer_user_id)
+            )
+        else:
+            query = query.filter(Assessment.offered_for_sale == True)
+
+    assessments = query.order_by(Assessment.created_at.desc()).all()
     return [
         {
             "assessment_id":      a.id,
@@ -326,6 +450,7 @@ def get_registry(db: Session = Depends(get_db)):
             "metal_rating":       a.metal_rating,
             "casper_tx_hash":     a.casper_tx_hash,
             "casper_recorded_at": a.casper_recorded_at,
+            "offered_for_sale":   a.offered_for_sale,
             "scores": {
                 "data_quality":       float(a.score_data_quality) if a.score_data_quality else None,
                 "reliability":        float(a.score_reliability) if a.score_reliability else None,
