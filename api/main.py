@@ -4,7 +4,8 @@ import json
 import shutil
 import uuid
 import hashlib
-from datetime import datetime
+import secrets
+from datetime import datetime, timedelta
 from pathlib import Path
 from collections import defaultdict
 from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Request
@@ -24,6 +25,7 @@ from database.connection import get_db, engine
 from database.models import Base, Assessment, AssessmentFile
 from database.models import MarketplaceListing, MarketplaceTransaction, MarketplaceBuyer
 from database.models import BuyerApiImport, BuyerApiImportData
+from database.models import AdminInvite
 from ai.profiler import profile_file, validate_content
 from ai.scorer import run_scoring
 from casper.recorder import record_assessment_on_chain
@@ -460,7 +462,8 @@ def get_registry(viewer_user_id: Optional[str] = None, db: Session = Depends(get
             "metal_rating":       a.metal_rating,
             "casper_tx_hash":     a.casper_tx_hash,
             "casper_recorded_at": a.casper_recorded_at,
-            "offered_for_sale":   a.offered_for_sale,
+            "offered_for_sale":      a.offered_for_sale,
+            "uploaded_by_user_id":   a.uploaded_by_user_id,
             "scores": {
                 "data_quality":       float(a.score_data_quality) if a.score_data_quality else None,
                 "reliability":        float(a.score_reliability) if a.score_reliability else None,
@@ -1107,6 +1110,93 @@ ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "ForgeAdmin2026!")
 def verify_admin(admin_key: str):
     if admin_key != ADMIN_PASSWORD:
         raise HTTPException(status_code=403, detail="Invalid admin credentials.")
+
+
+INVITE_LIFETIME_HOURS = 24
+
+
+@app.post("/admin/invites/generate")
+def admin_generate_invite(admin_key: str, request: Request, db: Session = Depends(get_db)):
+    """
+    Creates a single-use, time-boxed invite token that lets one new person
+    see the admin password exactly once. Requires an already-authenticated
+    admin (admin_key). The token is stored in the database, not in process
+    memory, so it survives Azure App Service restarts.
+    """
+    from database.models import AdminInvite
+
+    verify_admin(admin_key)
+
+    token = secrets.token_urlsafe(32)
+    invite = AdminInvite(
+        token            = token,
+        created_by_admin = "admin",
+        created_at       = datetime.utcnow(),
+        expires_at       = datetime.utcnow() + timedelta(hours=INVITE_LIFETIME_HOURS)
+    )
+    db.add(invite)
+    db.commit()
+
+    base_url = str(request.base_url).rstrip("/")
+    mint_url = f"{base_url}/static/admin-mint.html?token={token}"
+
+    return {
+        "token":          token,
+        "mint_url":       mint_url,
+        "expires_at":     invite.expires_at.isoformat(),
+        "lifetime_hours": INVITE_LIFETIME_HOURS
+    }
+
+
+@app.get("/admin/invites/{token}/check")
+def admin_check_invite(token: str, db: Session = Depends(get_db)):
+    """
+    Public (no admin_key) -- called by admin-mint.html on page load to
+    determine whether to show the redeem form or an error state. Does not
+    reveal the password; only confirms the token's current status.
+    """
+    from database.models import AdminInvite
+
+    invite = db.query(AdminInvite).filter(AdminInvite.token == token).first()
+
+    if not invite:
+        return {"valid": False, "reason": "This invite link is not recognized."}
+    if invite.used_at is not None:
+        return {"valid": False, "reason": "This invite link has already been used."}
+    if datetime.utcnow() > invite.expires_at:
+        return {"valid": False, "reason": "This invite link has expired."}
+
+    return {"valid": True, "expires_at": invite.expires_at.isoformat()}
+
+
+@app.post("/admin/invites/{token}/redeem")
+def admin_redeem_invite(token: str, redeemer_name: str, db: Session = Depends(get_db)):
+    """
+    Public (no admin_key) -- the one and only place the admin password is
+    ever disclosed via this flow. Marks the token used atomically with
+    returning the password, so a token cannot be redeemed twice even
+    under near-simultaneous requests against the same row.
+    """
+    from database.models import AdminInvite
+
+    invite = db.query(AdminInvite).filter(AdminInvite.token == token).first()
+
+    if not invite:
+        raise HTTPException(status_code=404, detail="This invite link is not recognized.")
+    if invite.used_at is not None:
+        raise HTTPException(status_code=410, detail="This invite link has already been used.")
+    if datetime.utcnow() > invite.expires_at:
+        raise HTTPException(status_code=410, detail="This invite link has expired.")
+
+    invite.used_at      = datetime.utcnow()
+    invite.used_by_name = redeemer_name
+    db.commit()
+
+    return {
+        "admin_password": ADMIN_PASSWORD,
+        "redeemed_by":    redeemer_name,
+        "redeemed_at":    invite.used_at.isoformat()
+    }
 
 
 @app.get("/admin/users")

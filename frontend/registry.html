@@ -354,6 +354,9 @@ async function showDetail(id) {
         <div class="hash-block">
             <div class="lbl">⛓ Casper Testnet Hash</div>
             <div class="val">${a.casper_tx_hash}</div>
+            <div style="margin-top:8px;">
+                <a href="https://testnet.cspr.live/transaction/${a.casper_tx_hash}" target="_blank" rel="noopener" style="color:#c9a84c; font-size:0.78rem;">View on Casper Testnet ↗</a>
+            </div>
             ${a.casper_recorded_at ? `<div style="font-size:0.7rem;color:#555;margin-top:6px;">Recorded: ${formatDate(a.casper_recorded_at)}</div>` : ''}
         </div>` : ''}
 
@@ -390,6 +393,6 @@ function formatDate(iso) {
 loadRegistry();
 </script>
     <script src="/static/shared_header.js"></script>
-    <script>document.addEventListener('DOMContentLoaded', initForgeSession);</script>
+    <script>initForgeSession();</script>
 </body>
 </html>

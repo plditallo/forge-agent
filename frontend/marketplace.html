@@ -809,6 +809,10 @@ async function confirmPurchase() {
             <div class="success-hash" style="margin-top:14px;">
                 <div class="lbl">⛓ Casper Transaction Hash</div>
                 <div class="val">${data.casper_tx_hash}</div>
+                ${data.casper_explorer_url ? `
+                <div style="margin-top:8px;">
+                    <a href="${data.casper_explorer_url}" target="_blank" rel="noopener" style="color:#c9a84c; font-size:0.78rem;">View on Casper Testnet ↗</a>
+                </div>` : ''}
             </div>
             <div style="margin-top:10px; font-size:0.78rem; color:#888;">
                 Import ID: <span style="color:#c9a84c;">${data.api_import_id}</span>

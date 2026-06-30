@@ -241,13 +241,8 @@ async function loadYourCertifications(userId) {
         const res = await fetch(API + '/registry?viewer_user_id=' + encodeURIComponent(userId));
         const all = await res.json();
 
-        // Only this seller's own work, regardless of listing status.
-        // The backend already includes "owned by me" assessments in this
-        // viewer-scoped call, but the public ones from other sellers may
-        // also come through if this account is an admin -- filter defensively.
-        const mine = all.filter(a =>
-            a.offered_for_sale === true || a.offered_for_sale === false || a.offered_for_sale === null
-        );
+        // Only this seller's own assessments, regardless of listing status.
+        const mine = all.filter(a => a.uploaded_by_user_id === userId);
 
         if (!mine.length) {
             container.innerHTML = '<div class="empty">No certifications yet. Run an assessment to get started.</div>';
@@ -496,6 +491,6 @@ function formatDate(iso) {
 init();
 </script>
     <script src="/static/shared_header.js"></script>
-    <script>document.addEventListener('DOMContentLoaded', initForgeSession);</script>
+    <script>initForgeSession();</script>
 </body>
 </html>

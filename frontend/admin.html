@@ -20,6 +20,18 @@
         header p { font-size: 0.85rem; color: #888; margin-top: 2px; }
         .nav-link { color: #c9a84c; text-decoration: none; font-size: 0.9rem; border: 1px solid #c9a84c; padding: 6px 16px; border-radius: 4px; }
         .nav-link:hover { background: #c9a84c; color: #0f1117; }
+        .nav-btn {
+            color: #c9a84c;
+            background: transparent;
+            border: 1px solid #c9a84c;
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            cursor: pointer;
+            line-height: normal;
+        }
+        .nav-btn:hover { background: #c9a84c; color: #0f1117; }
 
         #loginGate { max-width: 420px; margin: 100px auto; padding: 0 20px; }
         .login-card { background: #1a1d27; border: 1px solid #e05555; border-radius: 8px; padding: 36px; text-align: center; }
@@ -111,6 +123,11 @@
         .status { padding: 8px 12px; border-radius: 4px; font-size: 0.8rem; margin-bottom: 12px; display: none; }
         .status.error   { background: #2d1e1e; border-left: 3px solid #e05555; color: #e05555; display: block; }
         .status.success { background: #1e2d1e; border-left: 3px solid #55a055; color: #55a055; display: block; }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-overlay.open { display: flex; }
+        .modal-box { background: #1a1d27; border: 1px solid #2a2d3a; border-radius: 8px; padding: 20px; width: 90%; }
+        .btn-sm-outline { background: transparent; border: 1px solid #c9a84c; color: #c9a84c; border-radius: 4px; padding: 4px 10px; font-size: 0.72rem; cursor: pointer; }
+        .btn-sm-outline:hover { background: rgba(201,168,76,0.1); }
     </style>
 </head>
 <body>
@@ -120,12 +137,44 @@
         <h1>⚒ FORGE ADMIN</h1>
         <p>Platform Administration Console</p>
     </div>
-    <a href="/static/index.html" class="nav-link">← FORGE Agent</a>
+    <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:flex-end;">
+        <a href="/static/index.html" class="nav-link">← FORGE Agent</a>
         <a href="/static/marketplace.html?mode=admin" class="nav-link">Marketplace</a>
         <a href="/static/registry.html" class="nav-link">Registry</a>
         <a href="/static/buyer_dashboard.html?mode=admin" class="nav-link">Buyer</a>
         <a href="/static/seller_dashboard.html" class="nav-link">Seller</a>
+        <button class="nav-btn" onclick="openInviteGenerator()">+ Invite Admin</button>
+    </div>
 </header>
+
+<div class="modal-overlay" id="inviteGeneratorModal" onclick="if(event.target===this) closeInviteGenerator()">
+    <div class="modal-box" style="max-width:480px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <h3 style="font-size:0.9rem; color:#c9a84c; text-transform:uppercase; letter-spacing:0.5px; margin:0;">Invite a New Admin</h3>
+            <button class="btn-sm-outline" onclick="closeInviteGenerator()">Close</button>
+        </div>
+        <p style="font-size:0.8rem; color:#888; margin-bottom:14px;">
+            This generates a single-use link, valid for 24 hours, that reveals the admin
+            password to whoever opens it. The link cannot be used more than once.
+        </p>
+        <button class="btn-admin" onclick="generateInvite()" id="generateInviteBtn">Generate Invite Link</button>
+        <div id="inviteResult" style="display:none; margin-top:16px;">
+            <div style="font-size:0.7rem; color:#888; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">Invite Link (valid 24 hours)</div>
+            <div style="background:#0f1117; border:1px solid #2a2d3a; border-radius:4px; padding:10px; font-family:monospace; font-size:0.75rem; color:#c9a84c; word-break:break-all;" id="inviteLinkText"></div>
+            <button class="btn-sm-outline" style="width:100%; margin-top:10px;" onclick="copyInviteLink()">Copy Link</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="jsonViewModal" onclick="if(event.target===this) closeJsonView()">
+    <div class="modal-box" style="max-width:640px; max-height:70vh; display:flex; flex-direction:column;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <h3 style="font-size:0.9rem; color:#c9a84c; text-transform:uppercase; letter-spacing:0.5px; margin:0;">Record Data</h3>
+            <button class="btn-sm-outline" onclick="closeJsonView()">Close</button>
+        </div>
+        <pre id="jsonViewContent" style="overflow:auto; background:#0f1117; border:1px solid #2a2d3a; border-radius:4px; padding:14px; font-size:0.78rem; color:#e0e0e0; white-space:pre-wrap; word-break:break-word; margin:0;"></pre>
+    </div>
+</div>
 
 <div id="loginGate">
     <div class="login-card">
@@ -259,7 +308,9 @@ const TABLE_FILTERS = {
         { label: 'Status', field: 'status', type: 'select', options: ['','completed','failed'] },
     ],
     buyer_api_import_data: [
-        { label: 'Import ID', field: 'api_import_id', type: 'text' },
+        { label: 'Numeric Import ID', field: 'import_id', type: 'text' },
+        { label: 'Import ID (IMP-...)', field: 'api_import_id', type: 'text' },
+        { label: 'Record Sequence', field: 'record_sequence', type: 'text' },
     ],
     forge_api_users: [
         { label: 'Name', field: 'full_name', type: 'text' },
@@ -281,6 +332,24 @@ async function adminLogin() {
         const r = await fetch(API + '/admin/summary?admin_key=' + encodeURIComponent(pwd));
         if (!r.ok) throw new Error('Invalid password');
         adminKey = pwd;
+
+        // Persist admin identity to localStorage so it survives navigation
+        // to other pages (seller_dashboard.html, marketplace.html, etc.),
+        // not just held in this page's in-memory adminKey variable, which
+        // would otherwise vanish the moment you click any nav link away
+        // from admin.html.
+        if (typeof FORGE_SESSION !== 'undefined') {
+            FORGE_SESSION.setSession({
+                user_id:   localStorage.getItem('forge_user_id')   || 'ADMIN',
+                full_name: localStorage.getItem('forge_user_name') || 'Administrator',
+                is_admin:  true,
+                is_seller: FORGE_SESSION.isSeller(),
+                is_buyer:  FORGE_SESSION.isBuyer()
+            });
+        } else {
+            localStorage.setItem('forge_is_admin', '1');
+        }
+
         const summary = await r.json();
         document.getElementById('loginGate').style.display = 'none';
         document.getElementById('mainContent').style.display = 'block';
@@ -481,7 +550,18 @@ async function loadTable(page) {
             <thead><tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr></thead>
             <tbody>
                 ${data.data.map(row =>
-                    `<tr>${cols.map(c => `<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${row[c] !== null ? row[c] : ''}">${row[c] !== null && row[c] !== undefined ? row[c] : '—'}</td>`).join('')}</tr>`
+                    `<tr>${cols.map(c => {
+                        const raw = row[c] !== null && row[c] !== undefined ? String(row[c]) : '';
+                        const esc = raw
+                            .replace(/&/g, '&amp;')
+                            .replace(/</g, '&lt;')
+                            .replace(/>/g, '&gt;')
+                            .replace(/"/g, '&quot;');
+                        if (c === 'record_data' && raw) {
+                            return `<td style="max-width:260px;"><button class="btn-sm-outline" onclick='openJsonView(${JSON.stringify(raw)})'>View</button></td>`;
+                        }
+                        return `<td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${esc}">${esc || '—'}</td>`;
+                    }).join('')}</tr>`
                 ).join('')}
             </tbody>
         </table>`;
@@ -642,6 +722,61 @@ function clearQuickView() {
     document.getElementById('quickViewPanel').style.display = 'none';
 }
 
+function openInviteGenerator() {
+    document.getElementById('inviteResult').style.display = 'none';
+    document.getElementById('generateInviteBtn').style.display = 'block';
+    document.getElementById('inviteGeneratorModal').classList.add('open');
+}
+
+function closeInviteGenerator() {
+    document.getElementById('inviteGeneratorModal').classList.remove('open');
+}
+
+async function generateInvite() {
+    const btn = document.getElementById('generateInviteBtn');
+    btn.disabled = true;
+    btn.textContent = 'Generating...';
+
+    try {
+        const res = await fetch(API + '/admin/invites/generate?admin_key=' + encodeURIComponent(adminKey), {
+            method: 'POST'
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Could not generate invite.');
+
+        document.getElementById('inviteLinkText').textContent = data.mint_url;
+        document.getElementById('inviteResult').style.display = 'block';
+        btn.style.display = 'none';
+    } catch (err) {
+        alert('Could not generate invite: ' + err.message);
+        btn.disabled = false;
+        btn.textContent = 'Generate Invite Link';
+    }
+}
+
+function copyInviteLink() {
+    const link = document.getElementById('inviteLinkText').textContent;
+    navigator.clipboard.writeText(link).then(() => {
+        alert('Invite link copied to clipboard.');
+    });
+}
+
+function openJsonView(rawValue) {
+    const el = document.getElementById('jsonViewContent');
+    try {
+        const parsed = JSON.parse(rawValue);
+        el.textContent = JSON.stringify(parsed, null, 2);
+    } catch (e) {
+        // Not valid JSON -- show as-is rather than failing the click.
+        el.textContent = rawValue;
+    }
+    document.getElementById('jsonViewModal').classList.add('open');
+}
+
+function closeJsonView() {
+    document.getElementById('jsonViewModal').classList.remove('open');
+}
+
 function formatDate(iso) {
     if (!iso) return '—';
     const d = new Date(iso);
@@ -654,6 +789,6 @@ document.getElementById('adminPassword').addEventListener('keypress', e => {
 });
 </script>
     <script src="/static/shared_header.js"></script>
-    <script>document.addEventListener('DOMContentLoaded', initForgeSession);</script>
+    <script>initForgeSession();</script>
 </body>
 </html>

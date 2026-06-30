@@ -1097,21 +1097,21 @@
             </div>
         `).join('');
 
-if (data.casper_success && data.casper_tx_hash) {
-    document.getElementById('casperHash').textContent = data.casper_tx_hash;
-    const chainEl = document.getElementById('casperChain');
-    if (data.casper_explorer_url) {
-        chainEl.innerHTML = '<a href="' + data.casper_explorer_url + '" target="_blank" rel="noopener" style="color:#c9a84c;">View on Casper Testnet ↗</a>';
-    } else {
-        chainEl.textContent = 'Anchored to Casper testnet';
-    }
-    } else if (data.casper_error) {
-        document.getElementById('casperHash').textContent = data.casper_hash || '—';
-        document.getElementById('casperChain').textContent =
-        'Not yet anchored on-chain: ' + data.casper_error;
-    } else {
-        document.getElementById('casperRecord').style.display = 'none';
-    }
+        if (data.casper_success && data.casper_tx_hash) {
+            document.getElementById('casperHash').textContent = data.casper_tx_hash;
+            const chainEl = document.getElementById('casperChain');
+            if (data.casper_explorer_url) {
+                chainEl.innerHTML = '<a href="' + data.casper_explorer_url + '" target="_blank" rel="noopener" style="color:#c9a84c;">View on Casper Testnet ↗</a>';
+            } else {
+                chainEl.textContent = 'Anchored to Casper testnet';
+            }
+        } else if (data.casper_error) {
+            document.getElementById('casperHash').textContent = data.casper_hash || '—';
+            document.getElementById('casperChain').textContent =
+                'Not yet anchored on-chain: ' + data.casper_error;
+        } else {
+            document.getElementById('casperRecord').style.display = 'none';
+        }
     }
 
     function resetForm() {

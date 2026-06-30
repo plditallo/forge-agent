@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORGE Admin Invite</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0f1117; color: #e0e0e0; min-height: 100vh; }
+
+        header {
+            background: #1a1d27;
+            border-bottom: 2px solid #e05555;
+            padding: 20px 40px;
+        }
+        header h1 { font-size: 1.6rem; color: #e05555; letter-spacing: 2px; }
+        header p { font-size: 0.85rem; color: #888; margin-top: 2px; }
+
+        .wrap { max-width: 460px; margin: 80px auto; padding: 0 20px; }
+        .card { background: #1a1d27; border: 1px solid #e05555; border-radius: 8px; padding: 36px; }
+        .card h2 { color: #e05555; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 18px; text-align: center; }
+
+        input { width: 100%; background: #0f1117; border: 1px solid #2a2d3a; border-radius: 4px; padding: 10px 12px; color: #e0e0e0; font-size: 0.9rem; margin-bottom: 14px; }
+        input:focus { outline: none; border-color: #e05555; }
+
+        .btn { width: 100%; background: #e05555; color: #fff; border: none; border-radius: 4px; padding: 12px; font-size: 0.9rem; font-weight: 700; cursor: pointer; }
+        .btn:hover { background: #cc3333; }
+        .btn:disabled { background: #555; cursor: not-allowed; }
+
+        .status { font-size: 0.85rem; padding: 12px; border-radius: 4px; margin-top: 14px; text-align: center; display: none; }
+        .status.error { background: rgba(224,85,85,0.12); color: #e05555; border: 1px solid #e05555; display: block; }
+        .status.info { background: rgba(201,168,76,0.12); color: #c9a84c; border: 1px solid #c9a84c; display: block; }
+
+        .reveal-box { margin-top: 20px; padding: 18px; background: #0f1117; border: 1px solid #c9a84c; border-radius: 6px; }
+        .reveal-box .lbl { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .reveal-box .pwd { font-family: monospace; font-size: 1.1rem; color: #c9a84c; word-break: break-all; }
+        .copy-btn { margin-top: 12px; background: transparent; border: 1px solid #c9a84c; color: #c9a84c; border-radius: 4px; padding: 8px 14px; font-size: 0.78rem; cursor: pointer; width: 100%; }
+        .copy-btn:hover { background: rgba(201,168,76,0.1); }
+
+        .warning { margin-top: 16px; font-size: 0.78rem; color: #e05555; line-height: 1.5; }
+        .center-msg { text-align: center; color: #888; font-size: 0.9rem; padding: 20px 0; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>FORGE Agent</h1>
+    <p>Admin Access Invite</p>
+</header>
+
+<div class="wrap">
+    <div class="card">
+
+        <div id="loadingState" class="center-msg">Checking invite link...</div>
+
+        <div id="errorState" style="display:none;">
+            <h2>🔒 Invite Not Available</h2>
+            <div class="status error" id="errorMessage" style="display:block;"></div>
+        </div>
+
+        <div id="formState" style="display:none;">
+            <h2>🔐 Claim Admin Access</h2>
+            <p style="font-size:0.82rem; color:#888; margin-bottom:18px; text-align:center;">
+                This is a one-time invite. Enter your name to reveal the admin password.
+                Once submitted, this link cannot be used again.
+            </p>
+            <input type="text" id="redeemerName" placeholder="Your full name" onkeypress="if(event.key==='Enter') redeemInvite()">
+            <button class="btn" id="redeemBtn" onclick="redeemInvite()">Reveal Admin Password</button>
+            <div class="status error" id="formError"></div>
+        </div>
+
+        <div id="revealState" style="display:none;">
+            <h2>✓ Invite Claimed</h2>
+            <div class="reveal-box">
+                <div class="lbl">Admin Password</div>
+                <div class="pwd" id="revealedPassword"></div>
+                <button class="copy-btn" onclick="copyPassword()">Copy to Clipboard</button>
+            </div>
+            <div class="warning">
+                This password will not be shown again through this link. Save it somewhere
+                secure now. This is the same shared password used by every FORGE admin —
+                treat it as a master key, and ask for a new invite to be revoked/rotated if
+                anyone who had it should no longer have access.
+            </div>
+            <p style="margin-top:18px; text-align:center;">
+                <a href="/static/admin.html" style="color:#c9a84c; font-size:0.85rem; text-decoration:none;">Continue to Admin Console →</a>
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<script>
+const API = window.location.origin;
+const params = new URLSearchParams(window.location.search);
+const token = params.get('token');
+
+async function init() {
+    if (!token) {
+        showError('No invite token was provided in this link.');
+        return;
+    }
+    try {
+        const res = await fetch(API + '/admin/invites/' + encodeURIComponent(token) + '/check');
+        const data = await res.json();
+        document.getElementById('loadingState').style.display = 'none';
+        if (data.valid) {
+            document.getElementById('formState').style.display = 'block';
+        } else {
+            showError(data.reason || 'This invite link is not valid.');
+        }
+    } catch (err) {
+        document.getElementById('loadingState').style.display = 'none';
+        showError('Could not reach the FORGE server to check this invite.');
+    }
+}
+
+function showError(message) {
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('errorState').style.display = 'block';
+    document.getElementById('errorMessage').textContent = message;
+}
+
+async function redeemInvite() {
+    const name = document.getElementById('redeemerName').value.trim();
+    const errEl = document.getElementById('formError');
+    errEl.style.display = 'none';
+
+    if (!name) {
+        errEl.textContent = 'Please enter your name.';
+        errEl.style.display = 'block';
+        return;
+    }
+
+    document.getElementById('redeemBtn').disabled = true;
+    document.getElementById('redeemBtn').textContent = 'Submitting...';
+
+    try {
+        const res = await fetch(
+            API + '/admin/invites/' + encodeURIComponent(token) + '/redeem' +
+            '?redeemer_name=' + encodeURIComponent(name),
+            { method: 'POST' }
+        );
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Could not redeem this invite.');
+
+        document.getElementById('formState').style.display = 'none';
+        document.getElementById('revealState').style.display = 'block';
+        document.getElementById('revealedPassword').textContent = data.admin_password;
+    } catch (err) {
+        document.getElementById('redeemBtn').disabled = false;
+        document.getElementById('redeemBtn').textContent = 'Reveal Admin Password';
+        errEl.textContent = err.message;
+        errEl.style.display = 'block';
+    }
+}
+
+function copyPassword() {
+    const pwd = document.getElementById('revealedPassword').textContent;
+    navigator.clipboard.writeText(pwd).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        const original = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = original; }, 1500);
+    });
+}
+
+init();
+</script>
+</body>
+</html>
