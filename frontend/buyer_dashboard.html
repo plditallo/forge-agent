@@ -316,7 +316,12 @@ async function showDetail(buyerId, apiImportId) {
         <div class="meta-box">
             <div class="lbl">⛓ Casper Transaction Hash</div>
             <div class="val mono">${data.casper_tx_hash || '—'}</div>
-            ${data.casper_explorer_url ? `<div style="margin-top:6px;"><a href="${data.casper_explorer_url}" target="_blank" rel="noopener" style="color:#c9a84c;">View on Casper Testnet ↗</a></div>` : ''}
+            ${data.casper_tx_hash
+                ? (data.casper_explorer_url
+                    ? `<div style="margin-top:6px;"><a href="${data.casper_explorer_url}" target="_blank" rel="noopener" style="color:#c9a84c;">View on Casper Testnet ↗</a></div>`
+                    : '')
+                : `<div style="margin-top:6px; font-size:0.75rem; color:#888;">Casper was unavailable when this purchase was recorded. The transaction exists in FORGE's ledger but was not anchored on-chain.</div>`
+            }
         </div>
         <div style="margin-top:20px;">
             <div style="font-size:0.7rem; color:#888; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">

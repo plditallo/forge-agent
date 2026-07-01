@@ -425,7 +425,9 @@ async function loadErrors() {
                     <td style="font-size:0.75rem;color:#c9a84c;">${e.user_id || '—'}</td>
                     <td style="font-size:0.75rem;color:#888;">${e.endpoint || '—'}</td>
                     <td style="color:#e05555;font-size:0.78rem;">${e.error_type || '—'}</td>
-                    <td style="font-size:0.75rem;color:#888;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.error_detail || '—'}</td>
+                    <td style="font-size:0.75rem;">${e.error_detail
+                        ? `<button class="btn-sm-outline" onclick='openJsonView(${JSON.stringify(e.error_detail)}, "Error Detail")'>View</button>`
+                        : '—'}</td>
                     <td style="font-size:0.75rem;color:#555;">${e.client_ip || '—'}</td>
                     <td style="color:${e.http_status >= 400 ? '#e05555' : '#55a055'};">${e.http_status || '—'}</td>
                 </tr>`).join('')}
@@ -557,8 +559,9 @@ async function loadTable(page) {
                             .replace(/</g, '&lt;')
                             .replace(/>/g, '&gt;')
                             .replace(/"/g, '&quot;');
-                        if (c === 'record_data' && raw) {
-                            return `<td style="max-width:260px;"><button class="btn-sm-outline" onclick='openJsonView(${JSON.stringify(raw)})'>View</button></td>`;
+                        if ((c === 'record_data' || c === 'error_detail') && raw) {
+                            const title = c === 'error_detail' ? 'Error Detail' : 'Record Data';
+                            return `<td style="max-width:260px;"><button class="btn-sm-outline" onclick='openJsonView(${JSON.stringify(raw)}, "${title}")'>View</button></td>`;
                         }
                         return `<td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${esc}">${esc || '—'}</td>`;
                     }).join('')}</tr>`
@@ -761,13 +764,14 @@ function copyInviteLink() {
     });
 }
 
-function openJsonView(rawValue) {
+function openJsonView(rawValue, title) {
     const el = document.getElementById('jsonViewContent');
+    const titleEl = document.querySelector('#jsonViewModal h3');
+    if (titleEl) titleEl.textContent = title || 'Detail';
     try {
         const parsed = JSON.parse(rawValue);
         el.textContent = JSON.stringify(parsed, null, 2);
     } catch (e) {
-        // Not valid JSON -- show as-is rather than failing the click.
         el.textContent = rawValue;
     }
     document.getElementById('jsonViewModal').classList.add('open');

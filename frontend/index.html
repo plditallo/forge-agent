@@ -1105,6 +1105,13 @@
             } else {
                 chainEl.textContent = 'Anchored to Casper testnet';
             }
+        } else if (data.casper_pending) {
+            document.getElementById('casperHash').textContent = '—';
+            document.getElementById('casperChain').textContent =
+                'Casper testnet is currently unavailable. Your assessment has been saved and certified. ' +
+                'This dataset has been set to private. When you are ready to list it, open your seller dashboard — ' +
+                'FORGE will automatically retry the on-chain anchor when Casper is back online.';
+            document.getElementById('casperRecord').style.borderColor = '#e05555';
         } else if (data.casper_error) {
             document.getElementById('casperHash').textContent = data.casper_hash || '—';
             document.getElementById('casperChain').textContent =

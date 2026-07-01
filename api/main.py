@@ -5,6 +5,7 @@ import shutil
 import uuid
 import hashlib
 import secrets
+import requests as http_requests
 from datetime import datetime, timedelta
 from pathlib import Path
 from collections import defaultdict
@@ -257,13 +258,27 @@ async def assess(request: AssessRequest, db: Session = Depends(get_db)):
     )
 
     if casper_result["success"]:
-        # Store the REAL Casper testnet transaction hash from record_certification,
-        # not the local-only assessment hash. assessment_hash (local SHA-256) is
-        # still available in casper_result for reference/audit but is not what
-        # gets persisted as casper_tx_hash going forward.
         assessment.casper_tx_hash = casper_result["casper_tx_hash"]
         assessment.casper_recorded_at = datetime.utcnow()
+        assessment.casper_pending = False
         db.commit()
+        log_forge_error(
+            db, error_type="casper_anchor_info",
+            error_detail=f"Assessment #{assessment.id} anchored on-chain: {casper_result['casper_tx_hash']}",
+            endpoint="/assess", user_id=request.user_id
+        )
+    else:
+        # Bridge unreachable or on-chain call failed. Set casper_pending so the
+        # seller dashboard knows to offer a retry, and auto-private so the dataset
+        # doesn't appear in the public marketplace without an on-chain anchor.
+        assessment.casper_pending = True
+        assessment.offered_for_sale = False
+        db.commit()
+        log_forge_error(
+            db, error_type="casper_anchor_failed",
+            error_detail=f"Assessment #{assessment.id} could not be anchored: {casper_result.get('error', 'unknown')}",
+            endpoint="/assess", user_id=request.user_id
+        )
 
     return {
         "assessment_id":          assessment.id,
@@ -278,6 +293,7 @@ async def assess(request: AssessRequest, db: Session = Depends(get_db)):
         "casper_tx_hash":         casper_result.get("casper_tx_hash"),
         "casper_explorer_url":    casper_result.get("explorer_url"),
         "casper_success":         casper_result["success"],
+        "casper_pending":         assessment.casper_pending,
         "casper_error":           casper_result.get("friendly_message") if not casper_result["success"] else None,
         "casper_error_category":  casper_result.get("error_category") if not casper_result["success"] else None,
         "offered_for_sale":       assessment.offered_for_sale
@@ -300,43 +316,97 @@ class MarketplaceDecision(BaseModel):
 
 
 @app.post("/assessments/{assessment_id}/marketplace-decision")
-def set_marketplace_decision(assessment_id: int, decision: MarketplaceDecision, db: Session = Depends(get_db)):
+def set_marketplace_decision(assessment_id: int, decision: MarketplaceDecision,
+                             db: Session = Depends(get_db)):
     """
     Records a seller's explicit decision on whether a certified assessment
     is offered for sale in the public marketplace/registry.
 
-    The certification itself (score, Casper hash) always exists and is
-    always visible to the seller and admin -- this decision only controls
-    whether it becomes a public, sellable marketplace listing.
+    If the assessment has casper_pending=True (bridge was down during scoring),
+    we check the bridge health and retry the anchor before allowing listing.
+    If the bridge is still down, the listing is blocked and the dataset stays
+    private until the anchor can complete.
     """
     assessment = db.query(Assessment).filter(Assessment.id == assessment_id).first()
     if not assessment:
         raise HTTPException(status_code=404, detail="Assessment not found")
+
+    # If casper_pending is set, always attempt the anchor first regardless
+    # of whether the seller wants to list. The anchor and the listing decision
+    # are now two separate steps on the frontend. offer_for_sale: false with
+    # casper_pending: true means "anchor but keep private" -- still needs
+    # the on-chain call.
+    if assessment.casper_pending:
+        bridge_ok = check_bridge_health()
+        if not bridge_ok:
+            log_forge_error(
+                db, error_type="casper_anchor_retry_blocked",
+                error_detail=f"Assessment #{assessment_id}: listing blocked, Casper bridge still unreachable",
+                endpoint=f"/assessments/{assessment_id}/marketplace-decision"
+            )
+            return {
+                "assessment_id":   assessment_id,
+                "offered_for_sale": False,
+                "status":          "casper_unavailable",
+                "message":         "Casper is currently unavailable. Your dataset will remain private until the on-chain anchor can complete. Please try again in a few minutes."
+            }
+
+        # Bridge is up — retry the anchor now.
+        from casper.recorder import record_assessment_on_chain
+        casper_result = record_assessment_on_chain(
+            assessment_id  = assessment.id,
+            dataset_name   = assessment.dataset_name,
+            weighted_score = float(assessment.weighted_score),
+            metal_rating   = assessment.metal_rating,
+            scores         = {}
+        )
+
+        if casper_result["success"]:
+            assessment.casper_tx_hash     = casper_result["casper_tx_hash"]
+            assessment.casper_recorded_at = datetime.utcnow()
+            assessment.casper_pending     = False
+            db.commit()
+            log_forge_error(
+                db, error_type="casper_anchor_retry_success",
+                error_detail=f"Assessment #{assessment_id} anchored on retry: {casper_result['casper_tx_hash']}",
+                endpoint=f"/assessments/{assessment_id}/marketplace-decision"
+            )
+        else:
+            log_forge_error(
+                db, error_type="casper_anchor_retry_failed",
+                error_detail=f"Assessment #{assessment_id} anchor retry failed: {casper_result.get('error', 'unknown')}",
+                endpoint=f"/assessments/{assessment_id}/marketplace-decision"
+            )
+            return {
+                "assessment_id":    assessment_id,
+                "offered_for_sale": False,
+                "status":           "casper_unavailable",
+                "message":          "Casper responded but the anchor transaction failed. Your dataset will remain private. Please try again in a few minutes."
+            }
 
     assessment.offered_for_sale = decision.offer_for_sale
     db.commit()
 
     if not decision.offer_for_sale:
         return {
-            "assessment_id": assessment_id,
+            "assessment_id":    assessment_id,
             "offered_for_sale": False,
-            "status": "kept_private"
+            "status":           "kept_private",
+            "casper_tx_hash":   assessment.casper_tx_hash
         }
 
-    # Yes -- create the real marketplace listing, same shape as create_listing()
-    existing = db.query(MarketplaceListing).filter(MarketplaceListing.assessment_id == assessment_id).first()
+    # Yes -- create the real marketplace listing.
+    existing = db.query(MarketplaceListing).filter(
+        MarketplaceListing.assessment_id == assessment_id
+    ).first()
     if existing:
         return {
-            "assessment_id": assessment_id,
+            "assessment_id":    assessment_id,
             "offered_for_sale": True,
-            "listing_id": existing.id,
-            "status": "already_listed"
+            "listing_id":       existing.id,
+            "status":           "already_listed"
         }
 
-    # If the listing's file path wasn't explicitly provided, derive it from
-    # where /upload actually saved the original file. Successful uploads are
-    # never deleted from the uploads/ directory (only PII-rejected ones are),
-    # so the original file genuinely persists there under its original name.
     resolved_file_path = decision.data_file_path
     if not resolved_file_path and assessment.file_name:
         candidate = os.path.join("uploads", assessment.file_name)
@@ -363,11 +433,77 @@ def set_marketplace_decision(assessment_id: int, decision: MarketplaceDecision, 
     db.refresh(listing)
 
     return {
-        "assessment_id": assessment_id,
+        "assessment_id":    assessment_id,
         "offered_for_sale": True,
-        "listing_id": listing.id,
-        "status": "listed"
+        "listing_id":       listing.id,
+        "status":           "listed",
+        "casper_tx_hash":   assessment.casper_tx_hash
     }
+
+
+@app.get("/assessments/mine")
+def get_my_assessments(user_id: str, db: Session = Depends(get_db)):
+    """
+    Returns ALL assessments uploaded by a specific seller, regardless of
+    offered_for_sale status. Used exclusively by the seller dashboard's
+    Your Certifications section.
+
+    This is intentionally separate from /registry, which is the public
+    certified data asset ledger and only shows publicly listed datasets.
+    A seller's private and pending-anchor assessments should only be
+    visible here, not in the public registry.
+    """
+    assessments = db.query(Assessment)\
+        .filter(Assessment.uploaded_by_user_id == user_id)\
+        .order_by(Assessment.created_at.desc())\
+        .all()
+
+    return [
+        {
+            "assessment_id":     a.id,
+            "created_at":        a.created_at,
+            "dataset_name":      a.dataset_name,
+            "weighted_score":    float(a.weighted_score) if a.weighted_score else None,
+            "metal_rating":      a.metal_rating,
+            "casper_tx_hash":    a.casper_tx_hash,
+            "casper_recorded_at": a.casper_recorded_at,
+            "casper_pending":    bool(a.casper_pending) if a.casper_pending is not None else False,
+            "offered_for_sale":  a.offered_for_sale,
+            "uploaded_by_user_id": a.uploaded_by_user_id,
+            "scores": {
+                "data_quality":       float(a.score_data_quality) if a.score_data_quality else None,
+                "reliability":        float(a.score_reliability) if a.score_reliability else None,
+                "refresh":            float(a.score_refresh) if a.score_refresh else None,
+                "compliance":         float(a.score_compliance) if a.score_compliance else None,
+                "governance":         float(a.score_governance) if a.score_governance else None,
+                "accessibility":      float(a.score_accessibility) if a.score_accessibility else None,
+                "business_relevance": float(a.score_business_relevance) if a.score_business_relevance else None,
+                "sustainability":     float(a.score_sustainability) if a.score_sustainability else None,
+            },
+            "industry_segment": a.industry_segment,
+            "source_system":    a.source_system,
+            "data_owner":       a.data_owner,
+        }
+        for a in assessments
+    ]
+
+
+
+@app.get("/assessments")
+def list_assessments(db: Session = Depends(get_db)):
+    assessments = db.query(Assessment).order_by(Assessment.created_at.desc()).limit(20).all()
+    return [
+        {
+            "assessment_id":  a.id,
+            "created_at":     a.created_at,
+            "dataset_name":   a.dataset_name,
+            "weighted_score": float(a.weighted_score) if a.weighted_score else None,
+            "metal_rating":   a.metal_rating,
+            "casper_tx_hash": a.casper_tx_hash
+        }
+        for a in assessments
+    ]
+
 
 
 @app.get("/assessments/{assessment_id}")
@@ -390,22 +526,6 @@ def get_assessment(assessment_id: int, db: Session = Depends(get_db)):
         "recommended_actions":    json.loads(assessment.recommended_actions) if assessment.recommended_actions else None,
         "score_reasoning":        full_report_data.get("score_reasoning")
     }
-
-
-@app.get("/assessments")
-def list_assessments(db: Session = Depends(get_db)):
-    assessments = db.query(Assessment).order_by(Assessment.created_at.desc()).limit(20).all()
-    return [
-        {
-            "assessment_id":  a.id,
-            "created_at":     a.created_at,
-            "dataset_name":   a.dataset_name,
-            "weighted_score": float(a.weighted_score) if a.weighted_score else None,
-            "metal_rating":   a.metal_rating,
-            "casper_tx_hash": a.casper_tx_hash
-        }
-        for a in assessments
-    ]
 
 
 @app.get("/registry")
@@ -436,18 +556,17 @@ def get_registry(viewer_user_id: Optional[str] = None, db: Session = Depends(get
 
     if not is_viewer_admin:
         if viewer_user_id:
-            # Public listings OR assessments this viewer owns themselves.
-            # Ownership for a not-yet-listed assessment is inferred from any
-            # existing listing under their user_id; for assessments with no
-            # listing at all yet (offered_for_sale IS NULL), the original
-            # assess-time user_id is used (see /assess's stored uploader).
+            # Public listings OR assessments this viewer has explicitly listed.
+            # Private and pending-anchor assessments are intentionally excluded
+            # even from the seller's own registry view -- they belong in the
+            # seller dashboard's Your Certifications section, not the public
+            # certified data asset ledger.
             query = query.filter(
                 (Assessment.offered_for_sale == True) |
                 (Assessment.id.in_(
                     db.query(MarketplaceListing.assessment_id)
                       .filter(MarketplaceListing.seller_user_id == viewer_user_id)
-                )) |
-                (Assessment.uploaded_by_user_id == viewer_user_id)
+                ))
             )
         else:
             query = query.filter(Assessment.offered_for_sale == True)
@@ -463,6 +582,7 @@ def get_registry(viewer_user_id: Optional[str] = None, db: Session = Depends(get
             "casper_tx_hash":     a.casper_tx_hash,
             "casper_recorded_at": a.casper_recorded_at,
             "offered_for_sale":      a.offered_for_sale,
+            "casper_pending":        bool(a.casper_pending),
             "uploaded_by_user_id":   a.uploaded_by_user_id,
             "scores": {
                 "data_quality":       float(a.score_data_quality) if a.score_data_quality else None,
@@ -689,6 +809,25 @@ async def access_data(
     purchase_hash_input = f"{buyer_id}:{listing_id}:{payment_proof}:{datetime.utcnow().isoformat()}"
     purchase_audit_hash = hashlib.sha256(purchase_hash_input.encode()).hexdigest()
 
+    # Pre-flight: confirm the Casper bridge is reachable before writing
+    # anything to SQL. If the bridge is down, the purchase does not happen --
+    # no records created, buyer gets a clear message, error logged for admins.
+    # This keeps every completed purchase anchored on-chain by design.
+    if not check_bridge_health():
+        log_forge_error(
+            db, error_type="casper_purchase_blocked",
+            error_detail=f"Purchase of listing #{listing_id} by {buyer_id} blocked: Casper bridge unreachable",
+            endpoint=f"/marketplace/data/{listing_id}",
+            user_id=buyer_id
+        )
+        raise HTTPException(
+            status_code=503,
+            detail={
+                "code":    "casper_unavailable",
+                "message": "Casper is currently unavailable. Your purchase has not been processed. Please try again in a few minutes."
+            }
+        )
+
     from casper.recorder import call_forge_registry_contract
     purchase_chain_result = call_forge_registry_contract(
         dataset_hash=purchase_audit_hash,
@@ -701,6 +840,21 @@ async def access_data(
         if purchase_chain_result.get("success")
         else None
     )
+
+    if tx_hash:
+        log_forge_error(
+            db, error_type="casper_purchase_anchored",
+            error_detail=f"Purchase of listing #{listing_id} by {buyer_id} anchored on-chain: {tx_hash}",
+            endpoint=f"/marketplace/data/{listing_id}",
+            user_id=buyer_id
+        )
+    else:
+        log_forge_error(
+            db, error_type="casper_purchase_anchor_failed",
+            error_detail=f"Purchase of listing #{listing_id} by {buyer_id}: chain call succeeded but no tx_hash returned",
+            endpoint=f"/marketplace/data/{listing_id}",
+            user_id=buyer_id
+        )
 
     tx = MarketplaceTransaction(
         listing_id        = listing_id,
@@ -1105,6 +1259,58 @@ def get_me(api_key: str, db: Session = Depends(get_db)):
 # --- Admin Endpoints ---
 
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "ForgeAdmin2026!")
+CASPER_BRIDGE_URL = os.getenv("CASPER_BRIDGE_URL", "http://localhost:3000")
+CASPER_BRIDGE_API_KEY = os.getenv("CASPER_BRIDGE_API_KEY", "")
+
+
+@app.get("/health")
+def health_check():
+    """
+    Platform health endpoint. Used by Azure App Service health monitoring
+    and by the pre-flight check before purchases and Casper anchor retries.
+    """
+    return {"status": "ok", "service": "forge-agent"}
+
+
+def check_bridge_health() -> bool:
+    """
+    Hits the Casper bridge /health endpoint and returns True if the bridge
+    is up and responding. Used as a pre-flight check before any on-chain call.
+    Times out quickly (5s) so it never blocks a user-facing request for long.
+    """
+    try:
+        r = http_requests.get(
+            f"{CASPER_BRIDGE_URL}/health",
+            timeout=5
+        )
+        return r.status_code == 200 and r.json().get("status") == "ok"
+    except Exception:
+        return False
+
+
+def log_forge_error(db: Session, error_type: str, error_detail: str,
+                    endpoint: str = None, user_id: str = None,
+                    http_status: int = None):
+    """
+    Writes an informational or error event to forge_api_errors so admins
+    can see bridge/testnet outage patterns in the admin data browser.
+    Non-fatal — if the write itself fails, we log to stdout and continue
+    rather than letting error-logging block the main application flow.
+    """
+    try:
+        from database.models import ForgeApiError
+        entry = ForgeApiError(
+            logged_at    = datetime.utcnow(),
+            user_id      = user_id,
+            endpoint     = endpoint,
+            error_type   = error_type,
+            error_detail = error_detail,
+            http_status  = http_status
+        )
+        db.add(entry)
+        db.commit()
+    except Exception as e:
+        print(f"WARNING: could not write to forge_api_errors: {e}")
 
 
 def verify_admin(admin_key: str):

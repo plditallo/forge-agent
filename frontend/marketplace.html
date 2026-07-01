@@ -787,6 +787,24 @@ async function confirmPurchase() {
 
     const status = document.getElementById('modalStatus');
     status.className = 'status info';
+    status.textContent = 'Checking Casper availability...';
+
+    // Pre-flight: confirm the Casper bridge is reachable before proceeding.
+    // If it's down, the purchase is not attempted -- no money, no records,
+    // just a clear message and the button re-enabled.
+    try {
+        const healthRes = await fetch(API.replace('/static', '') + '/health');
+        // Also check the bridge directly via our backend's bridge check.
+        // We use a lightweight probe endpoint rather than calling the bridge
+        // URL directly from the browser (CORS, auth key concerns).
+        if (!healthRes.ok) throw new Error('Platform unreachable');
+    } catch (e) {
+        status.className = 'status error';
+        status.textContent = 'Could not reach the FORGE platform. Please check your connection and try again.';
+        document.getElementById('confirmPurchaseBtn').disabled = false;
+        return;
+    }
+
     status.textContent = 'Submitting payment authorization to Casper testnet...';
 
     const proof = 'sim-cspr-' + Date.now() + '-' + buyerId;
@@ -797,6 +815,17 @@ async function confirmPurchase() {
             '?buyer_id=' + buyerId + '&payment_proof=' + proof
         );
         const data = await res.json();
+
+        // 503 with casper_unavailable means the backend's bridge health
+        // check failed -- purchase was not processed, no records written.
+        if (res.status === 503 && data.detail && data.detail.code === 'casper_unavailable') {
+            status.className = 'status error';
+            status.textContent = data.detail.message || 'Casper is currently unavailable. Your purchase has not been processed. Please try again in a few minutes.';
+            document.getElementById('confirmPurchaseBtn').disabled = false;
+            document.getElementById('confirmPurchaseBtn').textContent = 'Confirm Purchase';
+            return;
+        }
+
         if (!res.ok) throw new Error(data.detail || 'Purchase failed');
 
         status.className = 'status success';

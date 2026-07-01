@@ -55,6 +55,12 @@ class Assessment(Base):
     casper_tx_hash           = Column(String(255))
     casper_recorded_at       = Column(DateTime)
 
+    # Set to True when a Casper anchor attempt was made but the bridge was
+    # unreachable. The assessment is auto-set to private (offered_for_sale=False)
+    # in this state. When the seller tries to list, the system checks the bridge
+    # health, retries the anchor if available, and clears this flag on success.
+    casper_pending           = Column(Boolean, nullable=True, default=False)
+
     # Seller's explicit decision on whether this certification is offered
     # for sale in the public marketplace/registry. NULL = not yet decided,
     # 1 = yes (real marketplace_listings row exists/should exist),

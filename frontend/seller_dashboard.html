@@ -238,11 +238,11 @@ async function loadYourCertifications(userId) {
     }
 
     try {
-        const res = await fetch(API + '/registry?viewer_user_id=' + encodeURIComponent(userId));
-        const all = await res.json();
-
-        // Only this seller's own assessments, regardless of listing status.
-        const mine = all.filter(a => a.uploaded_by_user_id === userId);
+        // /assessments/mine returns ALL of this seller's assessments regardless
+        // of listing status -- private, pending-anchor, and listed alike.
+        // Intentionally separate from /registry which is the public ledger.
+        const res = await fetch(API + '/assessments/mine?user_id=' + encodeURIComponent(userId));
+        const mine = await res.json();
 
         if (!mine.length) {
             container.innerHTML = '<div class="empty">No certifications yet. Run an assessment to get started.</div>';
@@ -256,16 +256,25 @@ async function loadYourCertifications(userId) {
                 </tr></thead>
                 <tbody>
                     ${mine.map(a => {
-                        let statusBadge, actionHtml;
-                        if (a.offered_for_sale === true) {
+                        let statusBadge, actionHtml, casperCell;
+
+                        // casper_pending overrides the normal status display
+                        if (a.casper_pending) {
+                            statusBadge = '<span style="background:#3a1a1a; color:#e05555; font-size:0.7rem; padding:2px 8px; border-radius:10px;" title="Casper was unavailable when this assessment was scored. Click \'Retry Anchor\' to anchor it on-chain now, then decide whether to list it.">⚠ Pending Anchor</span>';
+                            actionHtml  = `<button class="btn-sm-outline" style="border-color:#e05555; color:#e05555;" onclick="listExistingAssessment(${a.assessment_id}, true)">Retry Anchor</button>`;
+                            casperCell  = '<span style="color:#e05555; font-size:0.72rem;">Not anchored</span>';
+                        } else if (a.offered_for_sale === true) {
                             statusBadge = '<span class="cspr-badge">Listed</span>';
-                            actionHtml = '<span style="color:#555; font-size:0.78rem;">—</span>';
+                            actionHtml  = '<span style="color:#555; font-size:0.78rem;">—</span>';
+                            casperCell  = a.casper_tx_hash ? a.casper_tx_hash.substring(0,16)+'...' : '—';
                         } else if (a.offered_for_sale === false) {
                             statusBadge = '<span style="background:#2a2d3a; color:#999; font-size:0.7rem; padding:2px 8px; border-radius:10px;">Private</span>';
-                            actionHtml = `<button class="btn-sm-outline" onclick="listExistingAssessment(${a.assessment_id})">List now</button>`;
+                            actionHtml  = `<button class="btn-sm-outline" onclick="listExistingAssessment(${a.assessment_id})">List now</button>`;
+                            casperCell  = a.casper_tx_hash ? a.casper_tx_hash.substring(0,16)+'...' : '—';
                         } else {
                             statusBadge = '<span style="background:#3a2d1a; color:#c9a84c; font-size:0.7rem; padding:2px 8px; border-radius:10px;">Undecided</span>';
-                            actionHtml = `<button class="btn-sm-outline" onclick="listExistingAssessment(${a.assessment_id})">List now</button>`;
+                            actionHtml  = `<button class="btn-sm-outline" onclick="listExistingAssessment(${a.assessment_id})">List now</button>`;
+                            casperCell  = a.casper_tx_hash ? a.casper_tx_hash.substring(0,16)+'...' : '—';
                         }
                         return `
                             <tr>
@@ -273,9 +282,7 @@ async function loadYourCertifications(userId) {
                                 <td><span class="metal-pill metal-${a.metal_rating}">${a.metal_rating || '—'}</span></td>
                                 <td style="color:#c9a84c; font-weight:700;">${a.weighted_score !== null ? a.weighted_score.toFixed(1) : '—'}</td>
                                 <td>${statusBadge}</td>
-                                <td style="font-family:monospace; font-size:0.68rem; color:#c9a84c;">
-                                    ${a.casper_tx_hash ? a.casper_tx_hash.substring(0,16)+'...' : '—'}
-                                </td>
+                                <td style="font-family:monospace; font-size:0.68rem; color:#c9a84c;">${casperCell}</td>
                                 <td>${actionHtml}</td>
                             </tr>`;
                     }).join('')}
@@ -286,13 +293,103 @@ async function loadYourCertifications(userId) {
     }
 }
 
-async function listExistingAssessment(assessmentId) {
+async function listExistingAssessment(assessmentId, wasPending) {
     const userId   = localStorage.getItem('forge_user_id');
     const userName = localStorage.getItem('forge_user_name');
 
+    // For pending-anchor retries, ask the seller what they want to do
+    // before firing the anchor -- they may have changed their mind since
+    // the assessment was first run.
+    if (wasPending) {
+        // Step 1: Anchor unconditionally. The seller clicked "Retry Anchor"
+        // because Casper was down when they first assessed. Anchoring is
+        // always the right action here -- we ask about listing only after
+        // the anchor succeeds. Keeping private and anchoring are not mutually
+        // exclusive; cancelling should not skip the anchor.
+        try {
+            let description = '';
+            try {
+                const detailRes = await fetch(API + '/assessments/' + assessmentId);
+                if (detailRes.ok) {
+                    const detail = await detailRes.json();
+                    description = (detail.score_reasoning && detail.score_reasoning.business_relevance) || '';
+                }
+            } catch (e) {}
+
+            // First call: anchor only (offer_for_sale: false anchors without listing)
+            const anchorRes = await fetch(API + '/assessments/' + assessmentId + '/marketplace-decision', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    offer_for_sale:  false,
+                    seller_user_id:  userId,
+                    seller_name:     userName,
+                    description:     description,
+                    price_per_call:  0.001,
+                    price_monthly:   20.0,
+                    price_annual:    200.0,
+                    currency:        'CSPR'
+                })
+            });
+            if (!anchorRes.ok) {
+                const err = await anchorRes.json();
+                throw new Error(err.detail || 'Could not reach the server');
+            }
+            const anchorData = await anchorRes.json();
+
+            if (anchorData.status === 'casper_unavailable') {
+                alert(anchorData.message || 'Casper is currently unavailable. Please try again in a few minutes.');
+                await init();
+                return;
+            }
+
+            // Anchor succeeded. Show hash and ask about listing.
+            const txHash = anchorData.casper_tx_hash;
+            const explorerUrl = txHash ? `https://testnet.cspr.live/transaction/${txHash}` : null;
+
+            let anchorMsg = '✓ Dataset successfully anchored on the Casper testnet.\n\n';
+            if (txHash) {
+                anchorMsg += `Casper Transaction Hash:\n${txHash}\n\n`;
+                if (explorerUrl) anchorMsg += `View on Casper Testnet:\n${explorerUrl}\n\n`;
+            }
+            anchorMsg += 'Would you like to list this dataset in the marketplace now?';
+
+            const listChoice = confirm(anchorMsg);
+
+            if (listChoice) {
+                // Step 2: Now list it.
+                const listRes = await fetch(API + '/assessments/' + assessmentId + '/marketplace-decision', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        offer_for_sale:  true,
+                        seller_user_id:  userId,
+                        seller_name:     userName,
+                        description:     description,
+                        price_per_call:  0.001,
+                        price_monthly:   20.0,
+                        price_annual:    200.0,
+                        currency:        'CSPR'
+                    })
+                });
+                if (listRes.ok) {
+                    alert('✓ Dataset is now listed in the marketplace.');
+                } else {
+                    alert('The anchor succeeded but the listing step failed. Your dataset is anchored and private. Try listing from Your Certifications.');
+                }
+            } else {
+                alert('✓ Dataset anchored and kept private. You can list it from Your Certifications at any time.');
+            }
+
+            await init();
+        } catch (err) {
+            alert(err.message);
+        }
+        return;
+    }
+
+    // Normal "List now" path — no confirmation needed, list immediately.
     try {
-        // Pull the stored reasoning so the listing gets real, sellable
-        // description text instead of going out blank.
         let description = '';
         try {
             const detailRes = await fetch(API + '/assessments/' + assessmentId);
@@ -300,9 +397,7 @@ async function listExistingAssessment(assessmentId) {
                 const detail = await detailRes.json();
                 description = (detail.score_reasoning && detail.score_reasoning.business_relevance) || '';
             }
-        } catch (e) {
-            // Non-fatal -- proceed with an empty description rather than blocking the listing.
-        }
+        } catch (e) {}
 
         const res = await fetch(API + '/assessments/' + assessmentId + '/marketplace-decision', {
             method: 'POST',
@@ -322,8 +417,13 @@ async function listExistingAssessment(assessmentId) {
             const err = await res.json();
             throw new Error(err.detail || 'Could not list this dataset');
         }
-        // Reload the whole dashboard so revenue, listings, and the
-        // certifications table all reflect the new listing immediately.
+        const data = await res.json();
+
+        if (data.status === 'casper_unavailable') {
+            alert(data.message || 'Casper is currently unavailable. Please try again in a few minutes.');
+            return;
+        }
+
         await init();
     } catch (err) {
         alert(err.message);
