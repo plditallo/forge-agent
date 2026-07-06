@@ -157,6 +157,10 @@ ENV/
 env.bak/
 venv.bak/
 
+# Application Settings
+forge_azure_setup.ps1
+forge_azure_verify.ps1
+
 # Spyder project settings
 .spyderproject
 .spyproject
